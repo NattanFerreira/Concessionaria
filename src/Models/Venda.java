@@ -23,5 +23,31 @@ public class Venda {
     public String toString() {
         return "Venda [id=" + id + ", valorTotal=" + valorTotal + ", dataVenda=" + dataVenda + "]";
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public double getValorTotal() {
+        return valorTotal;
+    }
+
+    public Date getDataVenda() {
+        return dataVenda;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setValorTotal(double valorTotal) {
+        this.valorTotal = valorTotal;
+    }
+
+    public void setDataVenda(Date dataVenda) {
+        this.dataVenda = dataVenda;
+    }
+
+    
     
 }
