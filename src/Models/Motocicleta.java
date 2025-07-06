@@ -3,8 +3,9 @@ package Models;
 public class Motocicleta extends Veiculo {
     private int cilindrada;
 
-    public Motocicleta(String modelo, int numChassi, double quilometragem, double preco, String cor, int anoFabricacao, String status, int cilindrada) {
-        super(modelo, numChassi, quilometragem, preco, cor, anoFabricacao, status);
+    public Motocicleta(String modelo, int numChassi, double quilometragem, double preco, String cor, int anoFabricacao, int idStatus, 
+                       int cilindrada) {
+        super(modelo, numChassi, quilometragem, preco, cor, anoFabricacao, idStatus);
         this.cilindrada = cilindrada;
     }
 

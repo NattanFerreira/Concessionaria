@@ -7,8 +7,8 @@ public class Caminhao extends Veiculo {
     private String tipoCarroceria;
 
     public Caminhao(String modelo, int numChassi, double quilometragem, double preco, String cor, int anoFabricacao,
-                    String status, int eixo, double capacidadeCarga, double altura, String tipoCarroceria) {
-        super(modelo, numChassi, quilometragem, preco, cor, anoFabricacao, status);
+                    int idStatus, int eixo, double capacidadeCarga, double altura, String tipoCarroceria) {
+        super(modelo, numChassi, quilometragem, preco, cor, anoFabricacao, idStatus);
         this.eixo = eixo;
         this.capacidadeCarga = capacidadeCarga;
         this.altura = altura;

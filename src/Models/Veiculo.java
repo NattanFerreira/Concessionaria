@@ -7,16 +7,17 @@ public abstract class Veiculo {
     protected double preco;
     protected String cor;
     protected int anoFabricacao;
-    protected String status;
+    protected String[] status = {"Disponível", "Vendido"};
+    protected int idStatus; // 1 "Disponível", 2 "Vendido"
 
-    public Veiculo(String modelo, int numChassi, double quilometragem, double preco, String cor, int anoFabricacao, String status) {
+    public Veiculo(String modelo, int numChassi, double quilometragem, double preco, String cor, int anoFabricacao, int idStatus) {
         this.modelo = modelo;
         this.numChassi = numChassi;
         this.quilometragem = quilometragem;
         this.preco = preco;
         this.cor = cor;
         this.anoFabricacao = anoFabricacao;
-        this.status = status;
+        this.idStatus = idStatus;
     }
 
     public String getModelo() {
@@ -67,12 +68,12 @@ public abstract class Veiculo {
         this.anoFabricacao = anoFabricacao;
     }
 
-    public String getStatus() {
-        return status;
+    public int getIdStatus() {
+        return idStatus;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setIdStatus(int idStatus) {
+        this.idStatus = idStatus;
     }
 
     public String exibirVeiculos() {
