@@ -1,6 +1,7 @@
 package Models;
 
 public abstract class Veiculo {
+    protected int id;
     protected String modelo;
     protected int numChassi;
     protected double quilometragem;
@@ -18,6 +19,14 @@ public abstract class Veiculo {
         this.cor = cor;
         this.anoFabricacao = anoFabricacao;
         this.idStatus = idStatus;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getModelo() {
