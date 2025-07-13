@@ -1,4 +1,4 @@
-package Models;
+package models;
 
 public class Motocicleta extends Veiculo {
     private int cilindrada;

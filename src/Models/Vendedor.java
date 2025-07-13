@@ -1,4 +1,4 @@
-package Models;
+package models;
 public class Vendedor {
     private static int proximoId = 1; //Variavel auxiliar para incrementar o id do proximo objeto que for criado
     private int id;

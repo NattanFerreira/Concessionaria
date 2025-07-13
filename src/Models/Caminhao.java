@@ -1,4 +1,4 @@
-package Models;
+package models;
 
 public class Caminhao extends Veiculo {
     private int eixo;

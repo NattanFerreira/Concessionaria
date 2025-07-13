@@ -1,4 +1,4 @@
-package Models;
+package models;
 
 public class Carro extends Veiculo {
     private double cavaloPotencia;
