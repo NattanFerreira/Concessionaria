@@ -93,6 +93,45 @@ public class FuncionarioDao {
     }
 
     /**
+     * Busca e retorna todos os funcionários de um determinado cargo.
+     *
+     * @param cargo O cargo a ser utilizado como filtro na busca.
+     * @return Uma lista de objetos Funcionario que correspondem ao cargo especificado.
+     */
+    public List<Funcionario> listarFuncionarios(String cargo) {
+        List<Funcionario> funcionarios = new ArrayList<>();
+        // A consulta SQL agora inclui uma cláusula WHERE para filtrar pelo cargo.
+        String sql = "SELECT id, nome, usuario, senha, cargo FROM Funcionario WHERE cargo = ?";
+
+        try (Connection conn = this.banco.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            // Define o valor do parâmetro (?) na consulta SQL.
+            // O índice 1 refere-se ao primeiro '?' encontrado no comando SQL.
+            pstmt.setString(1, cargo);
+
+            // Executa a consulta e obtém os resultados.
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    // Para cada linha no resultado, cria um objeto Funcionario
+                    Funcionario funcionario = new Funcionario();
+                    funcionario.setId(rs.getInt("id"));
+                    funcionario.setNome(rs.getString("nome"));
+                    funcionario.setLogin(rs.getString("usuario"));
+                    funcionario.setSenha(rs.getString("senha"));
+                    funcionario.setCargo(rs.getString("cargo"));
+
+                    funcionarios.add(funcionario);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao listar funcionários por cargo: " + e.getMessage());
+        }
+        // Retorna a lista (pode estar vazia se nenhum funcionário for encontrado com o cargo).
+        return funcionarios;
+    }
+
+    /**
      * Atualiza os dados de um funcionário existente com base no seu ID.
      *
      * @param funcionario O objeto Funcionario com os dados atualizados e o ID do registro a ser alterado.
