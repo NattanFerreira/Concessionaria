@@ -13,7 +13,6 @@ CREATE TABLE Status (
 
 CREATE TABLE carros (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    tipo_veiculo VARCHAR(50) NOT NULL,
     modelo VARCHAR(255) NOT NULL,
     num_chassi INT UNIQUE NOT NULL,
     quilometragem DECIMAL(10, 2),
@@ -29,7 +28,6 @@ CREATE TABLE carros (
 
 CREATE TABLE motocicletas (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    tipo_veiculo VARCHAR(50) NOT NULL,
     modelo VARCHAR(255) NOT NULL,
     num_chassi INT UNIQUE NOT NULL,
     quilometragem DECIMAL(10, 2),
@@ -43,7 +41,6 @@ CREATE TABLE motocicletas (
 
 CREATE TABLE caminhoes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    tipo_veiculo VARCHAR(50) NOT NULL,
     modelo VARCHAR(255) NOT NULL,
     num_chassi INT UNIQUE NOT NULL,
     quilometragem DECIMAL(10, 2),

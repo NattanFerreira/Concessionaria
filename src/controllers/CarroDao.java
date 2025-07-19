@@ -1,6 +1,7 @@
 package controllers;
 
 import data.Banco;
+import models.Caminhao;
 import models.Carro;
 
 import java.sql.Connection;
@@ -17,12 +18,9 @@ import java.util.List;
  * relacionadas aos carros.
  */
 public class CarroDao {
-
-    // Instância da nossa fábrica de conexões.
     private final Banco banco;
 
     public CarroDao() {
-        // Ao criar um CarroDao, inicializamos a referência à nossa classe Banco.
         this.banco = new Banco();
     }
 
@@ -32,32 +30,27 @@ public class CarroDao {
      * @param carro O objeto Carro a ser persistido.
      */
     public Carro cadastrarCarro(Carro carro) {
-        String sql = "INSERT INTO carros (tipo_veiculo, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, tipo_combustivel) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO carros (modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, tipo_combustivel) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        // O segundo argumento "Statement.RETURN_GENERATED_KEYS" instrui o banco a
-        // retornar o ID criado.
         try (Connection conn = this.banco.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            pstmt.setString(1, "Carro");
-            pstmt.setString(2, carro.getModelo());
-            pstmt.setInt(3, carro.getNumChassi());
-            pstmt.setDouble(4, carro.getQuilometragem());
-            pstmt.setDouble(5, carro.getPreco());
-            pstmt.setString(6, carro.getCor());
-            pstmt.setInt(7, carro.getAnoFabricacao());
-            pstmt.setInt(8, carro.getIdStatus());
-            pstmt.setDouble(9, carro.getCavaloPotencia());
-            pstmt.setInt(10, carro.getNumeroPortas());
-            pstmt.setString(11, carro.getTipoCombustível());
+            pstmt.setString(1, carro.getModelo());
+            pstmt.setInt(2, carro.getNumChassi());
+            pstmt.setDouble(3, carro.getQuilometragem());
+            pstmt.setDouble(4, carro.getPreco());
+            pstmt.setString(5, carro.getCor());
+            pstmt.setInt(6, carro.getAnoFabricacao());
+            pstmt.setInt(7, carro.getIdStatus());
+            pstmt.setDouble(8, carro.getCavaloPotencia());
+            pstmt.setInt(9, carro.getNumeroPortas());
+            pstmt.setString(10, carro.getTipoCombustível());
 
             int affectedRows = pstmt.executeUpdate();
 
             if (affectedRows > 0) {
-                // Captura o ID que o banco gerou
                 try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
                     if (generatedKeys.next()) {
-                        // Define o ID correto no objeto que acabamos de salvar
                         carro.setId(generatedKeys.getInt(1));
                     }
                 }
@@ -65,7 +58,6 @@ public class CarroDao {
         } catch (SQLException e) {
             System.err.println("Erro ao cadastrar carro: " + e.getMessage());
         }
-        // Retorna o objeto completo, agora com o ID correto do banco
         return carro;
     }
 
@@ -76,7 +68,6 @@ public class CarroDao {
      */
     public List<Carro> listarCarros() {
         List<Carro> carros = new ArrayList<>();
-        // É uma boa prática listar os campos explicitamente em vez de usar "SELECT *".
         String sql = "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, tipo_combustivel FROM carros";
 
         try (Connection conn = this.banco.getConnection();
@@ -84,7 +75,6 @@ public class CarroDao {
                 ResultSet rs = pstmt.executeQuery()) {
 
             while (rs.next()) {
-                // Para cada linha no resultado, cria um objeto Carro
                 Carro carro = new Carro(
                         rs.getString("modelo"),
                         rs.getInt("num_chassi"),
@@ -96,7 +86,7 @@ public class CarroDao {
                         rs.getDouble("cavalo_potencia"),
                         rs.getInt("numero_portas"),
                         rs.getString("tipo_combustivel"));
-                carro.setId(rs.getInt("id")); // Essencial para operações de update/delete
+                carro.setId(rs.getInt("id"));
 
                 carros.add(carro);
             }
@@ -128,7 +118,7 @@ public class CarroDao {
             pstmt.setDouble(8, carro.getCavaloPotencia());
             pstmt.setInt(9, carro.getNumeroPortas());
             pstmt.setString(10, carro.getTipoCombustível());
-            pstmt.setInt(11, carro.getId()); // O ID é usado na cláusula WHERE
+            pstmt.setInt(11, carro.getId());
 
             pstmt.executeUpdate();
 
@@ -154,6 +144,42 @@ public class CarroDao {
         } catch (SQLException e) {
             System.err.println("Erro ao excluir carro: " + e.getMessage());
         }
+    }
+
+        /**
+     * Busca um carro pelo seu ID.
+     *
+     * @param id O ID do carro a ser buscado.
+     * @return Um objeto carro ou null se não encontrado.
+     */
+    public Carro buscarCarroPorId(int id) {
+        Carro carro = null;
+        String sql = "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, tipo_combustivel FROM carros WHERE id = ?";
+
+        try (Connection conn = this.banco.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                carro = new Carro(
+                        rs.getString("modelo"),
+                        rs.getInt("num_chassi"),
+                        rs.getDouble("quilometragem"),
+                        rs.getDouble("preco"),
+                        rs.getString("cor"),
+                        rs.getInt("ano_fabricacao"),
+                        rs.getInt("id_status"),
+                        rs.getDouble("cavalo_potencia"),
+                        rs.getInt("numero_portas"),
+                        rs.getString("tipo_combustivel"));
+                carro.setId(rs.getInt("id"));
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao buscar caminhão por ID: " + e.getMessage());
+        }
+        return carro;
     }
 
     /**
@@ -193,21 +219,59 @@ public class CarroDao {
         }
         return carros;
     }
-    
+
     /**
-     * Busca carros por .
+     * Busca um carro pelo número do chassi.
      *
-     * @param modelo O numChassi do carro a ser buscado.
-     * @return Uma lista de objetos Carro que correspondem ao numChassi fornecido.
+     * @param numChassi O número do chassi do carro.
+     * @return O objeto Carro encontrado ou null se não existir.
      */
-    public List<Carro> buscarCarrosPorNumChassi(int numChassi) {
-        List<Carro> carros = new ArrayList<>();
-        String sql = "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, tipo_combustivel FROM carros WHERE numChassi = ?";
+    public Carro buscarCarroPorChassi(int numChassi) {
+        String sql = "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, tipo_combustivel FROM carros WHERE num_chassi = ?";
 
         try (Connection conn = this.banco.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, numChassi);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                Carro carro = new Carro(
+                        rs.getString("modelo"),
+                        rs.getInt("num_chassi"),
+                        rs.getDouble("quilometragem"),
+                        rs.getDouble("preco"),
+                        rs.getString("cor"),
+                        rs.getInt("ano_fabricacao"),
+                        rs.getInt("id_status"),
+                        rs.getDouble("cavalo_potencia"),
+                        rs.getInt("numero_portas"),
+                        rs.getString("tipo_combustivel"));
+                carro.setId(rs.getInt("id"));
+                return carro;
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao buscar carro por chassi: " + e.getMessage());
+        }
+        return null;
+    }
+
+    /**
+     * Busca carros por faixa de preço.
+     *
+     * @param precoMinimo O preço mínimo desejado.
+     * @param precoMaximo O preço máximo desejado.
+     * @return Uma lista de objetos Carro na faixa de preço especificada.
+     */
+    public List<Carro> buscarCarrosPorFaixaPreco(double precoMinimo, double precoMaximo) {
+        List<Carro> carros = new ArrayList<>();
+        String sql = "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, tipo_combustivel FROM carros WHERE preco >= ? AND preco <= ?";
+
+        try (Connection conn = this.banco.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setDouble(1, precoMinimo);
+            pstmt.setDouble(2, precoMaximo);
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
@@ -227,27 +291,28 @@ public class CarroDao {
                 carros.add(carro);
             }
         } catch (SQLException e) {
-            System.err.println("Erro ao buscar carros pelo numero do chassi: " + e.getMessage());
+            System.err.println("Erro ao buscar carros por faixa de preço: " + e.getMessage());
         }
         return carros;
     }
 
     /**
-     * Busca um carro pelo número do preço.
+     * Busca carros por faixa de quilometragem.
      *
-     * @param preco O número do chassi do carro.
-     * @return O objeto Carro encontrado ou null se não existir.
+     * @param quilometragemMaxima A quilometragem máxima desejada.
+     * @return Uma lista de objetos Carro com quilometragem igual ou menor.
      */
-    public Carro buscarCarroPorPreco(double preco) {
-        String sql = "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, tipo_combustivel FROM carros WHERE preco <= ?";
+    public List<Carro> buscarCarrosPorQuilometragem(double quilometragemMaxima) {
+        List<Carro> carros = new ArrayList<>();
+        String sql = "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, tipo_combustivel FROM carros WHERE quilometragem <= ?";
 
         try (Connection conn = this.banco.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setDouble(1, preco);
+            pstmt.setDouble(1, quilometragemMaxima);
             ResultSet rs = pstmt.executeQuery();
 
-            if (rs.next()) {
+            while (rs.next()) {
                 Carro carro = new Carro(
                         rs.getString("modelo"),
                         rs.getInt("num_chassi"),
@@ -260,11 +325,206 @@ public class CarroDao {
                         rs.getInt("numero_portas"),
                         rs.getString("tipo_combustivel"));
                 carro.setId(rs.getInt("id"));
-                return carro;
+
+                carros.add(carro);
             }
         } catch (SQLException e) {
-            System.err.println("Erro ao buscar carro por preço: " + e.getMessage());
+            System.err.println("Erro ao buscar carros por quilometragem: " + e.getMessage());
         }
-        return null;
+        return carros;
+    }
+
+    /**
+     * Busca carros por faixa de ano de fabricação.
+     *
+     * @param anoMinimo O ano mínimo desejado.
+     * @param anoMaximo O ano máximo desejado.
+     * @return Uma lista de objetos Carro na faixa de ano especificada.
+     */
+    public List<Carro> buscarCarrosPorFaixaAno(int anoMinimo, int anoMaximo) {
+        List<Carro> carros = new ArrayList<>();
+        String sql = "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, tipo_combustivel FROM carros WHERE ano_fabricacao >= ? AND ano_fabricacao <= ?";
+
+        try (Connection conn = this.banco.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, anoMinimo);
+            pstmt.setInt(2, anoMaximo);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Carro carro = new Carro(
+                        rs.getString("modelo"),
+                        rs.getInt("num_chassi"),
+                        rs.getDouble("quilometragem"),
+                        rs.getDouble("preco"),
+                        rs.getString("cor"),
+                        rs.getInt("ano_fabricacao"),
+                        rs.getInt("id_status"),
+                        rs.getDouble("cavalo_potencia"),
+                        rs.getInt("numero_portas"),
+                        rs.getString("tipo_combustivel"));
+                carro.setId(rs.getInt("id"));
+
+                carros.add(carro);
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao buscar carros por faixa de ano: " + e.getMessage());
+        }
+        return carros;
+    }
+
+    /**
+     * Busca carros por cor.
+     *
+     * @param cor A cor do carro a ser buscada.
+     * @return Uma lista de objetos Carro que correspondem à cor fornecida.
+     */
+    public List<Carro> buscarCarrosPorCor(String cor) {
+        List<Carro> carros = new ArrayList<>();
+        String sql = "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, tipo_combustivel FROM carros WHERE cor = ?";
+
+        try (Connection conn = this.banco.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, cor);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Carro carro = new Carro(
+                        rs.getString("modelo"),
+                        rs.getInt("num_chassi"),
+                        rs.getDouble("quilometragem"),
+                        rs.getDouble("preco"),
+                        rs.getString("cor"),
+                        rs.getInt("ano_fabricacao"),
+                        rs.getInt("id_status"),
+                        rs.getDouble("cavalo_potencia"),
+                        rs.getInt("numero_portas"),
+                        rs.getString("tipo_combustivel"));
+                carro.setId(rs.getInt("id"));
+
+                carros.add(carro);
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao buscar carros por cor: " + e.getMessage());
+        }
+        return carros;
+    }
+
+    /**
+     * Busca carros por potência mínima.
+     *
+     * @param potenciaMinima A potência mínima desejada em cavalos.
+     * @return Uma lista de objetos Carro com potência igual ou maior.
+     */
+    public List<Carro> buscarCarrosPorPotencia(double potenciaMinima) {
+        List<Carro> carros = new ArrayList<>();
+        String sql = "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, tipo_combustivel FROM carros WHERE cavalo_potencia >= ?";
+
+        try (Connection conn = this.banco.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setDouble(1, potenciaMinima);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Carro carro = new Carro(
+                        rs.getString("modelo"),
+                        rs.getInt("num_chassi"),
+                        rs.getDouble("quilometragem"),
+                        rs.getDouble("preco"),
+                        rs.getString("cor"),
+                        rs.getInt("ano_fabricacao"),
+                        rs.getInt("id_status"),
+                        rs.getDouble("cavalo_potencia"),
+                        rs.getInt("numero_portas"),
+                        rs.getString("tipo_combustivel"));
+                carro.setId(rs.getInt("id"));
+
+                carros.add(carro);
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao buscar carros por potência: " + e.getMessage());
+        }
+        return carros;
+    }
+
+    /**
+     * Busca carros por número de portas.
+     *
+     * @param numeroPortas O número de portas desejado.
+     * @return Uma lista de objetos Carro que possuem o número de portas
+     *         especificado.
+     */
+    public List<Carro> buscarCarrosPorNumeroPortas(int numeroPortas) {
+        List<Carro> carros = new ArrayList<>();
+        String sql = "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, tipo_combustivel FROM carros WHERE numero_portas = ?";
+
+        try (Connection conn = this.banco.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, numeroPortas);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Carro carro = new Carro(
+                        rs.getString("modelo"),
+                        rs.getInt("num_chassi"),
+                        rs.getDouble("quilometragem"),
+                        rs.getDouble("preco"),
+                        rs.getString("cor"),
+                        rs.getInt("ano_fabricacao"),
+                        rs.getInt("id_status"),
+                        rs.getDouble("cavalo_potencia"),
+                        rs.getInt("numero_portas"),
+                        rs.getString("tipo_combustivel"));
+                carro.setId(rs.getInt("id"));
+
+                carros.add(carro);
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao buscar carros por número de portas: " + e.getMessage());
+        }
+        return carros;
+    }
+
+    /**
+     * Busca carros por tipo de combustível.
+     *
+     * @param tipoCombustivel O tipo de combustível desejado.
+     * @return Uma lista de objetos Carro que utilizam o tipo de combustível
+     *         especificado.
+     */
+    public List<Carro> buscarCarrosPorCombustivel(String tipoCombustivel) {
+        List<Carro> carros = new ArrayList<>();
+        String sql = "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, tipo_combustivel FROM carros WHERE tipo_combustivel = ?";
+
+        try (Connection conn = this.banco.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, tipoCombustivel);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Carro carro = new Carro(
+                        rs.getString("modelo"),
+                        rs.getInt("num_chassi"),
+                        rs.getDouble("quilometragem"),
+                        rs.getDouble("preco"),
+                        rs.getString("cor"),
+                        rs.getInt("ano_fabricacao"),
+                        rs.getInt("id_status"),
+                        rs.getDouble("cavalo_potencia"),
+                        rs.getInt("numero_portas"),
+                        rs.getString("tipo_combustivel"));
+                carro.setId(rs.getInt("id"));
+
+                carros.add(carro);
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao buscar carros por combustível: " + e.getMessage());
+        }
+        return carros;
     }
 }

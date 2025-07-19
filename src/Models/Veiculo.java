@@ -86,7 +86,7 @@ public abstract class Veiculo {
     }
 
     public String exibirVeiculos() {
-        return "Modelo: " + this.modelo +
+        return  "Modelo: " + this.modelo +
                 "\nChassi: " + this.numChassi +
                 "\nPreço: R$" + String.format("%.2f", this.preco) +
                 "\nCor: " + this.cor +
