@@ -3,18 +3,21 @@ package models;
 public class Funcionario {
 
     private int id;
-    private String nome, senha, usuario, cargo;
+    private String nome;
+    private String senha;
+    private String usuario;
+    private String[] cargos = {"Vendedor", "Estoquista", "Gerente de funcionário", "Administrador"};
+    private int idCargo;
 
-    // Construtor vazio é útil para criar um objeto antes de preenchê-lo
     public Funcionario() {
 
     }
 
-    public Funcionario(String nome, String usuario, String senha, String cargo) {
+    public Funcionario(String nome, String usuario, String senha, int idCargo) {
         this.nome = nome;
         this.usuario = usuario;
         this.senha = senha;
-        this.cargo = cargo;
+        this.idCargo = idCargo;
     }
 
     public int getId() {
@@ -49,17 +52,16 @@ public class Funcionario {
         this.usuario = usuario;
     }
 
-    public String getCargo() {
-        return cargo;
+    public int getIdCargo() {
+        return idCargo;
     }
 
-    public void setCargo(String cargo) {
-        this.cargo = cargo;
+    public void setCargo(int idCargo) {
+        this.idCargo = idCargo;
     }
     
     @Override
     public String toString() {
-        // Corrigido para "Funcionario"
-        return "Funcionario [id=" + id + ", nome=" + nome + ", usuario=" + usuario + ", cargo=" + cargo + "]";
+        return "Id: " + id + "\nNome: " + nome + "\nUsuario: " + usuario + "\nCargo: " + cargos[idCargo];
     }
 }

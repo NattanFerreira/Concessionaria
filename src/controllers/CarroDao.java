@@ -20,12 +20,10 @@ public class CarroDao {
      *
      * @param banco O objeto Banco para realizar a operação.
      * @param carro O objeto Carro a ser persistido.
-     * @return O objeto Carro com o ID gerado pelo banco.
      */
-    public Carro cadastrarCarro(Banco banco, Carro carro) {
-        String sql = "INSERT INTO carros (modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, tipo_combustivel) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-        int id = banco.queryInsertComRetorno(sql,
+    public void cadastrarCarro(Banco banco, Carro carro) {
+        String sql = String.format(
+                "INSERT INTO carros (modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, tipo_combustivel) VALUES ('%s', %d, %.2f, %.2f, '%s', %d, %d, %.2f, %d, '%s')",
                 carro.getModelo(),
                 carro.getNumChassi(),
                 carro.getQuilometragem(),
@@ -36,11 +34,7 @@ public class CarroDao {
                 carro.getCavaloPotencia(),
                 carro.getNumeroPortas(),
                 carro.getTipoCombustivel());
-
-        if (id > 0) {
-            carro.setId(id);
-        }
-        return carro;
+        banco.queryInsup(sql);
     }
 
     /**
@@ -84,9 +78,8 @@ public class CarroDao {
      *              a ser alterado.
      */
     public void atualizarCarro(Banco banco, Carro carro) {
-        String sql = "UPDATE carros SET modelo = ?, num_chassi = ?, quilometragem = ?, preco = ?, cor = ?, ano_fabricacao = ?, id_status = ?, cavalo_potencia = ?, numero_portas = ?, tipo_combustivel = ? WHERE id = ?";
-
-        banco.queryUpdate(sql,
+        String sql = String.format(
+                "UPDATE carros SET modelo = '%s', num_chassi = %d, quilometragem = %.2f, preco = %.2f, cor = '%s', ano_fabricacao = %d, id_status = %d, cavalo_potencia = %.2f, numero_portas = %d, tipo_combustivel = '%s' WHERE id = %d",
                 carro.getModelo(),
                 carro.getNumChassi(),
                 carro.getQuilometragem(),
@@ -98,6 +91,7 @@ public class CarroDao {
                 carro.getNumeroPortas(),
                 carro.getTipoCombustivel(),
                 carro.getId());
+        banco.queryInsup(sql);
     }
 
     /**
@@ -107,8 +101,8 @@ public class CarroDao {
      * @param id    O ID do carro a ser excluído.
      */
     public void excluirCarro(Banco banco, int id) {
-        String sql = "DELETE FROM carros WHERE id = ?";
-        banco.queryUpdate(sql, id);
+        String sql = String.format("DELETE FROM carros WHERE id = %d", id);
+        banco.queryInsup(sql);
     }
 
     /**
@@ -120,9 +114,11 @@ public class CarroDao {
      */
     public Carro buscarCarroPorId(Banco banco, int id) {
         Carro carro = null;
-        String sql = "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, tipo_combustivel FROM carros WHERE id = ?";
+        String sql = String.format(
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, tipo_combustivel FROM carros WHERE id = %d",
+                id);
 
-        try (ResultSet rs = banco.querySelect(sql, id)) {
+        try (ResultSet rs = banco.querySelect(sql)) {
             if (rs.next()) {
                 carro = new Carro(
                         rs.getString("modelo"),
@@ -152,9 +148,11 @@ public class CarroDao {
      */
     public List<Carro> buscarCarrosPorModelo(Banco banco, String modelo) {
         List<Carro> carros = new ArrayList<>();
-        String sql = "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, tipo_combustivel FROM carros WHERE modelo = ?";
+        String sql = String.format(
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, tipo_combustivel FROM carros WHERE modelo = '%s'",
+                modelo);
 
-        try (ResultSet rs = banco.querySelect(sql, modelo)) {
+        try (ResultSet rs = banco.querySelect(sql)) {
             while (rs.next()) {
                 Carro carro = new Carro(
                         rs.getString("modelo"),
@@ -185,9 +183,11 @@ public class CarroDao {
      * @return O objeto Carro encontrado ou null se não existir.
      */
     public Carro buscarCarroPorChassi(Banco banco, int numChassi) {
-        String sql = "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, tipo_combustivel FROM carros WHERE num_chassi = ?";
+        String sql = String.format(
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, tipo_combustivel FROM carros WHERE num_chassi = %d",
+                numChassi);
 
-        try (ResultSet rs = banco.querySelect(sql, numChassi)) {
+        try (ResultSet rs = banco.querySelect(sql)) {
             if (rs.next()) {
                 Carro carro = new Carro(
                         rs.getString("modelo"),
@@ -219,9 +219,11 @@ public class CarroDao {
      */
     public List<Carro> buscarCarrosPorFaixaPreco(Banco banco, double precoMinimo, double precoMaximo) {
         List<Carro> carros = new ArrayList<>();
-        String sql = "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, tipo_combustivel FROM carros WHERE preco >= ? AND preco <= ?";
+        String sql = String.format(
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, tipo_combustivel FROM carros WHERE preco >= %.2f AND preco <= %.2f",
+                precoMinimo, precoMaximo);
 
-        try (ResultSet rs = banco.querySelect(sql, precoMinimo, precoMaximo)) {
+        try (ResultSet rs = banco.querySelect(sql)) {
             while (rs.next()) {
                 Carro carro = new Carro(
                         rs.getString("modelo"),
@@ -253,9 +255,11 @@ public class CarroDao {
      */
     public List<Carro> buscarCarrosPorQuilometragem(Banco banco, double quilometragemMaxima) {
         List<Carro> carros = new ArrayList<>();
-        String sql = "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, tipo_combustivel FROM carros WHERE quilometragem <= ?";
+        String sql = String.format(
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, tipo_combustivel FROM carros WHERE quilometragem <= %.2f",
+                quilometragemMaxima);
 
-        try (ResultSet rs = banco.querySelect(sql, quilometragemMaxima)) {
+        try (ResultSet rs = banco.querySelect(sql)) {
             while (rs.next()) {
                 Carro carro = new Carro(
                         rs.getString("modelo"),
@@ -288,9 +292,11 @@ public class CarroDao {
      */
     public List<Carro> buscarCarrosPorFaixaAno(Banco banco, int anoMinimo, int anoMaximo) {
         List<Carro> carros = new ArrayList<>();
-        String sql = "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, tipo_combustivel FROM carros WHERE ano_fabricacao >= ? AND ano_fabricacao <= ?";
+        String sql = String.format(
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, tipo_combustivel FROM carros WHERE ano_fabricacao >= %d AND ano_fabricacao <= %d",
+                anoMinimo, anoMaximo);
 
-        try (ResultSet rs = banco.querySelect(sql, anoMinimo, anoMaximo)) {
+        try (ResultSet rs = banco.querySelect(sql)) {
             while (rs.next()) {
                 Carro carro = new Carro(
                         rs.getString("modelo"),
@@ -322,9 +328,11 @@ public class CarroDao {
      */
     public List<Carro> buscarCarrosPorCor(Banco banco, String cor) {
         List<Carro> carros = new ArrayList<>();
-        String sql = "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, tipo_combustivel FROM carros WHERE cor = ?";
+        String sql = String.format(
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, tipo_combustivel FROM carros WHERE cor = '%s'",
+                cor);
 
-        try (ResultSet rs = banco.querySelect(sql, cor)) {
+        try (ResultSet rs = banco.querySelect(sql)) {
             while (rs.next()) {
                 Carro carro = new Carro(
                         rs.getString("modelo"),
@@ -356,9 +364,11 @@ public class CarroDao {
      */
     public List<Carro> buscarCarrosPorPotencia(Banco banco, double potenciaMinima) {
         List<Carro> carros = new ArrayList<>();
-        String sql = "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, tipo_combustivel FROM carros WHERE cavalo_potencia >= ?";
+        String sql = String.format(
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, tipo_combustivel FROM carros WHERE cavalo_potencia >= %.2f",
+                potenciaMinima);
 
-        try (ResultSet rs = banco.querySelect(sql, potenciaMinima)) {
+        try (ResultSet rs = banco.querySelect(sql)) {
             while (rs.next()) {
                 Carro carro = new Carro(
                         rs.getString("modelo"),
@@ -391,9 +401,11 @@ public class CarroDao {
      */
     public List<Carro> buscarCarrosPorNumeroPortas(Banco banco, int numeroPortas) {
         List<Carro> carros = new ArrayList<>();
-        String sql = "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, tipo_combustivel FROM carros WHERE numero_portas = ?";
+        String sql = String.format(
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, tipo_combustivel FROM carros WHERE numero_portas = %d",
+                numeroPortas);
 
-        try (ResultSet rs = banco.querySelect(sql, numeroPortas)) {
+        try (ResultSet rs = banco.querySelect(sql)) {
             while (rs.next()) {
                 Carro carro = new Carro(
                         rs.getString("modelo"),
@@ -425,9 +437,11 @@ public class CarroDao {
      */
     public List<Carro> buscarCarrosPorCombustivel(Banco banco, String tipoCombustivel) {
         List<Carro> carros = new ArrayList<>();
-        String sql = "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, tipo_combustivel FROM carros WHERE tipo_combustivel = ?";
+        String sql = String.format(
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, tipo_combustivel FROM carros WHERE tipo_combustivel = '%s'",
+                tipoCombustivel);
 
-        try (ResultSet rs = banco.querySelect(sql, tipoCombustivel)) {
+        try (ResultSet rs = banco.querySelect(sql)) {
             while (rs.next()) {
                 Carro carro = new Carro(
                         rs.getString("modelo"),

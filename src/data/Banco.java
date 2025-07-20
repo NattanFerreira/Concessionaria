@@ -14,7 +14,7 @@ public class Banco {
     private Connection db = null;
     private Statement statement = null;
 
-    private static final String DATABASE_URL = "jdbc:sqlite:c:/Users/pedro/OneDrive/Documentos/GitHub/Concessionaria/src/data/data.db";
+    private static final String DATABASE_URL = "jdbc:sqlite:src/data/data.db";
 
     // Construtor público para permitir criação de instâncias
     public Banco() {
@@ -47,7 +47,7 @@ public class Banco {
 
         try {
             // Lendo o arquivo schema.sql
-            String schemaPath = "c:/Users/pedro/OneDrive/Documentos/GitHub/Concessionaria/src/resources/schema.sql";
+            String schemaPath = "src/resources/schema.sql";
             String schema = Files.readString(Paths.get(schemaPath));
 
             // Executando cada comando SQL separadamente
@@ -113,93 +113,15 @@ public class Banco {
         }
     }
 
-    public ResultSet queryBusca(String query_busca) { // funcoes para query select
+    public ResultSet querySelect(String query) { // funcoes para query select
         ResultSet rs = null;
         try {
-            rs = statement.executeQuery(query_busca);
+            rs = statement.executeQuery(query);
             return rs;
         } catch (SQLException e) {
             System.out.println("Erro na query");
             System.out.println(e);
             return rs;
-        }
-    }
-
-    /**
-     * Executa uma query de inserção com parâmetros e retorna o ID gerado.
-     * 
-     * @param sql        A query SQL de inserção
-     * @param parametros Os parâmetros a serem inseridos na query
-     * @return O ID gerado pela inserção, ou -1 se não foi gerado
-     */
-    public int queryInsertComRetorno(String sql, Object... parametros) {
-        try (Connection conn = getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-
-            // Define os parâmetros
-            for (int i = 0; i < parametros.length; i++) {
-                pstmt.setObject(i + 1, parametros[i]);
-            }
-
-            int affectedRows = pstmt.executeUpdate();
-
-            if (affectedRows > 0) {
-                try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
-                    if (generatedKeys.next()) {
-                        return generatedKeys.getInt(1);
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            System.err.println("Erro ao executar inserção: " + e.getMessage());
-        }
-        return -1;
-    }
-
-    /**
-     * Executa uma query de atualização/inserção/exclusão com parâmetros.
-     * 
-     * @param sql        A query SQL
-     * @param parametros Os parâmetros a serem inseridos na query
-     * @return O número de linhas afetadas
-     */
-    public int queryUpdate(String sql, Object... parametros) {
-        try (Connection conn = getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            // Define os parâmetros
-            for (int i = 0; i < parametros.length; i++) {
-                pstmt.setObject(i + 1, parametros[i]);
-            }
-
-            return pstmt.executeUpdate();
-        } catch (SQLException e) {
-            System.err.println("Erro ao executar atualização: " + e.getMessage());
-            return 0;
-        }
-    }
-
-    /**
-     * Executa uma query de consulta com parâmetros.
-     * 
-     * @param sql        A query SQL de consulta
-     * @param parametros Os parâmetros a serem inseridos na query
-     * @return O ResultSet com os resultados
-     */
-    public ResultSet querySelect(String sql, Object... parametros) {
-        try {
-            Connection conn = getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-
-            // Define os parâmetros
-            for (int i = 0; i < parametros.length; i++) {
-                pstmt.setObject(i + 1, parametros[i]);
-            }
-
-            return pstmt.executeQuery();
-        } catch (SQLException e) {
-            System.err.println("Erro ao executar consulta: " + e.getMessage());
-            return null;
         }
     }
 }

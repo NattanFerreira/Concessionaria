@@ -3,7 +3,7 @@ CREATE TABLE Funcionario (
     nome TEXT NOT NULL,
     usuario TEXT NOT NULL UNIQUE,
     senha TEXT NOT NULL,
-    cargo TEXT NOT NULL
+    id_cargo int NOT NULL
 );
 
 CREATE TABLE Status (
@@ -17,8 +17,8 @@ CREATE TABLE carros (
     num_chassi INT UNIQUE NOT NULL,
     quilometragem DECIMAL(10, 2),
     preco DECIMAL(10, 2) NOT NULL,
-    cor VARCHAR(50),
-    ano_fabricacao INT,
+    cor VARCHAR(50) NOT NULL,
+    ano_fabricacao INT NOT NULL,
     id_status INT NOT NULL,
     -- Dados específicos para Carro
     cavalo_potencia DECIMAL(10, 2) NULL,
@@ -32,8 +32,8 @@ CREATE TABLE motocicletas (
     num_chassi INT UNIQUE NOT NULL,
     quilometragem DECIMAL(10, 2),
     preco DECIMAL(10, 2) NOT NULL,
-    cor VARCHAR(50),
-    ano_fabricacao INT,
+    cor VARCHAR(50) NOT NULL,
+    ano_fabricacao INT NOT NULL,
     id_status INT NOT NULL,
     -- Dados específicos para Motocicleta
     cilindrada INT NULL
@@ -45,8 +45,8 @@ CREATE TABLE caminhoes (
     num_chassi INT UNIQUE NOT NULL,
     quilometragem DECIMAL(10, 2),
     preco DECIMAL(10, 2) NOT NULL,
-    cor VARCHAR(50),
-    ano_fabricacao INT,
+    cor VARCHAR(50) NOT NULL,
+    ano_fabricacao INT NOT NULL,
     id_status INT NOT NULL,
     -- Dados específicos para Caminhão
     eixos INT NULL,

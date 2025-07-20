@@ -1,11 +1,11 @@
 package views;
 
-import views.utils.TelaUtils;
+import utils.Funcoes;
 
 public class ADMView {
     public static void TelaMenuADM() {
-        TelaUtils.limpaTela();
-        TelaUtils.cabecalhoMenu("MENU PRINCIPAL");
+        Funcoes.limpaTela();
+        Funcoes.cabecalhoMenu("MENU PRINCIPAL");
         System.out.println("1. Gerenciar Funcionarios");
         System.out.println("2. Gerenciar Veículos");
         System.out.println("3. Relatórios Gerais");
@@ -14,8 +14,8 @@ public class ADMView {
     }
 
     public static void TelaMenuGerenciarFuncionarios() {
-        TelaUtils.limpaTela();
-        TelaUtils.cabecalhoMenu("GERENCIAR FUNCIONÁRIOS");
+        Funcoes.limpaTela();
+        Funcoes.cabecalhoMenu("GERENCIAR FUNCIONÁRIOS");
         System.out.println("1. Cadastrar Funcionário");
         System.out.println("2. Remover Funcionário");
         System.out.println("3. Atualizar Funcionário");
@@ -26,7 +26,7 @@ public class ADMView {
     }
 
     public static void TelaMenuFiltrarFuncPorCargo() {
-        TelaUtils.limpaTela();
+        Funcoes.limpaTela();
         System.out.println("1. Vendedores");
         System.out.println("2. Equipe de Estoque");
         System.out.println("3. Gerentes");
@@ -34,8 +34,8 @@ public class ADMView {
     }
 
     public static void TelaMenuBuscarFuncionario() {
-        TelaUtils.limpaTela();
-        TelaUtils.cabecalhoMenu("BUSCAR FUNCIONÁRIO");
+        Funcoes.limpaTela();
+        Funcoes.cabecalhoMenu("BUSCAR FUNCIONÁRIO");
         System.out.println("1. Buscar por Nome");
         System.out.println("2. Buscar por ID");
         System.out.println("3. Buscar por Cargo");
@@ -43,8 +43,8 @@ public class ADMView {
     }
 
     public static void TelaMenuRelatorioVendas() {
-        TelaUtils.limpaTela();
-        TelaUtils.cabecalhoMenu("Relatórios de Venda");
+        Funcoes.limpaTela();
+        Funcoes.cabecalhoMenu("Relatórios de Venda");
         System.out.println("1. Vendas por Período");
         System.out.println("2. Vendas por Vendedor");
         System.out.println("3. Veículos mais Vendidos");

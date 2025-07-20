@@ -1,11 +1,12 @@
 package views;
 
-import views.utils.TelaUtils;
+import utils.Funcoes;
+
 
 public class VendedorView {
     public static void menuVendedor() {
-        TelaUtils.limpaTela();
-        TelaUtils.cabecalhoMenu("MENU PRINCIPAL");
+        Funcoes.limpaTela();
+        Funcoes.cabecalhoMenu("MENU PRINCIPAL");
         System.out.println("1. Realizar Venda");
         System.out.println("2. Listar Carros a Venda");
         System.out.println("3. Listar Vendas");
@@ -13,7 +14,7 @@ public class VendedorView {
     }
 
     public static void menuBusca() {
-        TelaUtils.limpaTela();
+        Funcoes.limpaTela();
         System.out.println("1. Buscar Carro");
         System.out.println("2. Buscar Moto");
         System.out.println("3. Buscar Caminhão");
@@ -31,8 +32,8 @@ public class VendedorView {
     }
 
     public static void menuBuscarCarro() {
-        TelaUtils.limpaTela();
-        TelaUtils.cabecalhoMenu("BUSCAR CARRO");
+        Funcoes.limpaTela();
+        Funcoes.cabecalhoMenu("BUSCAR CARRO");
         buscarVeiculo();
         System.out.println("7. Buscar Potencia");
         System.out.println("8. Buscar Número de Portas");
@@ -41,16 +42,16 @@ public class VendedorView {
     }
 
     public static void menuBuscarMoto() {
-        TelaUtils.limpaTela();
-        TelaUtils.cabecalhoMenu("BUSCAR MOTO");
+        Funcoes.limpaTela();
+        Funcoes.cabecalhoMenu("BUSCAR MOTO");
         buscarVeiculo();
         System.out.println("7. Buscar Cilindradas");
         System.out.println("0. Voltar");
     }
 
     public static void menuBuscarCaminhao() {
-        TelaUtils.limpaTela();
-        TelaUtils.cabecalhoMenu("BUSCAR CAMINHÃO");
+        Funcoes.limpaTela();
+        Funcoes.cabecalhoMenu("BUSCAR CAMINHÃO");
         buscarVeiculo();
         System.out.println("7. Buscar Quantidade de Eixos");
         System.out.println("8. Buscar Capacidade de Carga");
@@ -59,29 +60,29 @@ public class VendedorView {
     }
 
     public static void menuBuscarVeiculoGeral() {
-        TelaUtils.limpaTela();
-        TelaUtils.cabecalhoMenu("BUSCAR VEÍCULO");
+        Funcoes.limpaTela();
+        Funcoes.cabecalhoMenu("BUSCAR VEÍCULO");
         buscarVeiculo();
         System.out.println("0. Voltar");
     }
 
     public static void menuListarVeiculos() {
-        TelaUtils.limpaTela();
-        TelaUtils.cabecalhoMenu("VEÍCULOS CADASTRADOS");
+        Funcoes.limpaTela();
+        Funcoes.cabecalhoMenu("VEÍCULOS CADASTRADOS");
         System.out.println("1. Informe o Número da lista");
         System.out.println("2. Realizar Outra Busca");
         System.out.println("0. Voltar");
     }
 
     public static void menuCompra() {
-        TelaUtils.limpaTela();
+        Funcoes.limpaTela();
         System.out.println("1. Continuar Comprando");
         System.out.println("2. Finalizar Compra");
     }
 
     public static void menuFinalizaCompra() {
-        TelaUtils.limpaTela();
-        TelaUtils.cabecalhoMenu("FINALIZAR COMPRA");
+        Funcoes.limpaTela();
+        Funcoes.cabecalhoMenu("FINALIZAR COMPRA");
         System.out.println("1. Confirmar");
         System.out.println("2. Cancelar");
         System.out.println("3. Voltar");
