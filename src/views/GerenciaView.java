@@ -2,7 +2,7 @@ package views;
 
 import views.utils.TelaUtils;
 
-public class GerenciaViews {
+public class GerenciaView {
 
     public static void menuGerente() {
         TelaUtils.limpaTela();

@@ -2,7 +2,7 @@ package views;
 
 import views.utils.TelaUtils;
 
-public class VendedorViews {
+public class VendedorView {
     public static void menuVendedor() {
         TelaUtils.limpaTela();
         TelaUtils.cabecalhoMenu("MENU PRINCIPAL");

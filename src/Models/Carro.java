@@ -29,12 +29,12 @@ public class Carro extends Veiculo {
         this.numeroPortas = numeroPortas;
     }
 
-    public String getTipoCombustível() {
+    public String getTipoCombustivel() {
         return tipoCombustivel;
     }
 
-    public void setTipoCombustível(String tipoCombustível) {
-        this.tipoCombustivel = tipoCombustível;
+    public void setTipoCombustivel(String tipoCombustivel) {
+        this.tipoCombustivel = tipoCombustivel;
     }
 
     public String exibirCarro() {

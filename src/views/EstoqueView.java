@@ -2,9 +2,9 @@ package views;
 
 import views.utils.TelaUtils;
 
-public class EstoqueViews {
+public class EstoqueView {
 
-    public static void menuEstoque() {
+    public static void TelaMenuEstoque() {
         TelaUtils.limpaTela();
         TelaUtils.cabecalhoMenu("MENU PRINCIPAL");
         System.out.println("1. Adicionar Veículo");
@@ -15,7 +15,7 @@ public class EstoqueViews {
         System.out.println("0. Sair");
     }
 
-    public static void menuAdicionarVeiculo() {
+    public static void TelaMenuAdicionarVeiculo() {
         TelaUtils.limpaTela();
         TelaUtils.cabecalhoMenu("ADICIONAR VEÍCULO");
         System.out.println("1. Adicionar Carro");
@@ -24,7 +24,7 @@ public class EstoqueViews {
         System.out.println("0. Voltar");
     }
 
-    public static void menuAtualizarVeiculo() {
+    public static void TelaMenuAtualizarVeiculo() {
         TelaUtils.limpaTela();
         TelaUtils.cabecalhoMenu("ATUALIZAR VEÍCULO");
         System.out.println("1. Atualizar Carro");
@@ -34,7 +34,7 @@ public class EstoqueViews {
         System.out.println("0. Voltar");
     }
 
-    public static void atualizaDadosVeiculo() {
+    public static void TelaAtualizaDadosVeiculo() {
         System.out.println("1. Atualiza Modelo");
         System.out.println("2. Atualiza Numchassi");
         System.out.println("3. Atualiza Preço");
@@ -43,35 +43,35 @@ public class EstoqueViews {
         System.out.println("6. Atualiza Cor");
     }
 
-    public static void menuAtualizaDadosCarro() {
+    public static void TelaMenuAtualizaDadosCarro() {
         TelaUtils.limpaTela();
         TelaUtils.cabecalhoMenu("ATUALIZAR DADOS DO CARRO");
-        atualizaDadosVeiculo();
+        TelaAtualizaDadosVeiculo();
         System.out.println("7. Atualiza Potencia");
         System.out.println("8. Atualiza Número de Portas");
         System.out.println("9. Atualiza Combustivel");
         System.out.println("0. Voltar");
     }
 
-    public static void menuAtualizaDadosMoto() {
+    public static void TelaMenuAtualizaDadosMoto() {
         TelaUtils.limpaTela();
         TelaUtils.cabecalhoMenu("ATUALIZAR DADOS DA MOTO");
-        atualizaDadosVeiculo();
+        TelaAtualizaDadosVeiculo();
         System.out.println("7. Atualizar Cilindradas");
         System.out.println("0. Voltar");
     }
 
-    public static void menuAtualizaDadosCaminhao() {
+    public static void TelaMenuAtualizaDadosCaminhao() {
         TelaUtils.limpaTela();
         TelaUtils.cabecalhoMenu("ATUALIZA DADOS DO CAMINHÃO");
-        atualizaDadosVeiculo();
+        TelaAtualizaDadosVeiculo();
         System.out.println("7. Atualizar Quantidade de Eixos");
         System.out.println("8. Atualizar Capacidade de Carga");
         System.out.println("9. Atualizar Carroceria");
         System.out.println("0. Voltar");
     }
 
-    public static void menuRemoverVeiculo() {
+    public static void TelaMenuRemoverVeiculo() {
         TelaUtils.limpaTela();
         TelaUtils.cabecalhoMenu("REMOVER VEÍCULOS");
         System.out.println("1. Remover Carros");
@@ -80,7 +80,7 @@ public class EstoqueViews {
         System.out.println("4. Remover Veículo Geral");
     }
 
-    public static void menuConfirmaRemocao() {
+    public static void TelaMenuConfirmaRemocao() {
         TelaUtils.limpaTela();
         System.out.println("1. Confirmar remoção");
         System.out.println("2. Cancelar");

@@ -3,9 +3,6 @@ package controllers;
 import data.Banco;
 import models.Funcionario;
 
-import java.sql.Connection;
-import java.sql.Statement;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -18,71 +15,47 @@ import java.util.List;
  */
 public class FuncionarioDao {
 
-    // Instância da nossa fábrica de conexões.
-    private final Banco banco;
-
-    public FuncionarioDao() {
-        // Ao criar um FuncionarioDao, inicializamos a referência à nossa classe Banco.
-        this.banco = new Banco();
-    }
-
     /**
      * Insere um novo funcionário no banco de dados.
      *
-     * @param funcionario O objeto Funcionario a ser persistido, com nome, usuario, senha e cargo.
+     * @param banco O objeto Banco para realizar a operação.
+     * @param funcionario O objeto Funcionario a ser persistido.
+     * @return O objeto Funcionario com o ID gerado pelo banco.
      */
-    public Funcionario cadastrarFuncionario(Funcionario funcionario) {
-    String sql = "INSERT INTO Funcionario (nome, usuario, senha, cargo) VALUES (?, ?, ?, ?)";
+    public Funcionario cadastrarFuncionario(Banco banco, Funcionario funcionario) {
+        String sql = "INSERT INTO Funcionario (nome, usuario, senha, cargo) VALUES (?, ?, ?, ?)";
 
-    // O segundo argumento "Statement.RETURN_GENERATED_KEYS" instrui o banco a retornar o ID criado.
-    try (Connection conn = this.banco.getConnection();
-         PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        int id = banco.queryInsertComRetorno(sql, 
+            funcionario.getNome(),
+            funcionario.getLogin(),
+            funcionario.getSenha(),
+            funcionario.getCargo()
+        );
 
-        pstmt.setString(1, funcionario.getNome());
-        pstmt.setString(2, funcionario.getLogin());
-        pstmt.setString(3, funcionario.getSenha());
-        pstmt.setString(4, funcionario.getCargo());
-
-        int affectedRows = pstmt.executeUpdate();
-
-        if (affectedRows > 0) {
-            // Captura o ID que o banco gerou
-            try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    // Define o ID correto no objeto que acabamos de salvar
-                    funcionario.setId(generatedKeys.getInt(1));
-                }
-            }
+        if (id > 0) {
+            funcionario.setId(id);
         }
-    } catch (SQLException e) {
-        System.err.println("Erro ao cadastrar funcionário: " + e.getMessage());
+        return funcionario;
     }
-    // Retorna o objeto completo, agora com o ID correto do banco
-    return funcionario; 
-}
 
     /**
      * Busca e retorna todos os funcionários cadastrados no banco de dados.
      *
+     * @param banco O objeto Banco para realizar a operação.
      * @return Uma lista de objetos Funcionario.
      */
-    public List<Funcionario> listarFuncionarios() {
+    public List<Funcionario> listarFuncionarios(Banco banco) {
         List<Funcionario> funcionarios = new ArrayList<>();
-        // É uma boa prática listar os campos explicitamente em vez de usar "SELECT *".
         String sql = "SELECT id, nome, usuario, senha, cargo FROM Funcionario";
 
-        try (Connection conn = this.banco.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery()) {
-
+        try (ResultSet rs = banco.querySelect(sql)) {
             while (rs.next()) {
-                // Para cada linha no resultado, cria um objeto Funcionario
-                Funcionario funcionario = new Funcionario();
-                funcionario.setId(rs.getInt("id")); // Essencial para operações de update/delete
-                funcionario.setNome(rs.getString("nome"));
-                funcionario.setLogin(rs.getString("usuario"));
-                funcionario.setSenha(rs.getString("senha")); // Lembre-se que esta senha virá do DB
-                funcionario.setCargo(rs.getString("cargo"));
+                Funcionario funcionario = new Funcionario(
+                        rs.getString("nome"),
+                        rs.getString("usuario"),
+                        rs.getString("senha"),
+                        rs.getString("cargo"));
+                funcionario.setId(rs.getInt("id"));
 
                 funcionarios.add(funcionario);
             }
@@ -93,84 +66,167 @@ public class FuncionarioDao {
     }
 
     /**
-     * Busca e retorna todos os funcionários de um determinado cargo.
-     *
-     * @param cargo O cargo a ser utilizado como filtro na busca.
-     * @return Uma lista de objetos Funcionario que correspondem ao cargo especificado.
-     */
-    public List<Funcionario> listarFuncionarios(String cargo) {
-        List<Funcionario> funcionarios = new ArrayList<>();
-        // A consulta SQL agora inclui uma cláusula WHERE para filtrar pelo cargo.
-        String sql = "SELECT id, nome, usuario, senha, cargo FROM Funcionario WHERE cargo = ?";
-
-        try (Connection conn = this.banco.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            // Define o valor do parâmetro (?) na consulta SQL.
-            // O índice 1 refere-se ao primeiro '?' encontrado no comando SQL.
-            pstmt.setString(1, cargo);
-
-            // Executa a consulta e obtém os resultados.
-            try (ResultSet rs = pstmt.executeQuery()) {
-                while (rs.next()) {
-                    // Para cada linha no resultado, cria um objeto Funcionario
-                    Funcionario funcionario = new Funcionario();
-                    funcionario.setId(rs.getInt("id"));
-                    funcionario.setNome(rs.getString("nome"));
-                    funcionario.setLogin(rs.getString("usuario"));
-                    funcionario.setSenha(rs.getString("senha"));
-                    funcionario.setCargo(rs.getString("cargo"));
-
-                    funcionarios.add(funcionario);
-                }
-            }
-        } catch (SQLException e) {
-            System.err.println("Erro ao listar funcionários por cargo: " + e.getMessage());
-        }
-        // Retorna a lista (pode estar vazia se nenhum funcionário for encontrado com o cargo).
-        return funcionarios;
-    }
-
-    /**
      * Atualiza os dados de um funcionário existente com base no seu ID.
      *
-     * @param funcionario O objeto Funcionario com os dados atualizados e o ID do registro a ser alterado.
+     * @param banco O objeto Banco para realizar a operação.
+     * @param funcionario O objeto Funcionario com os dados atualizados e o ID do registro
+     *                   a ser alterado.
      */
-    public void atualizarFuncionario(Funcionario funcionario) {
+    public void atualizarFuncionario(Banco banco, Funcionario funcionario) {
         String sql = "UPDATE Funcionario SET nome = ?, usuario = ?, senha = ?, cargo = ? WHERE id = ?";
 
-        try (Connection conn = this.banco.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, funcionario.getNome());
-            pstmt.setString(2, funcionario.getLogin());
-            pstmt.setString(3, funcionario.getSenha()); // Lembre-se do hash!
-            pstmt.setString(4, funcionario.getCargo());
-            pstmt.setInt(5, funcionario.getId()); // O ID é usado na cláusula WHERE
-
-            pstmt.executeUpdate();
-
-        } catch (SQLException e) {
-            System.err.println("Erro ao atualizar funcionário: " + e.getMessage());
-        }
+        banco.queryUpdate(sql, 
+            funcionario.getNome(),
+            funcionario.getLogin(),
+            funcionario.getSenha(),
+            funcionario.getCargo(),
+            funcionario.getId()
+        );
     }
 
     /**
      * Exclui um funcionário do banco de dados pelo seu ID.
      *
+     * @param banco O objeto Banco para realizar a operação.
      * @param id O ID do funcionário a ser excluído.
      */
-    public void excluirFuncionario(int id) {
+    public void excluirFuncionario(Banco banco, int id) {
         String sql = "DELETE FROM Funcionario WHERE id = ?";
+        banco.queryUpdate(sql, id);
+    }
 
-        try (Connection conn = this.banco.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+    /**
+     * Busca um funcionário pelo seu ID.
+     *
+     * @param banco O objeto Banco para realizar a operação.
+     * @param id O ID do funcionário a ser buscado.
+     * @return Um objeto Funcionario ou null se não encontrado.
+     */
+    public Funcionario buscarFuncionarioPorId(Banco banco, int id) {
+        Funcionario funcionario = null;
+        String sql = "SELECT id, nome, usuario, senha, cargo FROM Funcionario WHERE id = ?";
 
-            pstmt.setInt(1, id);
-            pstmt.executeUpdate();
-
+        try (ResultSet rs = banco.querySelect(sql, id)) {
+            if (rs.next()) {
+                funcionario = new Funcionario(
+                        rs.getString("nome"),
+                        rs.getString("usuario"),
+                        rs.getString("senha"),
+                        rs.getString("cargo"));
+                funcionario.setId(rs.getInt("id"));
+            }
         } catch (SQLException e) {
-            System.err.println("Erro ao excluir funcionário: " + e.getMessage());
+            System.err.println("Erro ao buscar funcionário por ID: " + e.getMessage());
         }
+        return funcionario;
+    }
+
+    /**
+     * Busca funcionários por nome.
+     *
+     * @param banco O objeto Banco para realizar a operação.
+     * @param nome O nome do funcionário a ser buscado.
+     * @return Uma lista de objetos Funcionario que correspondem ao nome fornecido.
+     */
+    public List<Funcionario> buscarFuncionariosPorNome(Banco banco, String nome) {
+        List<Funcionario> funcionarios = new ArrayList<>();
+        String sql = "SELECT id, nome, usuario, senha, cargo FROM Funcionario WHERE nome LIKE ?";
+
+        try (ResultSet rs = banco.querySelect(sql, "%" + nome + "%")) {
+            while (rs.next()) {
+                Funcionario funcionario = new Funcionario(
+                        rs.getString("nome"),
+                        rs.getString("usuario"),
+                        rs.getString("senha"),
+                        rs.getString("cargo"));
+                funcionario.setId(rs.getInt("id"));
+
+                funcionarios.add(funcionario);
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao buscar funcionários por nome: " + e.getMessage());
+        }
+        return funcionarios;
+    }
+
+    /**
+     * Busca funcionários por cargo.
+     *
+     * @param banco O objeto Banco para realizar a operação.
+     * @param cargo O cargo do funcionário a ser buscado.
+     * @return Uma lista de objetos Funcionario que possuem o cargo especificado.
+     */
+    public List<Funcionario> buscarFuncionariosPorCargo(Banco banco, String cargo) {
+        List<Funcionario> funcionarios = new ArrayList<>();
+        String sql = "SELECT id, nome, usuario, senha, cargo FROM Funcionario WHERE cargo = ?";
+
+        try (ResultSet rs = banco.querySelect(sql, cargo)) {
+            while (rs.next()) {
+                Funcionario funcionario = new Funcionario(
+                        rs.getString("nome"),
+                        rs.getString("usuario"),
+                        rs.getString("senha"),
+                        rs.getString("cargo"));
+                funcionario.setId(rs.getInt("id"));
+
+                funcionarios.add(funcionario);
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao buscar funcionários por cargo: " + e.getMessage());
+        }
+        return funcionarios;
+    }
+
+    /**
+     * Busca um funcionário por login (usuário).
+     *
+     * @param banco O objeto Banco para realizar a operação.
+     * @param login O login do funcionário a ser buscado.
+     * @return O objeto Funcionario encontrado ou null se não existir.
+     */
+    public Funcionario buscarFuncionarioPorLogin(Banco banco, String login) {
+        String sql = "SELECT id, nome, usuario, senha, cargo FROM Funcionario WHERE usuario = ?";
+
+        try (ResultSet rs = banco.querySelect(sql, login)) {
+            if (rs.next()) {
+                Funcionario funcionario = new Funcionario(
+                        rs.getString("nome"),
+                        rs.getString("usuario"),
+                        rs.getString("senha"),
+                        rs.getString("cargo"));
+                funcionario.setId(rs.getInt("id"));
+                return funcionario;
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao buscar funcionário por login: " + e.getMessage());
+        }
+        return null;
+    }
+
+    /**
+     * Autentica um funcionário verificando login e senha.
+     *
+     * @param banco O objeto Banco para realizar a operação.
+     * @param login O login do funcionário.
+     * @param senha A senha do funcionário.
+     * @return O objeto Funcionario autenticado ou null se as credenciais forem inválidas.
+     */
+    public Funcionario autenticarFuncionario(Banco banco, String login, String senha) {
+        String sql = "SELECT id, nome, usuario, senha, cargo FROM Funcionario WHERE usuario = ? AND senha = ?";
+
+        try (ResultSet rs = banco.querySelect(sql, login, senha)) {
+            if (rs.next()) {
+                Funcionario funcionario = new Funcionario(
+                        rs.getString("nome"),
+                        rs.getString("usuario"),
+                        rs.getString("senha"),
+                        rs.getString("cargo"));
+                funcionario.setId(rs.getInt("id"));
+                return funcionario;
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao autenticar funcionário: " + e.getMessage());
+        }
+        return null;
     }
 }
