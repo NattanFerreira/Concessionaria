@@ -3,15 +3,14 @@ package models;
 public class Carro extends Veiculo {
     private double cavaloPotencia;
     private int numeroPortas;
-    private int idTipoCombustivel;
-    private String[] tipoCombustivel = {"Gasolina", "Etanol", "Diesel", "Elétrico"};
+    private String tipoCombustivel;
 
-    public Carro(String modelo, String numChassi, double quilometragem, double preco, String cor, 
-                int anoFabricacao, int idStatus, double cavaloPotencia, int numeroPortas, int idTipoCombustivel) {
+    public Carro(String modelo, int numChassi, double quilometragem, double preco, String cor, 
+                int anoFabricacao, int idStatus, double cavaloPotencia, int numeroPortas, String tipoCombustivel) {
         super(modelo, numChassi, quilometragem, preco, cor, anoFabricacao, idStatus);
         this.cavaloPotencia = cavaloPotencia;
         this.numeroPortas = numeroPortas;
-        this.idTipoCombustivel = idTipoCombustivel;
+        this.tipoCombustivel = tipoCombustivel;
     }
 
     public double getCavaloPotencia() {
@@ -30,12 +29,12 @@ public class Carro extends Veiculo {
         this.numeroPortas = numeroPortas;
     }
 
-    public int getIdTipoCombustivel() {
-        return idTipoCombustivel;
+    public String getTipoCombustivel() {
+        return tipoCombustivel;
     }
 
-    public void setIdTipoCombustivel(int idTipoCombustivel) {
-        this.idTipoCombustivel = idTipoCombustivel;
+    public void setTipoCombustivel(String tipoCombustivel) {
+        this.tipoCombustivel = tipoCombustivel;
     }
 
     public String exibirCarro() {
@@ -43,7 +42,7 @@ public class Carro extends Veiculo {
                 "\n" + super.exibirVeiculos() +
                 "\nPotência: " + this.cavaloPotencia + "cv" +
                 "\nNúmero de Portas: " + this.numeroPortas +
-                "\nCombustíveç: " + this.tipoCombustivel[idTipoCombustivel];
+                "\nCombustíveç: " + this.tipoCombustivel;
     }
 
     public void cadastrarCarro() {
