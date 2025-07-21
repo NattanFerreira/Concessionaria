@@ -14,43 +14,43 @@ CREATE TABLE Status (
 CREATE TABLE carros (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     modelo VARCHAR(255) NOT NULL,
-    num_chassi INT UNIQUE NOT NULL,
+    num_chassi VARCHAR(20) UNIQUE NOT NULL,
     quilometragem DECIMAL(10, 2),
     preco DECIMAL(10, 2) NOT NULL,
     cor VARCHAR(50) NOT NULL,
     ano_fabricacao INT NOT NULL,
     id_status INT NOT NULL,
     -- Dados específicos para Carro
-    cavalo_potencia DECIMAL(10, 2) NULL,
-    numero_portas INT NULL,
-    tipo_combustivel VARCHAR(50) NULL
+    cavalo_potencia DECIMAL(10, 2) NOT NULL,
+    numero_portas INT NOT NULL,
+    id_tipo_combustivel VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE motocicletas (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     modelo VARCHAR(255) NOT NULL,
-    num_chassi INT UNIQUE NOT NULL,
+    num_chassi VARCHAR(20) UNIQUE NOT NULL,
     quilometragem DECIMAL(10, 2),
     preco DECIMAL(10, 2) NOT NULL,
     cor VARCHAR(50) NOT NULL,
     ano_fabricacao INT NOT NULL,
     id_status INT NOT NULL,
     -- Dados específicos para Motocicleta
-    cilindrada INT NULL
+    cilindrada INT NOT NULL
 );
 
 CREATE TABLE caminhoes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     modelo VARCHAR(255) NOT NULL,
-    num_chassi INT UNIQUE NOT NULL,
+    num_chassi VARCHAR(20) UNIQUE NOT NULL,
     quilometragem DECIMAL(10, 2),
     preco DECIMAL(10, 2) NOT NULL,
     cor VARCHAR(50) NOT NULL,
     ano_fabricacao INT NOT NULL,
     id_status INT NOT NULL,
     -- Dados específicos para Caminhão
-    eixos INT NULL,
-    capacidade_carga DECIMAL(10, 2) NULL,
-    altura DECIMAL(10, 2) NULL,
-    tipo_carroceria VARCHAR(100) NULL
+    eixos INT NOT NULL,
+    capacidade_carga DECIMAL(10, 2) NOT NULL,
+    altura DECIMAL(10, 2) NOT NULL,
+    tipo_carroceria VARCHAR(100) NOT NULL
 );

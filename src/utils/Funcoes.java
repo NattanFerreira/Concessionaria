@@ -51,6 +51,35 @@ public class Funcoes {
         }
     }
 
+    public static int lerInt() {
+        try {
+            String inputStr = input.nextLine().trim();
+            return Integer.parseInt(inputStr);
+        } catch (NumberFormatException e) {
+            System.out.println("Por favor, digite um número inteiro válido.");
+            return -1;
+        }
+    }
+
+    public static String lerString() {
+        String inputStr = input.nextLine().trim();
+        if (inputStr.isEmpty()) {
+            System.out.println("Entrada inválida. Tente novamente.");
+            return null;
+        }
+        return inputStr;
+    }
+
+    public static double lerDouble() {
+        try {
+            String inputStr = input.nextLine().trim();
+            return Double.parseDouble(inputStr);
+        } catch (NumberFormatException e) {
+            System.out.println("Por favor, digite um número decimal válido.");
+            return -1;
+        }
+    }
+
     public static void cabecalhoMenu(String texto) {
         System.out.println("\n--- " + texto + " ---");
     }

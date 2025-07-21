@@ -1,10 +1,709 @@
 package views;
 
 import utils.Funcoes;
+import data.Banco;
+import models.Veiculo;
+import models.Carro;
+import models.Motocicleta;
+import models.Caminhao;
+import controllers.CarroDao;
+import controllers.MotocicletaDao;
+import java.util.ArrayList;
+import java.util.List;
+
+import controllers.CaminhaoDao;
 
 
 public class EstoqueView {
 
+    public static void menuEstoque(Banco banco) {
+        TelaMenuEstoque();
+        int opcao = Funcoes.lerInt();
+        switch (opcao) {
+            case 1:
+                menuAdicionarVeiculo(banco);
+                break;
+            case 2:
+                TelaMenuRemoverVeiculo();
+                // Implementar lógica de remoção
+                break;
+            case 3:
+                menuAtualizarVeiculo(banco);
+                break;
+            case 4:
+
+                // Implementar lógica de listagem de veículos
+                break;
+            case 5:
+                // Implementar lógica de busca de veículo
+                break;
+            case 0:
+                System.out.println("Saindo do menu de estoque.");
+                return;
+            default:
+                System.out.println("Opção inválida.");
+        }
+    }
+
+    public static void menuAdicionarVeiculo(Banco banco) {
+        TelaMenuAdicionarVeiculo();
+        int opcao = Funcoes.lerInt();
+        switch (opcao) {
+            case 1:
+            CarroDao carroDao = new CarroDao();
+            carroDao.adicionarCarro(banco);
+            break;
+            case 2:
+            MotocicletaDao motocicletaDao = new MotocicletaDao();
+            motocicletaDao.adicionarMotocicleta(banco);
+            break;
+            case 3:
+                CaminhaoDao caminhaoDao = new CaminhaoDao();
+                caminhaoDao.adicionarCaminhao(banco);
+                break;
+            case 0:
+                return;
+            default:
+                System.out.println("Opção inválida.");
+        }
+
+    }
+
+    public static void menuRemoverVeiculo(Banco banco) {
+        TelaMenuRemoverVeiculo();
+        int opcao = Funcoes.lerInt();
+        switch (opcao) {
+            case 1:
+                CarroDao carroDao = new CarroDao();
+                carroDao.removerCarro(banco);
+                break;
+            case 2:
+                MotocicletaDao motocicletaDao = new MotocicletaDao();
+                motocicletaDao.removerMotocicleta(banco);
+                break;
+            case 3:
+                CaminhaoDao caminhaoDao = new CaminhaoDao();
+                caminhaoDao.removerCaminhao(banco);
+                break;
+            case 0:
+                return;
+            default:
+                System.out.println("Opção inválida.");
+        }
+    }
+
+
+    public static void menuAtualizarVeiculo(Banco banco) {
+        TelaMenuAtualizarVeiculo();
+        int opcao = Funcoes.lerInt();
+        switch (opcao) {
+            case 1:
+                CarroDao carroDao = new CarroDao();
+                carroDao.atualizarCarro(banco);
+                break;
+            case 2:
+                MotocicletaDao motocicletaDao = new MotocicletaDao();
+                motocicletaDao.atualizarMotocicleta(banco);
+                break;
+            case 3:
+                CaminhaoDao caminhaoDao = new CaminhaoDao();
+                caminhaoDao.atualizarCaminhao(banco);
+                break;
+            case 0:
+                return;
+            default:
+                System.out.println("Opção inválida.");
+        }
+    }
+
+    public static void menuListarVeiculos(Banco banco) {
+        TelaMenuListarVeiculos();
+        int opcao = Funcoes.lerInt();
+        switch (opcao) {
+            case 1:
+                CarroDao carroDao = new CarroDao();
+                carroDao.listarCarros(banco);
+                break;
+            case 2:
+                MotocicletaDao motocicletaDao = new MotocicletaDao();
+                motocicletaDao.listarMotocicletas(banco);
+                break;
+            case 3:
+                CaminhaoDao caminhaoDao = new CaminhaoDao();
+                caminhaoDao.listarCaminhoes(banco);
+                break;
+            case 0:
+                return;
+            default:
+                System.out.println("Opção inválida.");
+        }
+    }
+
+    public static void menuBuscarVeiculo(Banco banco) {
+
+        TelaMenuBuscarVeiculo();
+        int opcao = Funcoes.lerInt();
+        int subOpcao;
+        int id;
+        String modelo;
+        String chassi;
+        double precoMinimo;
+        double precoMaximo;
+        double quilometragemMaxima;
+        int anoMinimo, anoMaximo;
+        String cor;
+        switch (opcao) {
+            case 1:
+                CarroDao carroDao = new CarroDao();
+                List<Carro> carros = new ArrayList<>();
+                Carro carro = null;
+                TelaMenuBuscasCarros();
+                subOpcao = Funcoes.lerInt();
+                switch (subOpcao) {
+                    case 1:
+                        System.out.println("Digite o ID do carro:");
+                        id = Funcoes.lerInt();
+                        if (id <= 0) {
+                            System.out.println("ID inválido. Tente novamente.");
+                            return;
+                        }
+                        carro = carroDao.buscarCarroPorId(banco, id);
+                        if (carro == null) {
+                            System.out.println("Carro não encontrado com o ID fornecido.");
+                            return;
+                        } else {
+                            System.out.println("Carro encontrado: " + carro);
+                        }
+                        break;
+                    case 2:
+                        System.out.println("Digite o modelo do carro:");
+                        modelo = Funcoes.lerString();
+                        if (modelo == null || modelo.isEmpty()) {
+                            System.out.println("Modelo inválido. Tente novamente.");
+                            return;
+                        }
+                        carros = carroDao.buscarCarrosPorModelo(banco, modelo);
+                        if (carros.isEmpty()) {
+                            System.out.println("Nenhum carro encontrado com o modelo especificado.");
+                            return;
+                        } else {
+                            System.out.println("Carros encontrados:");
+                            for (Carro c : carros) {
+                                System.out.println(c);
+                            }
+                        }
+                        break;
+                    case 3:
+                        System.out.println("Digite o número do chassi do carro:");
+                        chassi = Funcoes.lerString();
+                        if (chassi == null || chassi.isEmpty()) {
+                            System.out.println("Número de chassi inválido. Tente novamente.");
+                            return;
+                        }
+                        carro = carroDao.buscarCarroPorChassi(banco, chassi);
+                        if (carro == null) {
+                            System.out.println("Carro não encontrado com o chassi fornecido.");
+                            return;
+                        } else {
+                            System.out.println("Carro encontrado: " + carro);
+                        }
+                        break;
+                    case 4:
+                        System.out.println("Digite o preço mínimo:");
+                        precoMinimo = Funcoes.lerDouble();
+                        System.out.println("Digite o preço máximo:");
+                        precoMaximo = Funcoes.lerDouble();
+                        if (precoMinimo < 0 || precoMaximo < 0 || precoMinimo > precoMaximo) {
+                            System.out.println("Faixa de preço inválida. Tente novamente.");
+                            return;
+                        }
+                        carros = carroDao.buscarCarrosPorFaixaPreco(banco, precoMinimo, precoMaximo);
+                        if (carros.isEmpty()) {
+                            System.out.println("Nenhum carro encontrado na faixa de preço especificada.");
+                            return;
+                        } else {
+                            System.out.println("Carros encontrados na faixa de preço:");
+                            for (Carro c : carros) {
+                                System.out.println(c);
+                            }
+                        }
+                        break;
+                    case 5:
+                        System.out.println("Digite a quilometragem máxima:");
+                        quilometragemMaxima = Funcoes.lerDouble();
+                        if (quilometragemMaxima < 0) {
+                            System.out.println("Quilometragem inválida. Tente novamente.");
+                            return;
+                        }
+                        carros = carroDao.buscarCarrosPorQuilometragem(banco, quilometragemMaxima);
+                        if (carros.isEmpty()) {
+                            System.out.println("Nenhum carro encontrado com a quilometragem especificada.");
+                            return;
+                        } else {
+                            System.out.println("Carros encontrados com quilometragem máxima:");
+                            for (Carro c : carros) {
+                                System.out.println(c);
+                            }
+                        }
+                        break;
+                    case 6:
+                        System.out.println("Digite o ano de fabricação mínimo:");
+                        anoMinimo = Funcoes.lerInt();
+                        System.out.println("Digite o ano de fabricação máximo:");
+                        anoMaximo = Funcoes.lerInt();
+                        if (anoMinimo < 1886 || anoMaximo < 1886 || anoMinimo > anoMaximo) {
+                            System.out.println("Faixa de ano de fabricação inválida. Tente novamente.");
+                            return;
+                        }
+                        carros = carroDao.buscarCarrosPorFaixaAno(banco, anoMinimo, anoMaximo);
+                        if (carros.isEmpty()) {
+                            System.out.println("Nenhum carro encontrado na faixa de ano de fabricação especificada.");
+                            return;
+                        } else {
+                            System.out.println("Carros encontrados na faixa de ano de fabricação:");
+                            for (Carro c : carros) {
+                                System.out.println(c);
+                            }
+                        }
+                        break;
+                    case 7:
+                        System.out.println("Digite a cor do carro:");
+                        cor = Funcoes.lerString();
+                        if (cor == null || cor.isEmpty()) {
+                            System.out.println("Cor inválida. Tente novamente.");
+                            return;
+                        }
+                        carros = carroDao.buscarCarrosPorCor(banco, cor);
+                        if (carros.isEmpty()) {
+                            System.out.println("Nenhum carro encontrado com a cor especificada.");
+                            return;
+                        } else {
+                            System.out.println("Carros encontrados com a cor especificada:");
+                            for (Carro c : carros) {
+                                System.out.println(c);
+                            }
+                        }
+                        break;
+                    case 8:
+                        System.out.println("Digite a potência máxima (em cavalos):");
+                        double potenciaMaxima = Funcoes.lerDouble();
+                        if (potenciaMaxima < 0) {
+                            System.out.println("Potência inválida. Tente novamente.");
+                            return;
+                        }
+                        carros = carroDao.buscarCarrosPorPotencia(banco, potenciaMaxima);
+                        if (carros.isEmpty()) {
+                            System.out.println("Nenhum carro encontrado com a potência especificada.");
+                            return;
+                        } else {
+                            System.out.println("Carros encontrados com potência máxima:");
+                            for (Carro c : carros) {
+                                System.out.println(c);
+                            }
+                        }
+                        break;
+                    case 9:
+                        System.out.println("Digite o número de portas:");
+                        int numeroPortas = Funcoes.lerInt();
+                        if (numeroPortas <= 0) {
+                            System.out.println("Número de portas inválido. Tente novamente.");
+                            return;
+                        }
+                        carros = carroDao.buscarCarrosPorNumeroPortas(banco, numeroPortas);
+                        if (carros.isEmpty()) {
+                            System.out.println("Nenhum carro encontrado com o número de portas especificado.");
+                            return;
+                        } else {
+                            System.out.println("Carros encontrados com o número de portas especificado:");
+                            for (Carro c : carros) {
+                                System.out.println(c);
+                            }
+                        }
+                        break;
+                    case 10:
+                        System.out.println("Digite o tipo de combustível (1 - Gasolina, 2 - Etanol, 3 - Diesel, 4 - Elétrico):");
+                        int tipoCombustivel = Funcoes.lerInt();
+                        if (tipoCombustivel < 1 || tipoCombustivel > 4) {
+                            System.out.println("Tipo de combustível inválido. Tente novamente.");
+                            return;
+                        }
+                        carros = carroDao.buscarCarrosPorCombustivel(banco, tipoCombustivel);
+                        if (carros.isEmpty()) {
+                            System.out.println("Nenhum carro encontrado com o tipo de combustível especificado.");
+                            return;
+                        } else {
+                            System.out.println("Carros encontrados com o tipo de combustível especificado:");
+                            for (Carro c : carros) {
+                                System.out.println(c);
+                            }
+                        }
+                        break;
+                    case 0:
+                        return;
+                    default:
+                        System.out.println("Opção inválida.");
+                }
+                break;
+            case 2:
+                MotocicletaDao motocicletaDao = new MotocicletaDao();
+                List<Motocicleta> motocicletas = new ArrayList<>();
+                Motocicleta motocicleta = null;
+                TelaMenuBuscarMotocicleta();
+                subOpcao = Funcoes.lerInt();
+                switch (subOpcao) {
+                    case 1:
+                        System.out.println("Digite o ID da motocicleta:");
+                        id = Funcoes.lerInt();
+                        if (id <= 0) {
+                            System.out.println("ID inválido. Tente novamente.");
+                            return;
+                        }
+                        motocicleta = motocicletaDao.buscarMotocicletaPorId(banco, id);
+                        if (motocicleta == null) {
+                            System.out.println("Motocicleta não encontrada com o ID fornecido.");
+                            return;
+                        } else {
+                            System.out.println("Motocicleta encontrada: " + motocicleta);
+                        }
+                        break;
+                    case 2:
+                        System.out.println("Digite o modelo da motocicleta:");
+                        modelo = Funcoes.lerString();
+                        if (modelo == null || modelo.isEmpty()) {
+                            System.out.println("Modelo inválido. Tente novamente.");
+                            return;
+                        }
+                        motocicletas = motocicletaDao.buscarMotocicletasPorModelo(banco, modelo);
+                        if (motocicletas.isEmpty()) {
+                            System.out.println("Nenhuma motocicleta encontrada com o modelo especificado.");
+                            return;
+                        } else {
+                            System.out.println("Motocicletas encontradas:");
+                            for (Motocicleta m : motocicletas) {
+                                System.out.println(m);
+                            }
+                        }
+                        break;
+                    case 3:
+                        System.out.println("Digite o número do chassi da motocicleta:");
+                        chassi = Funcoes.lerString();
+                        if (chassi == null || chassi.isEmpty()) {
+                            System.out.println("Número de chassi inválido. Tente novamente.");
+                            return;
+                        }
+                        motocicleta = motocicletaDao.buscarMotocicletaPorChassi(banco, chassi);
+                        if (motocicleta == null) {
+                            System.out.println("Motocicleta não encontrada com o chassi fornecido.");
+                            return;
+                        } else {
+                            System.out.println("Motocicleta encontrada: " + motocicleta);
+                        }
+                        break;
+                    case 4:
+                        System.out.println("Digite o preço mínimo:");
+                        precoMinimo = Funcoes.lerDouble();
+                        System.out.println("Digite o preço máximo:");
+                        precoMaximo = Funcoes.lerDouble();
+                        if (precoMinimo < 0 || precoMaximo < 0 || precoMinimo > precoMaximo) {
+                            System.out.println("Faixa de preço inválida. Tente novamente.");
+                            return;
+                        }
+                        motocicletas = motocicletaDao.buscarMotocicletasPorFaixaPreco(banco, precoMinimo, precoMaximo);
+                        if (motocicletas.isEmpty()) {
+                            System.out.println("Nenhuma motocicleta encontrada na faixa de preço especificada.");
+                            return;
+                        } else {
+                            System.out.println("Motocicletas encontradas na faixa de preço:");
+                            for (Motocicleta m : motocicletas) {
+                                System.out.println(m);
+                            }
+                        }
+                    case 5:
+                        System.out.println("Digite a quilometragem máxima:");
+                        quilometragemMaxima = Funcoes.lerDouble();
+                        if (quilometragemMaxima < 0) {
+                            System.out.println("Quilometragem inválida. Tente novamente.");
+                            return;
+                        }
+                        motocicletas = motocicletaDao.buscarMotocicletasPorQuilometragem(banco, quilometragemMaxima);
+                        if (motocicletas.isEmpty()) {
+                            System.out.println("Nenhuma motocicleta encontrada com a quilometragem especificada.");
+                            return;
+                        } else {
+                            System.out.println("Motocicletas encontradas com quilometragem máxima:");
+                            for (Motocicleta m : motocicletas) {
+                                System.out.println(m);
+                            }
+                        }
+                    case 6:
+                        System.out.println("Digite o ano de fabricação mínimo:");
+                        anoMinimo = Funcoes.lerInt();
+                        System.out.println("Digite o ano de fabricação máximo:");
+                        anoMaximo = Funcoes.lerInt();
+                        if (anoMinimo < 1886 || anoMaximo < 1886 || anoMinimo > anoMaximo) {
+                            System.out.println("Faixa de ano de fabricação inválida. Tente novamente.");
+                            return;
+                        }
+                        motocicletas = motocicletaDao.buscarMotocicletasPorFaixaAno(banco, anoMinimo, anoMaximo);
+                        if (motocicletas.isEmpty()) {
+                            System.out.println("Nenhuma motocicleta encontrada na faixa de ano de fabricação especificada.");
+                            return;
+                        } else {
+                            System.out.println("Motocicletas encontradas na faixa de ano de fabricação:");
+                            for (Motocicleta m : motocicletas) {
+                                System.out.println(m);
+                            }
+                        }
+                    case 7:
+                        System.out.println("Digite a cor da motocicleta:");
+                        cor = Funcoes.lerString();
+                        if (cor == null || cor.isEmpty()) {
+                            System.out.println("Cor inválida. Tente novamente.");
+                            return;
+                        }
+                        motocicletas = motocicletaDao.buscarMotocicletasPorCor(banco, cor);
+                        if (motocicletas.isEmpty()) {
+                            System.out.println("Nenhuma motocicleta encontrada com a cor especificada.");
+                            return;
+                        } else {
+                            System.out.println("Motocicletas encontradas com a cor especificada:");
+                            for (Motocicleta m : motocicletas) {
+                                System.out.println(m);
+                            }
+                        }
+                    case 8:
+                        System.out.println("Digite a cilindrada máxima (em cm³):");
+                        int cilindradaMaxima = Funcoes.lerInt();
+                        if (cilindradaMaxima < 0) {
+                            System.out.println("Cilindrada inválida. Tente novamente.");
+                            return;
+                        }
+                        motocicletas = motocicletaDao.buscarMotocicletasPorCilindrada(banco, cilindradaMaxima);
+                        if (motocicletas.isEmpty()) {
+                            System.out.println("Nenhuma motocicleta encontrada com a cilindrada especificada.");
+                            return;
+                        } else {
+                            System.out.println("Motocicletas encontradas com cilindrada máxima:");
+                            for (Motocicleta m : motocicletas) {
+                                System.out.println(m);
+                            }
+                        }
+                    case 0:
+                        return;
+                    default:
+                        System.out.println("Opção inválida.");
+                }
+                    
+                break;
+            case 3:
+                CaminhaoDao caminhaoDao = new CaminhaoDao();
+                List<Caminhao> caminhoes = new ArrayList<>();
+                Caminhao caminhao = null;
+                TelaMenuBuscarCaminhao();
+                subOpcao = Funcoes.lerInt();
+                switch (subOpcao) {
+                    case 1:
+                        System.out.println("Digite o ID do caminhão:");
+                        id = Funcoes.lerInt();
+                        if (id <= 0) {
+                            System.out.println("ID inválido. Tente novamente.");
+                            return;
+                        }
+                        caminhao = caminhaoDao.buscarCaminhaoPorId(banco, id);
+                        if (caminhao == null) {
+                            System.out.println("Caminhão não encontrado com o ID fornecido.");
+                            return;
+                        } else {
+                            System.out.println("Caminhão encontrado: " + caminhao);
+                        }
+                        break;
+                    case 2:
+                        System.out.println("Digite o modelo do caminhão:");
+                        modelo = Funcoes.lerString();
+                        if (modelo == null || modelo.isEmpty()) {
+                            System.out.println("Modelo inválido. Tente novamente.");
+                            return;
+                        }
+                        caminhoes = caminhaoDao.buscarCaminhoesPorModelo(banco, modelo);
+                        if (caminhoes.isEmpty()) {
+                            System.out.println("Nenhum caminhão encontrado com o modelo especificado.");
+                            return;
+                        } else {
+                            System.out.println("Caminhões encontrados:");
+                            for (Caminhao c : caminhoes) {
+                                System.out.println(c);
+                            }
+                        }
+                        break;
+                    case 3:
+                        System.out.println("Digite o número do chassi do caminhão:");
+                        chassi = Funcoes.lerString();
+                        if (chassi == null || chassi.isEmpty()) {
+                            System.out.println("Número de chassi inválido. Tente novamente.");
+                            return;
+                        }
+                        caminhao = caminhaoDao.buscarCaminhaoPorChassi(banco, chassi);
+                        if (caminhao == null) {
+                            System.out.println("Caminhão não encontrado com o chassi fornecido.");
+                            return;
+                        } else {
+                            System.out.println("Caminhão encontrado: " + caminhao);
+                        }
+                        break;
+                    case 4:
+                        System.out.println("Digite o preço mínimo:");
+                        precoMinimo = Funcoes.lerDouble();
+                        System.out.println("Digite o preço máximo:");
+                        precoMaximo = Funcoes.lerDouble();
+                        if (precoMinimo < 0 || precoMaximo < 0 || precoMinimo > precoMaximo) {
+                            System.out.println("Faixa de preço inválida. Tente novamente.");
+                            return;
+                        }
+                        caminhoes = caminhaoDao.buscarCaminhoesPorFaixaPreco(banco, precoMinimo, precoMaximo);
+                        if (caminhoes.isEmpty()) {
+                            System.out.println("Nenhum caminhão encontrado na faixa de preço especificada.");
+                            return;
+                        } else {
+                            System.out.println("Caminhões encontrados na faixa de preço:");
+                            for (Caminhao c : caminhoes) {
+                                System.out.println(c);
+                            }
+                        }
+                    case 5:
+                        System.out.println("Digite a quilometragem máxima:");
+                        quilometragemMaxima = Funcoes.lerDouble();
+                        if (quilometragemMaxima < 0) {
+                            System.out.println("Quilometragem inválida. Tente novamente.");
+                            return;
+                        }
+                        caminhoes = caminhaoDao.buscarCaminhoesPorQuilometragem(banco, quilometragemMaxima);
+                        if (caminhoes.isEmpty()) {
+                            System.out.println("Nenhum caminhão encontrado com a quilometragem especificada.");
+                            return;
+                        } else {
+                            System.out.println("Caminhões encontrados com quilometragem máxima:");
+                            for (Caminhao c : caminhoes) {
+                                System.out.println(c);
+                            }
+                        }
+                        break;
+                    case 6:
+                        System.out.println("Digite o ano de fabricação mínimo:");
+                        anoMinimo = Funcoes.lerInt();
+                        System.out.println("Digite o ano de fabricação máximo:");
+                        anoMaximo = Funcoes.lerInt();
+                        if (anoMinimo < 1886 || anoMaximo < 1886 || anoMinimo > anoMaximo) {
+                            System.out.println("Faixa de ano de fabricação inválida. Tente novamente.");
+                            return;
+                        }
+                        caminhoes = caminhaoDao.buscarCaminhoesPorFaixaAno(banco, anoMinimo, anoMaximo);
+                        if (caminhoes.isEmpty()) {
+                            System.out.println("Nenhum caminhão encontrado na faixa de ano de fabricação especificada.");
+                            return;
+                        } else {
+                            System.out.println("Caminhões encontrados na faixa de ano de fabricação:");
+                            for (Caminhao c : caminhoes) {
+                                System.out.println(c);
+                            }
+                        }
+                    case 7:
+                        System.out.println("Digite a cor do caminhão:");
+                        cor = Funcoes.lerString();
+                        if (cor == null || cor.isEmpty()) {
+                            System.out.println("Cor inválida. Tente novamente.");
+                            return;
+                        }
+                        caminhoes = caminhaoDao.buscarCaminhoesPorCor(banco, cor);
+                        if (caminhoes.isEmpty()) {
+                            System.out.println("Nenhum caminhão encontrado com a cor especificada.");
+                            return;
+                        } else {
+                            System.out.println("Caminhões encontrados com a cor especificada:");
+                            for (Caminhao c : caminhoes) {
+                                System.out.println(c);
+                            }
+                        }
+                    case 8:
+                        System.out.println("Digite o número de eixos:");
+                        int numeroEixos = Funcoes.lerInt();
+                        if (numeroEixos <= 0) {
+                            System.out.println("Número de eixos inválido. Tente novamente.");
+                            return;
+                        }
+                        caminhoes = caminhaoDao.buscarCaminhoesPorEixo(banco, numeroEixos);
+                        if (caminhoes.isEmpty()) {
+                            System.out.println("Nenhum caminhão encontrado com o número de eixos especificado.");
+                            return;
+                        } else {
+                            System.out.println("Caminhões encontrados com o número de eixos especificado:");
+                            for (Caminhao c : caminhoes) {
+                                System.out.println(c);
+                            }
+                        }
+                    case 9:
+                        System.out.println("Digite a capacidade de carga máxima (em toneladas):");
+                        double capacidadeCargaMaxima = Funcoes.lerDouble();
+                        if (capacidadeCargaMaxima < 0) {
+                            System.out.println("Capacidade de carga inválida. Tente novamente.");
+                            return;
+                        }
+                        caminhoes = caminhaoDao.buscarCaminhoesPorCapacidadeCarga(banco, capacidadeCargaMaxima);
+                        if (caminhoes.isEmpty()) {
+                            System.out.println("Nenhum caminhão encontrado com a capacidade de carga especificada.");
+                            return;
+                        } else {
+                            System.out.println("Caminhões encontrados com capacidade de carga máxima:");
+                            for (Caminhao c : caminhoes) {
+                                System.out.println(c);
+                            }
+                        }
+                    case 10:
+                        System.out.println("Digite a altura máxima (em metros):");
+                        double alturaMaxima = Funcoes.lerDouble();
+                        if (alturaMaxima < 0) {
+                            System.out.println("Altura inválida. Tente novamente.");
+                            return;
+                        }
+                        caminhoes = caminhaoDao.buscarCaminhoesPorAltura(banco, alturaMaxima);
+                        if (caminhoes.isEmpty()) {
+                            System.out.println("Nenhum caminhão encontrado com a altura especificada.");
+                            return;
+                        } else {
+                            System.out.println("Caminhões encontrados com altura máxima:");
+                            for (Caminhao c : caminhoes) {
+                                System.out.println(c);
+                            }
+                        }
+                    case 11:
+                        System.out.println("Digite o tipo de carroceria (1 - Baú, 2 - Sider, 3 - Graneleiro, 4 - Frigorífico):");
+                        String tipoCarroceria = Funcoes.lerString();
+                        if (tipoCarroceria == null || tipoCarroceria.isEmpty()) {
+                            System.out.println("Tipo de carroceria inválido. Tente novamente.");
+                            return;
+                        }
+                        caminhoes = caminhaoDao.buscarCaminhoesPorTipoCarroceria(banco, tipoCarroceria);
+                        if (caminhoes.isEmpty()) {
+                            System.out.println("Nenhum caminhão encontrado com o tipo de carroceria especificado.");
+                            return;
+                        } else {
+                            System.out.println("Caminhões encontrados com o tipo de carroceria especificado:");
+                            for (Caminhao c : caminhoes) {
+                                System.out.println(c);
+                            }
+                        }
+                    case 0:
+                        return;
+                    default:
+                        System.out.println("Opção inválida.");
+                }
+                break;
+            case 0:
+                return;
+            default:
+                System.out.println("Opção inválida.");
+        }
+    }
+    
     public static void TelaMenuEstoque() {
         Funcoes.limpaTela();
         Funcoes.cabecalhoMenu("MENU PRINCIPAL");
@@ -20,8 +719,8 @@ public class EstoqueView {
         Funcoes.limpaTela();
         Funcoes.cabecalhoMenu("ADICIONAR VEÍCULO");
         System.out.println("1. Adicionar Carro");
-        System.out.println("1. Adicionar Moto");
-        System.out.println("1. Adicionar Caminhão");
+        System.out.println("2. Adicionar Moto");
+        System.out.println("3. Adicionar Caminhão");
         System.out.println("0. Voltar");
     }
 
@@ -31,44 +730,6 @@ public class EstoqueView {
         System.out.println("1. Atualizar Carro");
         System.out.println("2. Atualizar Moto");
         System.out.println("3. Atualizar Caminhão");
-        System.out.println("4. Atualizar Veículo Geral");
-        System.out.println("0. Voltar");
-    }
-
-    public static void TelaAtualizaDadosVeiculo() {
-        System.out.println("1. Atualiza Modelo");
-        System.out.println("2. Atualiza Numchassi");
-        System.out.println("3. Atualiza Preço");
-        System.out.println("4. Atualiza Ano de Frabricação");
-        System.out.println("5. Atualiza Quilometragem");
-        System.out.println("6. Atualiza Cor");
-    }
-
-    public static void TelaMenuAtualizaDadosCarro() {
-        Funcoes.limpaTela();
-        Funcoes.cabecalhoMenu("ATUALIZAR DADOS DO CARRO");
-        TelaAtualizaDadosVeiculo();
-        System.out.println("7. Atualiza Potencia");
-        System.out.println("8. Atualiza Número de Portas");
-        System.out.println("9. Atualiza Combustivel");
-        System.out.println("0. Voltar");
-    }
-
-    public static void TelaMenuAtualizaDadosMoto() {
-        Funcoes.limpaTela();
-        Funcoes.cabecalhoMenu("ATUALIZAR DADOS DA MOTO");
-        TelaAtualizaDadosVeiculo();
-        System.out.println("7. Atualizar Cilindradas");
-        System.out.println("0. Voltar");
-    }
-
-    public static void TelaMenuAtualizaDadosCaminhao() {
-        Funcoes.limpaTela();
-        Funcoes.cabecalhoMenu("ATUALIZA DADOS DO CAMINHÃO");
-        TelaAtualizaDadosVeiculo();
-        System.out.println("7. Atualizar Quantidade de Eixos");
-        System.out.println("8. Atualizar Capacidade de Carga");
-        System.out.println("9. Atualizar Carroceria");
         System.out.println("0. Voltar");
     }
 
@@ -78,12 +739,71 @@ public class EstoqueView {
         System.out.println("1. Remover Carros");
         System.out.println("2. Remover Motos");
         System.out.println("3. Remover Caminhão");
-        System.out.println("4. Remover Veículo Geral");
+        System.out.println("0. Voltar");
     }
 
-    public static void TelaMenuConfirmaRemocao() {
+    public static void TelaMenuListarVeiculos() {
         Funcoes.limpaTela();
-        System.out.println("1. Confirmar remoção");
-        System.out.println("2. Cancelar");
+        Funcoes.cabecalhoMenu("LISTAR VEÍCULOS");
+        System.out.println("1. Listar Carros");
+        System.out.println("2. Listar Motos");
+        System.out.println("3. Listar Caminhões");
+        System.out.println("0. Voltar");
+    }
+
+    public static void TelaMenuBuscarVeiculo() {
+        Funcoes.limpaTela();
+        Funcoes.cabecalhoMenu("BUSCAR VEÍCULOS");
+        System.out.println("1. Buscar Carros");
+        System.out.println("2. Buscar Motos");
+        System.out.println("3. Buscar Caminhão");
+        System.out.println("0. Voltar");
+    }
+
+    public static void TelaMenuBuscasCarros() {
+        Funcoes.limpaTela();
+        Funcoes.cabecalhoMenu("BUSCAR CARROS");
+        System.out.println("1. Buscar Carro por Id");
+        System.out.println("2. Buscar Carro por Modelo");
+        System.out.println("3. Buscar Carro por Numero de chassi");
+        System.out.println("4. Buscar Carro por Faixa de Preço");
+        System.out.println("5. Buscar Carro por Quilometragem Máxima");
+        System.out.println("6. Buscar Carro por Faixa de Ano de Fabricação");
+        System.out.println("7. Buscar Carro por Cor");
+        System.out.println("8. Buscar Carro por Potencia");
+        System.out.println("9. Buscar Carro por Numero de Portas");
+        System.out.println("10. Buscar Carro por Tipo de Combustível");
+        System.out.println("0. Voltar");
+    }
+
+    public static void TelaMenuBuscarMotocicleta() {
+        Funcoes.limpaTela();
+        Funcoes.cabecalhoMenu("BUSCAR MOTOCICLETA");
+        System.out.println("1. Buscar Moto por Id");
+        System.out.println("2. Buscar Moto por Modelo");
+        System.out.println("3. Buscar Moto por Número de Chassi");
+        System.out.println("4. Buscar Moto por Faixa de Preço");
+        System.out.println("5. Buscar Moto por Quilometragem Máxima");
+        System.out.println("6. Buscar Moto por Faixa de Ano de Fabricação");
+        System.out.println("7. Buscar Moto por Cor");
+        System.out.println("8. Buscar Moto por Cilindrada Máxima");
+        System.out.println("0. Voltar");
+    }
+
+    public static void TelaMenuBuscarCaminhao() {
+        Funcoes.limpaTela();
+        Funcoes.cabecalhoMenu("BUSCAR CAMINHÃO");
+        System.out.println("1. Buscar Caminhão por Id");
+        System.out.println("2. Buscar Caminhão por Modelo");
+        System.out.println("3. Buscar Caminhão por Número de Chassi");
+        System.out.println("4. Buscar Caminhão por Faixa de Preço");
+        System.out.println("5. Buscar Caminhão por Quilometragem Máxima");
+        System.out.println("6. Buscar Caminhão por Faixa de Ano de Fabricação");
+        System.out.println("7. Buscar Caminhão por Cor");
+        System.out.println("8. Buscar Caminhão por Número de Eixos");
+        System.out.println("9. Buscar Caminhão por Capacidade de Carga");
+        System.out.println("10. Buscar Caminhão por Altura");
+        System.out.println("11. Buscar Caminhão por Tipo de Carroceria");
+        System.out.println("0. Voltar");
     }
 }

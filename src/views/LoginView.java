@@ -21,7 +21,6 @@ public class LoginView {
             System.out.println("Senha inválida. Tente novamente.");
             return;
         }
-        // Aqui você pode adicionar a lógica para verificar o login e senha no banco de dados
         id_cargo = FuncionarioDao.autenticarFuncionario(banco, login, senha);
         if (id_cargo == -1) {
             System.out.println("Login ou senha incorretos. Tente novamente.");
@@ -31,7 +30,7 @@ public class LoginView {
             // Aqui você pode redirecionar para a tela de vendedor 
         } else if (id_cargo == 1) {
             System.out.println("Login realizado com sucesso! Você é um estoquista.");
-            // Aqui você pode redirecionar para a tela de estoquista
+            EstoqueView.menuEstoque(banco);
         } else if (id_cargo == 2) {
             System.out.println("Login realizado com sucesso! Você é um erente de funcionário.");
             // Aqui você pode redirecionar para a tela de erente de funcionário
