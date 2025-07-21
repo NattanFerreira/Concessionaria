@@ -17,8 +17,11 @@ public class Motocicleta extends Veiculo {
         this.cilindrada = cilindrada;
     }
 
-    public String exibirMotocicleta() {
-        return super.exibirVeiculos() + "\nCilindrada: " + this.cilindrada + "cc";
+    @Override
+    public String toString() {
+        return "Tipo do veículo: Motocicleta" +
+                "\n" + super.toString() +
+                "\nCilindrada: " + this.cilindrada + "cc";
     }
 
     public void cadastrarMotocicleta() {

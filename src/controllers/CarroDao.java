@@ -324,6 +324,10 @@ public class    CarroDao {
         String sql = "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel FROM carros";
 
         try (ResultSet rs = banco.querySelect(sql)) {
+            if (rs == null) {
+                System.out.println("Nenhum carro encontrado.");
+                return carros;
+            }
             while (rs.next()) {
                 Carro carro = new Carro(
                         rs.getString("modelo"),
