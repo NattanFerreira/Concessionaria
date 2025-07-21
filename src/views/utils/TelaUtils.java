@@ -23,6 +23,6 @@ public class TelaUtils {
     }
 
     public static void cabecalhoMenu(String texto) {
-        System.out.println("\n--- " + texto + " ---");
+        System.out.println("===== " + texto + " =====");
     }
 }

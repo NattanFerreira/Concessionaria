@@ -9,6 +9,7 @@ public class VendedorViews {
         System.out.println("1. Realizar Venda");
         System.out.println("2. Listar Carros a Venda");
         System.out.println("3. Listar Vendas");
+        System.out.println("4. Gerenciar Carrinho");
         System.out.println("0. Sair");
     }
 
@@ -85,5 +86,48 @@ public class VendedorViews {
         System.out.println("1. Confirmar");
         System.out.println("2. Cancelar");
         System.out.println("3. Voltar");
+    }
+
+    public static void menuCarrinho() {
+        TelaUtils.limpaTela();
+        TelaUtils.cabecalhoMenu("GERENCIAR CARRINHO");
+        System.out.println("1. Ver Carrinho");
+        System.out.println("2. Adicionar Veículo ao Carrinho");
+        System.out.println("3. Remover Item do Carrinho");
+        System.out.println("4. Limpar Carrinho");
+        System.out.println("5. Finalizar Venda");
+        System.out.println("0. Voltar");
+    }
+
+    public static void menuAdicionarVeiculoCarrinho() {
+        TelaUtils.limpaTela();
+        TelaUtils.cabecalhoMenu("ADICIONAR VEÍCULO AO CARRINHO");
+        System.out.println("1. Adicionar Carro");
+        System.out.println("2. Adicionar Motocicleta");
+        System.out.println("3. Adicionar Caminhão");
+        System.out.println("0. Voltar");
+    }
+
+    public static void exibirCarrinho(java.util.List<String> itensCarrinho, double valorTotal, int quantidadeItens) {
+        TelaUtils.limpaTela();
+        TelaUtils.cabecalhoMenu("MEU CARRINHO");
+        
+        if (itensCarrinho.isEmpty()) {
+            System.out.println("Seu carrinho está vazio!");
+        } else {
+            System.out.println("Quantidade de itens: " + quantidadeItens);
+            System.out.println("Valor total: R$ " + String.format("%.2f", valorTotal));
+            System.out.println("\n--- ITENS NO CARRINHO ---");
+            
+            for (int i = 0; i < itensCarrinho.size(); i++) {
+                System.out.println((i + 1) + ". " + itensCarrinho.get(i));
+            }
+        }
+        
+        System.out.println("\n1. Remover Item");
+        System.out.println("2. Continuar Comprando");
+        System.out.println("3. Finalizar Venda");
+        System.out.println("4. Limpar Carrinho");
+        System.out.println("0. Voltar");
     }
 }
