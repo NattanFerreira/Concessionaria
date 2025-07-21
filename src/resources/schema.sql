@@ -54,3 +54,12 @@ CREATE TABLE caminhoes (
     altura DECIMAL(10, 2) NULL,
     tipo_carroceria VARCHAR(100) NULL
 );
+
+CREATE TABLE carrinho (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    tipo_veiculo VARCHAR(50) NOT NULL,
+    id_veiculo INT NOT NULL,
+    id_vendedor INT NOT NULL,
+    data_adicao DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_vendedor) REFERENCES Funcionario(id)
+);
