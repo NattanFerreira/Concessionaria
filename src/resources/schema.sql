@@ -12,7 +12,6 @@ CREATE TABLE IF NOT EXISTS Venda (
     dataVenda INTEGER NOT NULL,
     idVeiculo INTEGER NOT NULL,
     idFuncionario INTEGER NOT NULL,
-    FOREIGN KEY (idVeiculo) REFERENCES Veiculo(id),
     FOREIGN KEY (idFuncionario) REFERENCES Funcionario(id)
 );
 

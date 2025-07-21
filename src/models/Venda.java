@@ -11,8 +11,9 @@ public class Venda {
     private int id;
     private double valorTotal;
     private Date dataVenda;
-    private int idVeiculo;
     private int idFuncionario;
+    private String[] tipoVeiculo = {"Carro", "Motocicleta", "Caminhão"};
+    private int idVeiculo; //0 "Carro", 1 "Motocicleta", 2 "Caminhão"
 
     /**
      * Construtor padrão.
@@ -39,7 +40,9 @@ public class Venda {
                ", valorTotal=" + valorTotal + 
                ", dataVenda=" + dataVenda + 
                ", idVeiculo=" + idVeiculo + 
-               ", idFuncionario=" + idFuncionario + "]";
+               ", idFuncionario=" + idFuncionario + "]"
+               + "Tipo de Veículo: " + tipoVeiculo[idVeiculo - 1];
+
     }
 
     // --- Getters e Setters ---
