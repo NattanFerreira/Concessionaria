@@ -24,7 +24,7 @@ public class CaminhaoDao {
      */
     public void cadastrarCaminhao(Banco banco, Caminhao caminhao) {
         String sql = String.format(
-                "INSERT INTO caminhoes (modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, eixos, capacidade_carga,altura, tipo_carroceria) VALUES ('%s', %s, %.2f, %.2f, '%s', %d, %d, %d, %.2f, %.2f, '%s')",
+                "INSERT INTO caminhoes (modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, eixos, capacidade_carga,altura, tipo_carroceria) VALUES ('%s', '%s', %.2f, %.2f, '%s', %d, %d, %d, %.2f, %.2f, '%s')",
                 caminhao.getModelo(),
                 caminhao.getNumChassi(),
                 caminhao.getQuilometragem(),
@@ -108,16 +108,6 @@ public class CaminhaoDao {
             }
         } while (anoFabricacao < 1900 || anoFabricacao > 2025);
 
-        // Leitura e validação do status
-        int idStatus;
-        do {
-            System.out.println("Digite o ID do status (1 - Disponível, 2 - Vendido, 3 - Reservado):");
-            idStatus = Funcoes.lerInt();
-            if (idStatus < 1 || idStatus > 3) {
-                System.out.println("Status deve ser 1, 2 ou 3. Tente novamente.");
-            }
-        } while (idStatus < 1 || idStatus > 3);
-
         // Leitura e validação do número de eixos
         int eixo;
         do {
@@ -158,7 +148,7 @@ public class CaminhaoDao {
             }
         } while (tipoCarroceria == null || tipoCarroceria.trim().isEmpty());
 
-        Caminhao caminhao = new Caminhao(modelo, numChassi, quilometragem, preco, cor, anoFabricacao, idStatus,
+        Caminhao caminhao = new Caminhao(modelo, numChassi, quilometragem, preco, cor, anoFabricacao, 0,
                 eixo, capacidadeCarga, altura, tipoCarroceria);
 
         cadastrarCaminhao(banco, caminhao);
@@ -244,8 +234,7 @@ public class CaminhaoDao {
         // Leitura e validação do ano de fabricação
         int anoFabricacao;
         do {
-            System.out
-                    .println("Digite o novo ano de fabricação (atual: " + caminhaoExistente.getAnoFabricacao() + "):");
+            System.out.println("Digite o novo ano de fabricação (atual: " + caminhaoExistente.getAnoFabricacao() + "):");
             anoFabricacao = Funcoes.lerInt();
             if (anoFabricacao < 1900 || anoFabricacao > 2025) {
                 System.out.println("Ano de fabricação deve estar entre 1900 e 2025. Tente novamente.");
@@ -255,8 +244,8 @@ public class CaminhaoDao {
         // Leitura e validação do status
         int idStatus;
         do {
-            System.out.println("Digite o novo ID do status (1 - Disponível, 2 - Vendido, 3 - Reservado) (atual: "
-                    + caminhaoExistente.getIdStatus() + "):");
+            System.out.println("Caminhão atual: " + caminhaoExistente.getIdStatus());
+            System.out.println("Digite o novo ID do status (1 - Disponível, 2 - Vendido, 3 - Reservado):");
             idStatus = Funcoes.lerInt();
             if (idStatus < 1 || idStatus > 3) {
                 System.out.println("Status deve ser 1, 2 ou 3. Tente novamente.");

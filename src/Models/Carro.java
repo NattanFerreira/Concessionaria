@@ -1,24 +1,24 @@
 package models;
 
 public class Carro extends Veiculo {
-    private double cavaloPotencia;
+    private int cavaloPotencia;
     private int numeroPortas;
     private int idTipoCombustivel;
     private String[] tipoCombustivel = {"Gasolina", "Etanol", "Diesel", "Elétrico"};
 
     public Carro(String modelo, String numChassi, double quilometragem, double preco, String cor, 
-                int anoFabricacao, int idStatus, double cavaloPotencia, int numeroPortas, int idTipoCombustivel) {
+                int anoFabricacao, int idStatus, int cavaloPotencia, int numeroPortas, int idTipoCombustivel) {
         super(modelo, numChassi, quilometragem, preco, cor, anoFabricacao, idStatus);
         this.cavaloPotencia = cavaloPotencia;
         this.numeroPortas = numeroPortas;
         this.idTipoCombustivel = idTipoCombustivel;
     }
 
-    public double getCavaloPotencia() {
+    public int getCavaloPotencia() {
         return cavaloPotencia;
     }
 
-    public void setCavaloPotencia(double cavaloPotencia) {
+    public void setCavaloPotencia(int cavaloPotencia) {
         this.cavaloPotencia = cavaloPotencia;
     }
 

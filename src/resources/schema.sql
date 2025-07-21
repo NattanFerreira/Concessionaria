@@ -6,15 +6,10 @@ CREATE TABLE Funcionario (
     id_cargo int NOT NULL
 );
 
-CREATE TABLE Status (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    descricao TEXT NOT NULL UNIQUE -- 1: Disponível, 2: Reservado, 3: Vendido
-);
-
 CREATE TABLE carros (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     modelo VARCHAR(255) NOT NULL,
-    num_chassi VARCHAR(20) UNIQUE NOT NULL,
+    num_chassi VARCHAR(255) NOT NULL,
     quilometragem DECIMAL(10, 2),
     preco DECIMAL(10, 2) NOT NULL,
     cor VARCHAR(50) NOT NULL,
@@ -29,7 +24,7 @@ CREATE TABLE carros (
 CREATE TABLE motocicletas (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     modelo VARCHAR(255) NOT NULL,
-    num_chassi VARCHAR(20) UNIQUE NOT NULL,
+    num_chassi VARCHAR(20) NOT NULL,
     quilometragem DECIMAL(10, 2),
     preco DECIMAL(10, 2) NOT NULL,
     cor VARCHAR(50) NOT NULL,
@@ -42,7 +37,7 @@ CREATE TABLE motocicletas (
 CREATE TABLE caminhoes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     modelo VARCHAR(255) NOT NULL,
-    num_chassi VARCHAR(20) UNIQUE NOT NULL,
+    num_chassi VARCHAR(20) NOT NULL,
     quilometragem DECIMAL(10, 2),
     preco DECIMAL(10, 2) NOT NULL,
     cor VARCHAR(50) NOT NULL,

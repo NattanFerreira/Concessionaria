@@ -2,7 +2,7 @@ package data;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
+//import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -26,7 +26,11 @@ public class Banco {
             this.statement.setQueryTimeout(5);
 
             // Chama o método para inicializar o banco (criar tabelas se não existirem)
-            inicializarBanco();
+            if (this.db != null) {
+                inicializarBanco();
+            } else {
+                System.out.println("Erro ao conectar ao banco de dados.");
+            }
 
         } catch (SQLException e) {
             System.out.println("Erro na conexão");

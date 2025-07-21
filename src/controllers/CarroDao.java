@@ -24,7 +24,7 @@ public class    CarroDao {
      */
     public void cadastrarCarro(Banco banco, Carro carro) {
         String sql = String.format(
-                "INSERT INTO carros (modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel) VALUES ('%s', %s, %.2f, %.2f, '%s', %d, %d, %.2f, %d, '%d')",
+                "INSERT INTO carros (modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel) VALUES ('%s', '%s', '%f', '%f', '%s', '%d', '%d', '%d', '%d', '%d')",
                 carro.getModelo(),
                 carro.getNumChassi(),
                 carro.getQuilometragem(),
@@ -107,21 +107,11 @@ public class    CarroDao {
             }
         } while (anoFabricacao < 1900 || anoFabricacao > 2025);
 
-        // Leitura e validação do status
-        int idStatus;
-        do {
-            System.out.println("Digite o ID do status (1 - Disponível, 2 - Vendido, 3 - Reservado):");
-            idStatus = Funcoes.lerInt();
-            if (idStatus < 1 || idStatus > 3) {
-                System.out.println("Status deve ser 1, 2 ou 3. Tente novamente.");
-            }
-        } while (idStatus < 1 || idStatus > 3);
-
         // Leitura e validação da potência
-        double cavaloPotencia;
+        int cavaloPotencia;
         do {
             System.out.println("Digite a potência em cavalos:");
-            cavaloPotencia = Funcoes.lerDouble();
+            cavaloPotencia = Funcoes.lerInt();
             if (cavaloPotencia <= 0) {
                 System.out.println("Potência deve ser um valor positivo. Tente novamente.");
             }
@@ -147,7 +137,7 @@ public class    CarroDao {
             }
         } while (idTipoCombustivel < 0 || idTipoCombustivel > 3);
 
-        Carro carro = new Carro(modelo, numChassi, quilometragem, preco, cor, anoFabricacao, idStatus,
+        Carro carro = new Carro(modelo, numChassi, quilometragem, preco, cor, anoFabricacao, 0,
                 cavaloPotencia, numeroPortas, idTipoCombustivel);
 
         cadastrarCarro(banco, carro);
@@ -253,11 +243,11 @@ public class    CarroDao {
         } while (idStatus < 1 || idStatus > 3);
 
         // Leitura e validação da potência
-        double cavaloPotencia;
+        int cavaloPotencia;
         do {
             System.out
                     .println("Digite a nova potência em cavalos (atual: " + carroExistente.getCavaloPotencia() + "):");
-            cavaloPotencia = Funcoes.lerDouble();
+            cavaloPotencia = Funcoes.lerInt();
             if (cavaloPotencia <= 0) {
                 System.out.println("Potência deve ser um valor positivo. Tente novamente.");
             }
@@ -343,7 +333,7 @@ public class    CarroDao {
                         rs.getString("cor"),
                         rs.getInt("ano_fabricacao"),
                         rs.getInt("id_status"),
-                        rs.getDouble("cavalo_potencia"),
+                        rs.getInt("cavalo_potencia"),
                         rs.getInt("numero_portas"),
                         rs.getInt("id_tipo_combustivel"));
                 carro.setId(rs.getInt("id"));
@@ -365,7 +355,7 @@ public class    CarroDao {
      */
     public void atualizarCarro(Banco banco, Carro carro) {
         String sql = String.format(
-                "UPDATE carros SET modelo = '%s', num_chassi = %s, quilometragem = %.2f, preco = %.2f, cor = '%s', ano_fabricacao = %d, id_status = %d, cavalo_potencia = %.2f, numero_portas = %d, id_tipo_combustivel = '%d' WHERE id = %d",
+                "UPDATE carros SET modelo = '%s', num_chassi = '%s', quilometragem = '%.2f', preco = '%.2f', cor = '%s', ano_fabricacao = '%d', id_status = '%d', cavalo_potencia = '%d', numero_portas = '%d', id_tipo_combustivel = '%d' WHERE id = '%d'",
                 carro.getModelo(),
                 carro.getNumChassi(),
                 carro.getQuilometragem(),
@@ -387,7 +377,7 @@ public class    CarroDao {
      * @param id    O ID do carro a ser excluído.
      */
     public void excluirCarro(Banco banco, int id) {
-        String sql = String.format("DELETE FROM carros WHERE id = %d", id);
+        String sql = String.format("DELETE FROM carros WHERE id = '%d'", id);
         banco.queryInsup(sql);
     }
 
@@ -401,7 +391,7 @@ public class    CarroDao {
     public Carro buscarCarroPorId(Banco banco, int id) {
         Carro carro = null;
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel FROM carros WHERE id = %d",
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel FROM carros WHERE id = '%d'",
                 id);
 
         try (ResultSet rs = banco.querySelect(sql)) {
@@ -414,7 +404,7 @@ public class    CarroDao {
                         rs.getString("cor"),
                         rs.getInt("ano_fabricacao"),
                         rs.getInt("id_status"),
-                        rs.getDouble("cavalo_potencia"),
+                        rs.getInt("cavalo_potencia"),
                         rs.getInt("numero_portas"),
                         rs.getInt("id_tipo_combustivel"));
                 carro.setId(rs.getInt("id"));
@@ -448,7 +438,7 @@ public class    CarroDao {
                         rs.getString("cor"),
                         rs.getInt("ano_fabricacao"),
                         rs.getInt("id_status"),
-                        rs.getDouble("cavalo_potencia"),
+                        rs.getInt("cavalo_potencia"),
                         rs.getInt("numero_portas"),
                         rs.getInt("id_tipo_combustivel"));
                 carro.setId(rs.getInt("id"));
@@ -470,7 +460,7 @@ public class    CarroDao {
      */
     public Carro buscarCarroPorChassi(Banco banco, String numChassi) {
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel FROM carros WHERE num_chassi = %s", numChassi);
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel FROM carros WHERE num_chassi = '%s'", numChassi);
 
         try (ResultSet rs = banco.querySelect(sql)) {
             if (rs.next()) {
@@ -482,7 +472,7 @@ public class    CarroDao {
                         rs.getString("cor"),
                         rs.getInt("ano_fabricacao"),
                         rs.getInt("id_status"),
-                        rs.getDouble("cavalo_potencia"),
+                        rs.getInt("cavalo_potencia"),
                         rs.getInt("numero_portas"),
                         rs.getInt("id_tipo_combustivel"));
                 carro.setId(rs.getInt("id"));
@@ -505,7 +495,7 @@ public class    CarroDao {
     public List<Carro> buscarCarrosPorFaixaPreco(Banco banco, double precoMinimo, double precoMaximo) {
         List<Carro> carros = new ArrayList<>();
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel FROM carros WHERE preco >= %.2f AND preco <= %.2f",
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel FROM carros WHERE preco >= '%.2f' AND preco <= '%.2f'",
                 precoMinimo, precoMaximo);
 
         try (ResultSet rs = banco.querySelect(sql)) {
@@ -518,7 +508,7 @@ public class    CarroDao {
                         rs.getString("cor"),
                         rs.getInt("ano_fabricacao"),
                         rs.getInt("id_status"),
-                        rs.getDouble("cavalo_potencia"),
+                        rs.getInt("cavalo_potencia"),
                         rs.getInt("numero_portas"),
                         rs.getInt("id_tipo_combustivel"));
                 carro.setId(rs.getInt("id"));
@@ -541,7 +531,7 @@ public class    CarroDao {
     public List<Carro> buscarCarrosPorQuilometragem(Banco banco, double quilometragemMaxima) {
         List<Carro> carros = new ArrayList<>();
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel FROM carros WHERE quilometragem <= %.2f",
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel FROM carros WHERE quilometragem <= '%.2f'",
                 quilometragemMaxima);
 
         try (ResultSet rs = banco.querySelect(sql)) {
@@ -554,7 +544,7 @@ public class    CarroDao {
                         rs.getString("cor"),
                         rs.getInt("ano_fabricacao"),
                         rs.getInt("id_status"),
-                        rs.getDouble("cavalo_potencia"),
+                        rs.getInt("cavalo_potencia"),
                         rs.getInt("numero_portas"),
                         rs.getInt("id_tipo_combustivel"));
                 carro.setId(rs.getInt("id"));
@@ -578,7 +568,7 @@ public class    CarroDao {
     public List<Carro> buscarCarrosPorFaixaAno(Banco banco, int anoMinimo, int anoMaximo) {
         List<Carro> carros = new ArrayList<>();
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel FROM carros WHERE ano_fabricacao >= %d AND ano_fabricacao <= %d",
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel FROM carros WHERE ano_fabricacao >= %d AND ano_fabricacao <= '%d'",
                 anoMinimo, anoMaximo);
 
         try (ResultSet rs = banco.querySelect(sql)) {
@@ -591,7 +581,7 @@ public class    CarroDao {
                         rs.getString("cor"),
                         rs.getInt("ano_fabricacao"),
                         rs.getInt("id_status"),
-                        rs.getDouble("cavalo_potencia"),
+                        rs.getInt("cavalo_potencia"),
                         rs.getInt("numero_portas"),
                         rs.getInt("id_tipo_combustivel"));
                 carro.setId(rs.getInt("id"));
@@ -627,7 +617,7 @@ public class    CarroDao {
                         rs.getString("cor"),
                         rs.getInt("ano_fabricacao"),
                         rs.getInt("id_status"),
-                        rs.getDouble("cavalo_potencia"),
+                        rs.getInt("cavalo_potencia"),
                         rs.getInt("numero_portas"),
                         rs.getInt("id_tipo_combustivel"));
                 carro.setId(rs.getInt("id"));
@@ -650,7 +640,7 @@ public class    CarroDao {
     public List<Carro> buscarCarrosPorPotencia(Banco banco, double potenciaMinima) {
         List<Carro> carros = new ArrayList<>();
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel FROM carros WHERE cavalo_potencia >= %.2f",
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel FROM carros WHERE cavalo_potencia >= '%d'",
                 potenciaMinima);
 
         try (ResultSet rs = banco.querySelect(sql)) {
@@ -663,7 +653,7 @@ public class    CarroDao {
                         rs.getString("cor"),
                         rs.getInt("ano_fabricacao"),
                         rs.getInt("id_status"),
-                        rs.getDouble("cavalo_potencia"),
+                        rs.getInt("cavalo_potencia"),
                         rs.getInt("numero_portas"),
                         rs.getInt("id_tipo_combustivel"));
                 carro.setId(rs.getInt("id"));
@@ -687,7 +677,7 @@ public class    CarroDao {
     public List<Carro> buscarCarrosPorNumeroPortas(Banco banco, int numeroPortas) {
         List<Carro> carros = new ArrayList<>();
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel FROM carros WHERE numero_portas = %d",
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel FROM carros WHERE numero_portas = '%d'",
                 numeroPortas);
 
         try (ResultSet rs = banco.querySelect(sql)) {
@@ -700,7 +690,7 @@ public class    CarroDao {
                         rs.getString("cor"),
                         rs.getInt("ano_fabricacao"),
                         rs.getInt("id_status"),
-                        rs.getDouble("cavalo_potencia"),
+                        rs.getInt("cavalo_potencia"),
                         rs.getInt("numero_portas"),
                         rs.getInt("id_tipo_combustivel"));
                 carro.setId(rs.getInt("id"));
@@ -736,7 +726,7 @@ public class    CarroDao {
                         rs.getString("cor"),
                         rs.getInt("ano_fabricacao"),
                         rs.getInt("id_status"),
-                        rs.getDouble("cavalo_potencia"),
+                        rs.getInt("cavalo_potencia"),
                         rs.getInt("numero_portas"),
                         rs.getInt("id_tipo_combustivel"));
                 carro.setId(rs.getInt("id"));
