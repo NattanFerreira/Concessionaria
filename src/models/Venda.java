@@ -1,51 +1,30 @@
 package models;
 
+import java.util.ArrayList;
+import java.util.List;
+import models.Veiculo;
 import java.util.Date;
 
-/**
- * Representa uma transação de venda realizada na concessionária.
- * O registro não inclui um cliente, focando no funcionário que realizou
- * a venda, o veículo vendido, o valor e a data.
- */
 public class Venda {
     private int id;
     private double valorTotal;
-    private Date dataVenda;
+    private String dataVenda;
     private int idFuncionario;
-    private String[] tipoVeiculo = {"Carro", "Motocicleta", "Caminhão"};
-    private int idVeiculo; //0 "Carro", 1 "Motocicleta", 2 "Caminhão"
+    private int id_status; // 1 - Pendente, 2 - Concluída
+    private String[] status = {"Pendente", "Concluída"};
+    private List<Veiculo> veiculos = new ArrayList<>();
 
-    /**
-     * Construtor padrão.
-     */
+    public Venda(int id, double valorTotal, String dataVenda, int idFuncionario, int id_status, List<Veiculo> veiculo) {
+        this.id = id;
+        this.valorTotal = valorTotal;
+        this.dataVenda = dataVenda;
+        this.idFuncionario = idFuncionario;
+        this.id_status = id_status;
+        this.veiculos = veiculo;
+    }
+    
     public Venda() {
     }
-
-    /**
-     * Cria uma nova instância de Venda, definindo a data atual como a data da transação.
-     * @param valorTotal O valor pelo qual o veículo foi vendido.
-     * @param idVeiculo O ID do veículo vendido.
-     * @param idFuncionario O ID do funcionário que realizou a venda.
-     */
-    public Venda(double valorTotal, int idVeiculo, int idFuncionario) {
-        this.valorTotal = valorTotal;
-        this.idVeiculo = idVeiculo;
-        this.idFuncionario = idFuncionario;
-        this.dataVenda = new Date(); // Define a data da venda como o momento da criação do objeto
-    }
-
-    @Override
-    public String toString() {
-        return "Venda [id=" + id + 
-               ", valorTotal=" + valorTotal + 
-               ", dataVenda=" + dataVenda + 
-               ", idVeiculo=" + idVeiculo + 
-               ", idFuncionario=" + idFuncionario + "]"
-               + "Tipo de Veículo: " + tipoVeiculo[idVeiculo - 1];
-
-    }
-
-    // --- Getters e Setters ---
 
     public int getId() {
         return id;
@@ -63,20 +42,12 @@ public class Venda {
         this.valorTotal = valorTotal;
     }
 
-    public Date getDataVenda() {
+    public String getDataVenda() {
         return dataVenda;
     }
 
-    public void setDataVenda(Date dataVenda) {
+    public void setDataVenda(String dataVenda) {
         this.dataVenda = dataVenda;
-    }
-
-    public int getIdVeiculo() {
-        return idVeiculo;
-    }
-
-    public void setIdVeiculo(int idVeiculo) {
-        this.idVeiculo = idVeiculo;
     }
 
     public int getIdFuncionario() {
@@ -85,5 +56,36 @@ public class Venda {
 
     public void setIdFuncionario(int idFuncionario) {
         this.idFuncionario = idFuncionario;
+    }
+
+    public int getId_status() {
+        return id_status;
+    }
+
+    public void setId_status(int id_status) {
+        this.id_status = id_status;
+    }
+
+    public List<Veiculo> getVeiculos() {
+        return veiculos;
+    }
+
+    public void setVeiculos(List<Veiculo> veiculos) {
+        this.veiculos = veiculos;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Venda ID: ").append(id).append("\n");
+        sb.append("Valor Total: R$ ").append(valorTotal).append("\n");
+        sb.append("Data da Venda: ").append(dataVenda).append("\n");
+        sb.append("Funcionário ID: ").append(idFuncionario).append("\n");
+        sb.append("Status: ").append(status[id_status - 1]).append("\n");
+        sb.append("Veículos Vendidos:\n");
+        for (Veiculo veiculo : veiculos) {
+            sb.append(veiculo.toString()).append("\n");
+        }
+        return sb.toString();
     }
 }

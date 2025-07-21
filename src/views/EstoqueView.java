@@ -158,6 +158,7 @@ public class EstoqueView {
                         System.out.println("Carros disponíveis:");
                         for (Carro c : carros) {
                             System.out.println(c);
+                            System.out.println("\n---------------------------------\n");
                         }
                     }
                     Funcoes.pressEnterToContinue();
@@ -171,6 +172,7 @@ public class EstoqueView {
                         System.out.println("Motocicletas disponíveis:");
                         for (Motocicleta m : motocicletas) {
                             System.out.println(m);
+                            System.out.println("\n---------------------------------\n");
                         }
                     }
                     Funcoes.pressEnterToContinue();
@@ -184,6 +186,7 @@ public class EstoqueView {
                         System.out.println("Caminhões disponíveis:");
                         for (Caminhao c : caminhoes) {
                             System.out.println(c);
+                            System.out.println("\n---------------------------------\n");
                         }
                     }
                     Funcoes.pressEnterToContinue();
@@ -257,6 +260,7 @@ public class EstoqueView {
                                     System.out.println("Carros encontrados:");
                                     for (Carro c : carros) {
                                         System.out.println(c);
+                                        System.out.println("\n---------------------------------\n");
                                     }
                                     Funcoes.pressEnterToContinue();
                                 }
@@ -298,6 +302,7 @@ public class EstoqueView {
                                     System.out.println("Carros encontrados na faixa de preço:");
                                     for (Carro c : carros) {
                                         System.out.println(c);
+                                        System.out.println("\n---------------------------------\n");
                                     }
                                     Funcoes.pressEnterToContinue();
                                 }
@@ -319,6 +324,7 @@ public class EstoqueView {
                                     System.out.println("Carros encontrados com quilometragem máxima:");
                                     for (Carro c : carros) {
                                         System.out.println(c);
+                                        System.out.println("\n---------------------------------\n");
                                     }
                                     Funcoes.pressEnterToContinue();
                                 }
@@ -342,6 +348,7 @@ public class EstoqueView {
                                     System.out.println("Carros encontrados na faixa de ano de fabricação:");
                                     for (Carro c : carros) {
                                         System.out.println(c);
+                                        System.out.println("\n---------------------------------\n");
                                     }
                                     Funcoes.pressEnterToContinue();
                                 }
@@ -363,6 +370,7 @@ public class EstoqueView {
                                     System.out.println("Carros encontrados com a cor especificada:");
                                     for (Carro c : carros) {
                                         System.out.println(c);
+                                        System.out.println("\n---------------------------------\n");
                                     }
                                     Funcoes.pressEnterToContinue();
                                 }
@@ -384,6 +392,7 @@ public class EstoqueView {
                                     System.out.println("Carros encontrados com potência máxima:");
                                     for (Carro c : carros) {
                                         System.out.println(c);
+                                        System.out.println("\n---------------------------------\n");
                                     }
                                     Funcoes.pressEnterToContinue();
                                 }
@@ -405,6 +414,7 @@ public class EstoqueView {
                                     System.out.println("Carros encontrados com o número de portas especificado:");
                                     for (Carro c : carros) {
                                         System.out.println(c);
+                                        System.out.println("\n---------------------------------\n");
                                     }
                                     Funcoes.pressEnterToContinue();
                                 }
@@ -426,6 +436,7 @@ public class EstoqueView {
                                     System.out.println("Carros encontrados com o tipo de combustível especificado:");
                                     for (Carro c : carros) {
                                         System.out.println(c);
+                                        System.out.println("\n---------------------------------\n");
                                     }
                                     Funcoes.pressEnterToContinue();
                                 }
@@ -483,6 +494,7 @@ public class EstoqueView {
                                     System.out.println("Motocicletas encontradas:");
                                     for (Motocicleta m : motocicletas) {
                                         System.out.println(m);
+                                        System.out.println("\n---------------------------------\n");
                                     }
                                     Funcoes.pressEnterToContinue();
                                 }
@@ -524,6 +536,7 @@ public class EstoqueView {
                                     System.out.println("Motocicletas encontradas na faixa de preço:");
                                     for (Motocicleta m : motocicletas) {
                                         System.out.println(m);
+                                        System.out.println("\n---------------------------------\n");
                                     }
                                     Funcoes.pressEnterToContinue();
                                 }
@@ -544,6 +557,7 @@ public class EstoqueView {
                                     System.out.println("Motocicletas encontradas com quilometragem máxima:");
                                     for (Motocicleta m : motocicletas) {
                                         System.out.println(m);
+                                        System.out.println("\n---------------------------------\n");
                                     }
                                     Funcoes.pressEnterToContinue();
                                 }
@@ -566,6 +580,7 @@ public class EstoqueView {
                                     System.out.println("Motocicletas encontradas na faixa de ano de fabricação:");
                                     for (Motocicleta m : motocicletas) {
                                         System.out.println(m);
+                                        System.out.println("\n---------------------------------\n");
                                     }
                                     Funcoes.pressEnterToContinue();
                                 }
@@ -586,6 +601,7 @@ public class EstoqueView {
                                     System.out.println("Motocicletas encontradas com a cor especificada:");
                                     for (Motocicleta m : motocicletas) {
                                         System.out.println(m);
+                                        System.out.println("\n---------------------------------\n");
                                     }
                                     Funcoes.pressEnterToContinue();
                                 }
@@ -606,6 +622,7 @@ public class EstoqueView {
                                     System.out.println("Motocicletas encontradas com cilindrada máxima:");
                                     for (Motocicleta m : motocicletas) {
                                         System.out.println(m);
+                                        System.out.println("\n---------------------------------\n");
                                     }
                                     Funcoes.pressEnterToContinue();
                                 }
@@ -663,6 +680,7 @@ public class EstoqueView {
                                     System.out.println("Caminhões encontrados:");
                                     for (Caminhao c : caminhoes) {
                                         System.out.println(c);
+                                        System.out.println("\n---------------------------------\n");
                                     }
                                     Funcoes.pressEnterToContinue();
                                 }
@@ -704,6 +722,7 @@ public class EstoqueView {
                                     System.out.println("Caminhões encontrados na faixa de preço:");
                                     for (Caminhao c : caminhoes) {
                                         System.out.println(c);
+                                        System.out.println("\n---------------------------------\n");
                                     }
                                     Funcoes.pressEnterToContinue();
                                 }
@@ -724,6 +743,7 @@ public class EstoqueView {
                                     System.out.println("Caminhões encontrados com quilometragem máxima:");
                                     for (Caminhao c : caminhoes) {
                                         System.out.println(c);
+                                        System.out.println("\n---------------------------------\n");
                                     }
                                     Funcoes.pressEnterToContinue();
                                 }
@@ -747,6 +767,7 @@ public class EstoqueView {
                                     System.out.println("Caminhões encontrados na faixa de ano de fabricação:");
                                     for (Caminhao c : caminhoes) {
                                         System.out.println(c);
+                                        System.out.println("\n---------------------------------\n");
                                     }
                                     Funcoes.pressEnterToContinue();
                                 }
@@ -767,6 +788,7 @@ public class EstoqueView {
                                     System.out.println("Caminhões encontrados com a cor especificada:");
                                     for (Caminhao c : caminhoes) {
                                         System.out.println(c);
+                                        System.out.println("\n---------------------------------\n");
                                     }
                                     Funcoes.pressEnterToContinue();
                                 }
@@ -787,6 +809,7 @@ public class EstoqueView {
                                     System.out.println("Caminhões encontrados com o número de eixos especificado:");
                                     for (Caminhao c : caminhoes) {
                                         System.out.println(c);
+                                        System.out.println("\n---------------------------------\n");
                                     }
                                     Funcoes.pressEnterToContinue();
                                 }
@@ -807,6 +830,7 @@ public class EstoqueView {
                                     System.out.println("Caminhões encontrados com capacidade de carga máxima:");
                                     for (Caminhao c : caminhoes) {
                                         System.out.println(c);
+                                        System.out.println("\n---------------------------------\n");
                                     }
                                     Funcoes.pressEnterToContinue();
                                 }
@@ -827,6 +851,7 @@ public class EstoqueView {
                                     System.out.println("Caminhões encontrados com altura máxima:");
                                     for (Caminhao c : caminhoes) {
                                         System.out.println(c);
+                                        System.out.println("\n---------------------------------\n");
                                     }
                                     Funcoes.pressEnterToContinue();
                                 }
@@ -847,6 +872,7 @@ public class EstoqueView {
                                     System.out.println("Caminhões encontrados com o tipo de carroceria especificado:");
                                     for (Caminhao c : caminhoes) {
                                         System.out.println(c);
+                                        System.out.println("\n---------------------------------\n");
                                     }
                                     Funcoes.pressEnterToContinue();
                                 }

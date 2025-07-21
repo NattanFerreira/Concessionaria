@@ -87,12 +87,13 @@ public abstract class Veiculo {
 
     @Override
     public String toString() {
-        return  "Modelo: " + this.modelo +
+        return  "ID: " + this.id +
+                "\nModelo: " + this.modelo +
                 "\nChassi: " + this.numChassi +
                 "\nPreço: R$" + String.format("%.2f", this.preco) +
                 "\nCor: " + this.cor +
                 "\nAno: " + this.anoFabricacao +
-                "\nStatus: " + this.status;
+                "\nStatus: " + this.status[this.idStatus - 1];
     }
 
     public void cadastrarVeiculo() {
