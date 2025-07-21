@@ -12,7 +12,7 @@ import utils.Funcoes;
 /**
  * Classe de Acesso a Dados (DAO) para a entidade Motocicleta.
  * É responsável por todas as operações de banco de dados (CRUD)
- * relacionadas às motocicletas.
+ * relacionadas às Motocicleta.
  */
 public class MotocicletaDao {
 
@@ -24,7 +24,7 @@ public class MotocicletaDao {
      */
     public void cadastrarMotocicleta(Banco banco, Motocicleta motocicleta) {
         String sql = String.format(
-                "INSERT INTO motocicletas (modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cilindrada) VALUES ('%s', '%s', '%.2f', '%.2f', '%s', '%d', '%d', '%d')",
+                "INSERT INTO Motocicleta (modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cilindrada) VALUES ('%s', '%s', '%.2f', '%.2f', '%s', '%d', '%d', '%d')",
                 motocicleta.getModelo(),
                 motocicleta.getNumChassi(),
                 motocicleta.getQuilometragem(),
@@ -45,7 +45,6 @@ public class MotocicletaDao {
         Funcoes.limpaTela();
         Funcoes.cabecalhoMenu("Adicionar Motocicleta");
 
-        // Leitura e validação do modelo
         String modelo;
         do {
             System.out.println("Digite o modelo da motocicleta:");
@@ -55,7 +54,6 @@ public class MotocicletaDao {
             }
         } while (modelo == null || modelo.trim().isEmpty());
 
-        // Leitura e validação do número do chassi
         String numChassi;
         do {
             System.out.println("Digite o número do chassi:");
@@ -65,7 +63,6 @@ public class MotocicletaDao {
             }
         } while (numChassi == null);
 
-        // Leitura e validação da quilometragem
         double quilometragem;
         do {
             System.out.println("Digite a quilometragem:");
@@ -75,7 +72,6 @@ public class MotocicletaDao {
             }
         } while (quilometragem < 0);
 
-        // Leitura e validação do preço
         double preco;
         do {
             System.out.println("Digite o preço:");
@@ -85,7 +81,6 @@ public class MotocicletaDao {
             }
         } while (preco <= 0);
 
-        // Leitura e validação da cor
         String cor;
         do {
             System.out.println("Digite a cor:");
@@ -95,7 +90,6 @@ public class MotocicletaDao {
             }
         } while (cor == null || cor.trim().isEmpty());
 
-        // Leitura e validação do ano de fabricação
         int anoFabricacao;
         do {
             System.out.println("Digite o ano de fabricação:");
@@ -105,7 +99,6 @@ public class MotocicletaDao {
             }
         } while (anoFabricacao < 1900 || anoFabricacao > 2025);
 
-        // Leitura e validação da cilindrada
         int cilindrada;
         do {
             System.out.println("Digite a cilindrada:");
@@ -123,7 +116,8 @@ public class MotocicletaDao {
     }
 
     /**
-     * Atualiza os dados de uma motocicleta existente, solicitando os novos dados do usuário.
+     * Atualiza os dados de uma motocicleta existente, solicitando os novos dados do
+     * usuário.
      *
      * @param banco O objeto Banco para realizar a operação.
      */
@@ -131,16 +125,15 @@ public class MotocicletaDao {
         Funcoes.limpaTela();
         Funcoes.cabecalhoMenu("Atualizar Motocicleta");
 
-        System.out.println("Motocicletas disponíveis:");
-        List<Motocicleta> motocicletas = listarMotocicletas(banco);
-        for (Motocicleta motocicleta : motocicletas) {
+        System.out.println("Motocicleta disponíveis:");
+        List<Motocicleta> Motocicleta = listarMotocicletas(banco);
+        for (Motocicleta motocicleta : Motocicleta) {
             System.out.println("ID: " + motocicleta.getId() + " - Modelo: " + motocicleta.getModelo());
         }
 
         System.out.println("Digite o ID da motocicleta a ser atualizada:");
         int id = Funcoes.lerInt();
 
-        // Buscar motocicleta existente
         Motocicleta motocicletaExistente = buscarMotocicletaPorId(banco, id);
         if (motocicletaExistente == null) {
             System.out.println("Motocicleta não encontrada com o ID: " + id);
@@ -149,7 +142,6 @@ public class MotocicletaDao {
 
         System.out.println("Motocicleta atual: " + motocicletaExistente.getModelo());
 
-        // Leitura e validação do modelo
         String modelo;
         do {
             System.out
@@ -160,7 +152,6 @@ public class MotocicletaDao {
             }
         } while (modelo == null || modelo.trim().isEmpty());
 
-        // Leitura e validação do número do chassi
         String numChassi;
         do {
             System.out.println("Digite o novo número do chassi (atual: " + motocicletaExistente.getNumChassi() + "):");
@@ -170,7 +161,6 @@ public class MotocicletaDao {
             }
         } while (numChassi == null);
 
-        // Leitura e validação da quilometragem
         double quilometragem;
         do {
             System.out.println("Digite a nova quilometragem (atual: " + motocicletaExistente.getQuilometragem() + "):");
@@ -180,7 +170,6 @@ public class MotocicletaDao {
             }
         } while (quilometragem < 0);
 
-        // Leitura e validação do preço
         double preco;
         do {
             System.out.println("Digite o novo preço (atual: " + motocicletaExistente.getPreco() + "):");
@@ -190,7 +179,6 @@ public class MotocicletaDao {
             }
         } while (preco <= 0);
 
-        // Leitura e validação da cor
         String cor;
         do {
             System.out.println("Digite a nova cor (atual: " + motocicletaExistente.getCor() + "):");
@@ -200,7 +188,6 @@ public class MotocicletaDao {
             }
         } while (cor == null || cor.trim().isEmpty());
 
-        // Leitura e validação do ano de fabricação
         int anoFabricacao;
         do {
             System.out.println(
@@ -211,7 +198,6 @@ public class MotocicletaDao {
             }
         } while (anoFabricacao < 1900 || anoFabricacao > 2025);
 
-        // Leitura e validação do status
         int idStatus;
         do {
             System.out.println("Motocicleta atual: " + motocicletaExistente.getIdStatus());
@@ -222,7 +208,6 @@ public class MotocicletaDao {
             }
         } while (idStatus < 1 || idStatus > 3);
 
-        // Leitura e validação da cilindrada
         int cilindrada;
         do {
             System.out.println("Digite a nova cilindrada (atual: " + motocicletaExistente.getCilindrada() + "):");
@@ -241,88 +226,88 @@ public class MotocicletaDao {
     }
 
     /**
- * Remove uma motocicleta do banco de dados pelo seu ID.
- *
- * @param banco O objeto Banco para realizar a operação.
- */
-public void removerMotocicleta(Banco banco) {
-    Funcoes.limpaTela();
-    Funcoes.cabecalhoMenu("Remover Motocicleta");
+     * Remove uma motocicleta do banco de dados pelo seu ID.
+     *
+     * @param banco O objeto Banco para realizar a operação.
+     */
+    public void removerMotocicleta(Banco banco) {
+        Funcoes.limpaTela();
+        Funcoes.cabecalhoMenu("Remover Motocicleta");
 
-    System.out.println("Motocicletas disponíveis:");
-    List<Motocicleta> motocicletas = listarMotocicletas(banco);
-    for (Motocicleta motocicleta : motocicletas) {
-        System.out.println("ID: " + motocicleta.getId() + " - Modelo: " + motocicleta.getModelo());
+        System.out.println("Motocicleta disponíveis:");
+        List<Motocicleta> Motocicleta = listarMotocicletas(banco);
+        for (Motocicleta motocicleta : Motocicleta) {
+            System.out.println("ID: " + motocicleta.getId() + " - Modelo: " + motocicleta.getModelo());
+        }
+
+        System.out.println("Digite o ID da motocicleta a ser removida:");
+        int id = Funcoes.lerInt();
+
+        Motocicleta motocicletaExistente = buscarMotocicletaPorId(banco, id);
+        if (motocicletaExistente == null) {
+            System.out.println("Motocicleta não encontrada com o ID: " + id);
+            return;
+        }
+
+        excluirMotocicleta(banco, id);
+        System.out.println("Motocicleta removida com sucesso!");
     }
-
-    System.out.println("Digite o ID da motocicleta a ser removida:");
-    int id = Funcoes.lerInt();
-
-    // Verifica se a motocicleta existe
-    Motocicleta motocicletaExistente = buscarMotocicletaPorId(banco, id);
-    if (motocicletaExistente == null) {
-        System.out.println("Motocicleta não encontrada com o ID: " + id);
-        return;
-    }
-
-    excluirMotocicleta(banco, id);
-    System.out.println("Motocicleta removida com sucesso!");
-}
 
     /**
-     * Busca e retorna todas as motocicletas cadastradas no banco de dados.
+     * Busca e retorna todas as Motocicleta cadastradas no banco de dados.
      *
      * @param banco O objeto Banco para realizar a operação.
      * @return Uma lista de objetos Motocicleta.
      */
     public List<Motocicleta> listarMotocicletas(Banco banco) {
         List<Motocicleta> motocicletas = new ArrayList<>();
-        String sql = "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cilindrada FROM motocicletas";
+        String sql = "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cilindrada FROM Motocicleta";
 
         try (ResultSet rs = banco.querySelect(sql)) {
-            while (rs.next()) {
-                Motocicleta motocicleta = new Motocicleta(
-                        rs.getString("modelo"),
-                        rs.getString("num_chassi"),
-                        rs.getDouble("quilometragem"),
-                        rs.getDouble("preco"),
-                        rs.getString("cor"),
-                        rs.getInt("ano_fabricacao"),
-                        rs.getInt("id_status"),
-                        rs.getInt("cilindrada"));
-                motocicleta.setId(rs.getInt("id"));
+            if (rs != null) {
+                while (rs.next()) {
+                    Motocicleta motocicleta = new Motocicleta(
+                            rs.getString("modelo"),
+                            rs.getString("num_chassi"),
+                            rs.getDouble("quilometragem"),
+                            rs.getDouble("preco"),
+                            rs.getString("cor"),
+                            rs.getInt("ano_fabricacao"),
+                            rs.getInt("id_status"),
+                            rs.getInt("cilindrada"));
+                    motocicleta.setId(rs.getInt("id"));
 
-                motocicletas.add(motocicleta);
+                    motocicletas.add(motocicleta);
+                }
             }
         } catch (SQLException e) {
-            System.err.println("Erro ao listar motocicletas: " + e.getMessage());
+            System.err.println("Erro ao listar Motocicleta: " + e.getMessage());
         }
         return motocicletas;
     }
 
     public List<Motocicleta> listarMotocicletasAVenda(Banco banco) {
         List<Motocicleta> motocicletas = new ArrayList<>();
-        String sql = "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cilindrada FROM motocicletas";
+        String sql = "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cilindrada FROM Motocicleta WHERE id_status = 1";
 
         try (ResultSet rs = banco.querySelect(sql)) {
-            while (rs.next()) {
-                Motocicleta motocicleta = new Motocicleta(
-                        rs.getString("modelo"),
-                        rs.getString("num_chassi"),
-                        rs.getDouble("quilometragem"),
-                        rs.getDouble("preco"),
-                        rs.getString("cor"),
-                        rs.getInt("ano_fabricacao"),
-                        rs.getInt("id_status"),
-                        rs.getInt("cilindrada"));
-                motocicleta.setId(rs.getInt("id"));
-
-                if (motocicleta.getIdStatus() == 1) { // Verifica se está disponível
+            if (rs != null) {
+                while (rs.next()) {
+                    Motocicleta motocicleta = new Motocicleta(
+                            rs.getString("modelo"),
+                            rs.getString("num_chassi"),
+                            rs.getDouble("quilometragem"),
+                            rs.getDouble("preco"),
+                            rs.getString("cor"),
+                            rs.getInt("ano_fabricacao"),
+                            rs.getInt("id_status"),
+                            rs.getInt("cilindrada"));
+                    motocicleta.setId(rs.getInt("id"));
                     motocicletas.add(motocicleta);
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Erro ao listar motocicletas: " + e.getMessage());
+            System.err.println("Erro ao listar motocicletas à venda: " + e.getMessage());
         }
         return motocicletas;
     }
@@ -337,7 +322,7 @@ public void removerMotocicleta(Banco banco) {
      */
     public void atualizarMotocicleta(Banco banco, Motocicleta motocicleta) {
         String sql = String.format(
-                "UPDATE motocicletas SET modelo = '%s', num_chassi = '%s', quilometragem = '%.2f', preco = '%.2f', cor = '%s', ano_fabricacao = '%d', id_status = '%d', cilindrada = '%d' WHERE id = '%d'",
+                "UPDATE Motocicleta SET modelo = '%s', num_chassi = '%s', quilometragem = '%.2f', preco = '%.2f', cor = '%s', ano_fabricacao = '%d', id_status = '%d', cilindrada = '%d' WHERE id = '%d'",
                 motocicleta.getModelo(),
                 motocicleta.getNumChassi(),
                 motocicleta.getQuilometragem(),
@@ -357,7 +342,7 @@ public void removerMotocicleta(Banco banco) {
      * @param id    O ID da motocicleta a ser excluída.
      */
     public void excluirMotocicleta(Banco banco, int id) {
-        String sql = String.format("DELETE FROM motocicletas WHERE id = '%d'", id);
+        String sql = String.format("DELETE FROM Motocicleta WHERE id = '%d'", id);
         banco.queryInsup(sql);
     }
 
@@ -371,11 +356,11 @@ public void removerMotocicleta(Banco banco) {
     public Motocicleta buscarMotocicletaPorId(Banco banco, int id) {
         Motocicleta motocicleta = null;
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cilindrada FROM motocicletas WHERE id = '%d'",
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cilindrada FROM Motocicleta WHERE id = '%d'",
                 id);
 
         try (ResultSet rs = banco.querySelect(sql)) {
-            if (rs.next()) {
+            if (rs != null && rs.next()) {
                 motocicleta = new Motocicleta(
                         rs.getString("modelo"),
                         rs.getString("num_chassi"),
@@ -394,7 +379,7 @@ public void removerMotocicleta(Banco banco) {
     }
 
     /**
-     * Busca motocicletas por modelo.
+     * Busca Motocicleta por modelo.
      *
      * @param banco  O objeto Banco para realizar a operação.
      * @param modelo O modelo da motocicleta a ser buscado.
@@ -404,7 +389,7 @@ public void removerMotocicleta(Banco banco) {
     public List<Motocicleta> buscarMotocicletasPorModelo(Banco banco, String modelo) {
         List<Motocicleta> motocicletas = new ArrayList<>();
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cilindrada FROM motocicletas WHERE modelo = '%s'",
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cilindrada FROM Motocicleta WHERE modelo = '%s'",
                 modelo);
 
         try (ResultSet rs = banco.querySelect(sql)) {
@@ -423,7 +408,7 @@ public void removerMotocicleta(Banco banco) {
                 motocicletas.add(motocicleta);
             }
         } catch (SQLException e) {
-            System.err.println("Erro ao buscar motocicletas por modelo: " + e.getMessage());
+            System.err.println("Erro ao buscar Motocicleta por modelo: " + e.getMessage());
         }
         return motocicletas;
     }
@@ -437,7 +422,7 @@ public void removerMotocicleta(Banco banco) {
      */
     public Motocicleta buscarMotocicletaPorChassi(Banco banco, String numChassi) {
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cilindrada FROM motocicletas WHERE num_chassi = '%s'",
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cilindrada FROM Motocicleta WHERE num_chassi = '%s'",
                 numChassi);
 
         try (ResultSet rs = banco.querySelect(sql)) {
@@ -461,7 +446,7 @@ public void removerMotocicleta(Banco banco) {
     }
 
     /**
-     * Busca motocicletas por faixa de preço.
+     * Busca Motocicleta por faixa de preço.
      *
      * @param banco       O objeto Banco para realizar a operação.
      * @param precoMinimo O preço mínimo desejado.
@@ -471,7 +456,7 @@ public void removerMotocicleta(Banco banco) {
     public List<Motocicleta> buscarMotocicletasPorFaixaPreco(Banco banco, double precoMinimo, double precoMaximo) {
         List<Motocicleta> motocicletas = new ArrayList<>();
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cilindrada FROM motocicletas WHERE preco >= '%.2f' AND preco <= '%.2f'",
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cilindrada FROM Motocicleta WHERE preco >= '%.2f' AND preco <= '%.2f'",
                 precoMinimo, precoMaximo);
 
         try (ResultSet rs = banco.querySelect(sql)) {
@@ -490,13 +475,13 @@ public void removerMotocicleta(Banco banco) {
                 motocicletas.add(motocicleta);
             }
         } catch (SQLException e) {
-            System.err.println("Erro ao buscar motocicletas por faixa de preço: " + e.getMessage());
+            System.err.println("Erro ao buscar Motocicleta por faixa de preço: " + e.getMessage());
         }
         return motocicletas;
     }
 
     /**
-     * Busca motocicletas por faixa de quilometragem.
+     * Busca Motocicleta por faixa de quilometragem.
      *
      * @param banco               O objeto Banco para realizar a operação.
      * @param quilometragemMaxima A quilometragem máxima desejada.
@@ -505,7 +490,7 @@ public void removerMotocicleta(Banco banco) {
     public List<Motocicleta> buscarMotocicletasPorQuilometragem(Banco banco, double quilometragemMaxima) {
         List<Motocicleta> motocicletas = new ArrayList<>();
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cilindrada FROM motocicletas WHERE quilometragem <= '%.2f'",
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cilindrada FROM Motocicleta WHERE quilometragem <= '%.2f'",
                 quilometragemMaxima);
 
         try (ResultSet rs = banco.querySelect(sql)) {
@@ -524,13 +509,13 @@ public void removerMotocicleta(Banco banco) {
                 motocicletas.add(motocicleta);
             }
         } catch (SQLException e) {
-            System.err.println("Erro ao buscar motocicletas por quilometragem: " + e.getMessage());
+            System.err.println("Erro ao buscar Motocicleta por quilometragem: " + e.getMessage());
         }
         return motocicletas;
     }
 
     /**
-     * Busca motocicletas por faixa de ano de fabricação.
+     * Busca Motocicleta por faixa de ano de fabricação.
      *
      * @param banco     O objeto Banco para realizar a operação.
      * @param anoMinimo O ano mínimo desejado.
@@ -540,7 +525,7 @@ public void removerMotocicleta(Banco banco) {
     public List<Motocicleta> buscarMotocicletasPorFaixaAno(Banco banco, int anoMinimo, int anoMaximo) {
         List<Motocicleta> motocicletas = new ArrayList<>();
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cilindrada FROM motocicletas WHERE ano_fabricacao >= '%d' AND ano_fabricacao <= '%d'",
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cilindrada FROM Motocicleta WHERE ano_fabricacao >= '%d' AND ano_fabricacao <= '%d'",
                 anoMinimo, anoMaximo);
 
         try (ResultSet rs = banco.querySelect(sql)) {
@@ -559,13 +544,13 @@ public void removerMotocicleta(Banco banco) {
                 motocicletas.add(motocicleta);
             }
         } catch (SQLException e) {
-            System.err.println("Erro ao buscar motocicletas por faixa de ano: " + e.getMessage());
+            System.err.println("Erro ao buscar Motocicleta por faixa de ano: " + e.getMessage());
         }
         return motocicletas;
     }
 
     /**
-     * Busca motocicletas por cor.
+     * Busca Motocicleta por cor.
      *
      * @param banco O objeto Banco para realizar a operação.
      * @param cor   A cor da motocicleta a ser buscada.
@@ -574,7 +559,7 @@ public void removerMotocicleta(Banco banco) {
     public List<Motocicleta> buscarMotocicletasPorCor(Banco banco, String cor) {
         List<Motocicleta> motocicletas = new ArrayList<>();
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cilindrada FROM motocicletas WHERE cor = '%s'",
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cilindrada FROM Motocicleta WHERE cor = '%s'",
                 cor);
 
         try (ResultSet rs = banco.querySelect(sql)) {
@@ -593,13 +578,13 @@ public void removerMotocicleta(Banco banco) {
                 motocicletas.add(motocicleta);
             }
         } catch (SQLException e) {
-            System.err.println("Erro ao buscar motocicletas por cor: " + e.getMessage());
+            System.err.println("Erro ao buscar Motocicleta por cor: " + e.getMessage());
         }
         return motocicletas;
     }
 
     /**
-     * Busca motocicletas por cilindrada.
+     * Busca Motocicleta por cilindrada.
      *
      * @param banco      O objeto Banco para realizar a operação.
      * @param cilindrada A cilindrada desejada.
@@ -609,7 +594,7 @@ public void removerMotocicleta(Banco banco) {
     public List<Motocicleta> buscarMotocicletasPorCilindrada(Banco banco, int cilindrada) {
         List<Motocicleta> motocicletas = new ArrayList<>();
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cilindrada FROM motocicletas WHERE cilindrada = '%d'",
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cilindrada FROM Motocicleta WHERE cilindrada = '%d'",
                 cilindrada);
 
         try (ResultSet rs = banco.querySelect(sql)) {
@@ -628,7 +613,7 @@ public void removerMotocicleta(Banco banco) {
                 motocicletas.add(motocicleta);
             }
         } catch (SQLException e) {
-            System.err.println("Erro ao buscar motocicletas por cilindrada: " + e.getMessage());
+            System.err.println("Erro ao buscar Motocicleta por cilindrada: " + e.getMessage());
         }
         return motocicletas;
     }

@@ -15,7 +15,6 @@ import models.Carro;
 import models.Motocicleta;
 import models.Venda;
 
-
 public class VendedorView {
     public static void menuVendedor(Banco banco, int idFuncionario) {
         int idVendaAberta;
@@ -26,6 +25,10 @@ public class VendedorView {
             Funcoes.pressEnterToContinue();
             Venda venda = new Venda(0.0, idFuncionario, 1, null); // 1 - Aberta
             vendaDao.criarVenda(banco, venda);
+            // Buscar novamente o ID da venda recém-criada
+            idVendaAberta = vendaDao.buscarVendaAbertaInt(banco, idFuncionario);
+            System.out.println("Nova venda criada com ID: " + idVendaAberta);
+            Funcoes.pressEnterToContinue();
         } else {
             System.out.println("Venda aberta encontrada com ID: " + idVendaAberta);
             Funcoes.pressEnterToContinue();
@@ -50,6 +53,16 @@ public class VendedorView {
                     if (venda != null) {
                         vendaDaoFinalizar.finalizarVenda(banco, idVendaAberta);
                         System.out.println("Venda finalizada com sucesso!");
+                        // Após finalizar a venda, buscar ou criar uma nova venda aberta
+                        idVendaAberta = vendaDao.buscarVendaAbertaInt(banco, idFuncionario);
+                        if (idVendaAberta == -1) {
+                            System.out.println("Criando uma nova venda...");
+                            Venda novaVenda = new Venda(0.0, idFuncionario, 1, null); // 1 - Aberta
+                            vendaDao.criarVenda(banco, novaVenda);
+                            // Buscar novamente o ID da venda recém-criada
+                            idVendaAberta = vendaDao.buscarVendaAbertaInt(banco, idFuncionario);
+                            System.out.println("Nova venda criada com ID: " + idVendaAberta);
+                        }
                     } else {
                         System.out.println("Nenhuma venda encontrada para finalizar.");
                     }
@@ -316,7 +329,8 @@ public class VendedorView {
                                 }
                                 carros = carroDao.buscarCarrosPorFaixaAno(banco, anoMinimo, anoMaximo);
                                 if (carros.isEmpty()) {
-                                    System.out.println("Nenhum carro encontrado na faixa de ano de fabricação especificada.");
+                                    System.out.println(
+                                            "Nenhum carro encontrado na faixa de ano de fabricação especificada.");
                                     Funcoes.pressEnterToContinue();
                                     return;
                                 } else {
@@ -495,7 +509,8 @@ public class VendedorView {
                                 }
                                 break;
                             case 10:
-                                System.out.println("Digite o tipo de combustível (1 - Gasolina, 2 - Etanol, 3 - Diesel, 4 - Elétrico):");
+                                System.out.println(
+                                        "Digite o tipo de combustível (1 - Gasolina, 2 - Etanol, 3 - Diesel, 4 - Elétrico):");
                                 int tipoCombustivel = Funcoes.lerInt();
                                 if (tipoCombustivel < 1 || tipoCombustivel > 4) {
                                     System.out.println("Tipo de combustível inválido. Tente novamente.");
@@ -504,7 +519,8 @@ public class VendedorView {
                                 }
                                 carros = carroDao.buscarCarrosPorCombustivel(banco, tipoCombustivel);
                                 if (carros.isEmpty()) {
-                                    System.out.println("Nenhum carro encontrado com o tipo de combustível especificado.");
+                                    System.out
+                                            .println("Nenhum carro encontrado com o tipo de combustível especificado.");
                                     Funcoes.pressEnterToContinue();
                                     return;
                                 } else {
@@ -590,7 +606,8 @@ public class VendedorView {
                                             }
                                         } while (opcao != 1 && opcao != 2);
                                     } else {
-                                        System.out.println("Motocicleta encontrada, mas não está disponível para venda");
+                                        System.out
+                                                .println("Motocicleta encontrada, mas não está disponível para venda");
                                     }
                                     Funcoes.pressEnterToContinue();
                                 }
@@ -600,7 +617,7 @@ public class VendedorView {
                                 modelo = Funcoes.lerString();
                                 if (modelo == null || modelo.isEmpty()) {
                                     System.out.println("Modelo inválido. Tente novamente.");
-                                    Funcoes.pressEnterToContinue(); 
+                                    Funcoes.pressEnterToContinue();
                                     return;
                                 }
                                 motocicletas = motocicletaDao.buscarMotocicletasPorModelo(banco, modelo);
@@ -628,7 +645,8 @@ public class VendedorView {
                                                 if (escolha == 1) {
                                                     VendaDao vendaDao = new VendaDao();
                                                     vendaDao.adicionarNoCarrinho(banco, idVendaAberta, motocicleta);
-                                                    System.out.println("Motocicleta adicionado ao carrinho com sucesso!");
+                                                    System.out
+                                                            .println("Motocicleta adicionado ao carrinho com sucesso!");
                                                 } else if (escolha == 2) {
                                                     System.out.println("Motocicleta não adicionado ao carrinho.");
                                                 } else {
@@ -636,7 +654,8 @@ public class VendedorView {
                                                 }
                                             } while (opcao != 1 && opcao != 2);
                                         } else {
-                                            System.out.println("Motocicleta encontrado, mas não está disponível para venda");
+                                            System.out.println(
+                                                    "Motocicleta encontrado, mas não está disponível para venda");
                                         }
                                     }
                                     Funcoes.pressEnterToContinue();
@@ -673,9 +692,11 @@ public class VendedorView {
                                             }
                                         } while (opcao != 1 && opcao != 2);
                                     } else {
-                                        System.out.println("Motocicleta encontrada, mas não está disponível para venda");
+                                        System.out
+                                                .println("Motocicleta encontrada, mas não está disponível para venda");
                                     }
-                                    Funcoes.pressEnterToContinue();if (motocicleta.getIdStatus() == 1) {
+                                    Funcoes.pressEnterToContinue();
+                                    if (motocicleta.getIdStatus() == 1) {
                                         do {
                                             Funcoes.limpaTela();
                                             System.out.println("Motocicleta encontrado: " + motocicleta);
@@ -692,7 +713,8 @@ public class VendedorView {
                                             }
                                         } while (opcao != 1 && opcao != 2);
                                     } else {
-                                        System.out.println("Motocicleta encontrada, mas não está disponível para venda");
+                                        System.out
+                                                .println("Motocicleta encontrada, mas não está disponível para venda");
                                     }
                                     Funcoes.pressEnterToContinue();
                                 }
@@ -707,9 +729,11 @@ public class VendedorView {
                                     Funcoes.pressEnterToContinue();
                                     return;
                                 }
-                                motocicletas = motocicletaDao.buscarMotocicletasPorFaixaPreco(banco, precoMinimo, precoMaximo);
+                                motocicletas = motocicletaDao.buscarMotocicletasPorFaixaPreco(banco, precoMinimo,
+                                        precoMaximo);
                                 if (motocicletas.isEmpty()) {
-                                    System.out.println("Nenhuma motocicleta encontrada na faixa de preço especificada.");
+                                    System.out
+                                            .println("Nenhuma motocicleta encontrada na faixa de preço especificada.");
                                     Funcoes.pressEnterToContinue();
                                     return;
                                 } else {
@@ -732,7 +756,8 @@ public class VendedorView {
                                                 if (escolha == 1) {
                                                     VendaDao vendaDao = new VendaDao();
                                                     vendaDao.adicionarNoCarrinho(banco, idVendaAberta, motocicleta);
-                                                    System.out.println("Motocicleta adicionado ao carrinho com sucesso!");
+                                                    System.out
+                                                            .println("Motocicleta adicionado ao carrinho com sucesso!");
                                                 } else if (escolha == 2) {
                                                     System.out.println("Motocicleta não adicionado ao carrinho.");
                                                 } else {
@@ -740,7 +765,8 @@ public class VendedorView {
                                                 }
                                             } while (opcao != 1 && opcao != 2);
                                         } else {
-                                            System.out.println("Motocicleta encontrado, mas não está disponível para venda");
+                                            System.out.println(
+                                                    "Motocicleta encontrado, mas não está disponível para venda");
                                         }
                                     }
                                     Funcoes.pressEnterToContinue();
@@ -753,9 +779,11 @@ public class VendedorView {
                                     Funcoes.pressEnterToContinue();
                                     return;
                                 }
-                                motocicletas = motocicletaDao.buscarMotocicletasPorQuilometragem(banco, quilometragemMaxima);
+                                motocicletas = motocicletaDao.buscarMotocicletasPorQuilometragem(banco,
+                                        quilometragemMaxima);
                                 if (motocicletas.isEmpty()) {
-                                    System.out.println("Nenhuma motocicleta encontrada com a quilometragem especificada.");
+                                    System.out.println(
+                                            "Nenhuma motocicleta encontrada com a quilometragem especificada.");
                                     Funcoes.pressEnterToContinue();
                                     return;
                                 } else {
@@ -778,7 +806,8 @@ public class VendedorView {
                                                 if (escolha == 1) {
                                                     VendaDao vendaDao = new VendaDao();
                                                     vendaDao.adicionarNoCarrinho(banco, idVendaAberta, motocicleta);
-                                                    System.out.println("Motocicleta adicionado ao carrinho com sucesso!");
+                                                    System.out
+                                                            .println("Motocicleta adicionado ao carrinho com sucesso!");
                                                 } else if (escolha == 2) {
                                                     System.out.println("Motocicleta não adicionado ao carrinho.");
                                                 } else {
@@ -786,7 +815,8 @@ public class VendedorView {
                                                 }
                                             } while (opcao != 1 && opcao != 2);
                                         } else {
-                                            System.out.println("Motocicleta encontrado, mas não está disponível para venda");
+                                            System.out.println(
+                                                    "Motocicleta encontrado, mas não está disponível para venda");
                                         }
                                     }
                                     Funcoes.pressEnterToContinue();
@@ -801,9 +831,11 @@ public class VendedorView {
                                     Funcoes.pressEnterToContinue();
                                     return;
                                 }
-                                motocicletas = motocicletaDao.buscarMotocicletasPorFaixaAno(banco, anoMinimo, anoMaximo);
+                                motocicletas = motocicletaDao.buscarMotocicletasPorFaixaAno(banco, anoMinimo,
+                                        anoMaximo);
                                 if (motocicletas.isEmpty()) {
-                                    System.out.println("Nenhuma motocicleta encontrada na faixa de ano de fabricação especificada.");
+                                    System.out.println(
+                                            "Nenhuma motocicleta encontrada na faixa de ano de fabricação especificada.");
                                     Funcoes.pressEnterToContinue();
                                     return;
                                 } else {
@@ -826,7 +858,8 @@ public class VendedorView {
                                                 if (escolha == 1) {
                                                     VendaDao vendaDao = new VendaDao();
                                                     vendaDao.adicionarNoCarrinho(banco, idVendaAberta, motocicleta);
-                                                    System.out.println("Motocicleta adicionado ao carrinho com sucesso!");
+                                                    System.out
+                                                            .println("Motocicleta adicionado ao carrinho com sucesso!");
                                                 } else if (escolha == 2) {
                                                     System.out.println("Motocicleta não adicionado ao carrinho.");
                                                 } else {
@@ -834,7 +867,8 @@ public class VendedorView {
                                                 }
                                             } while (opcao != 1 && opcao != 2);
                                         } else {
-                                            System.out.println("Motocicleta encontrado, mas não está disponível para venda");
+                                            System.out.println(
+                                                    "Motocicleta encontrado, mas não está disponível para venda");
                                         }
                                     }
                                     Funcoes.pressEnterToContinue();
@@ -872,7 +906,8 @@ public class VendedorView {
                                                 if (escolha == 1) {
                                                     VendaDao vendaDao = new VendaDao();
                                                     vendaDao.adicionarNoCarrinho(banco, idVendaAberta, motocicleta);
-                                                    System.out.println("Motocicleta adicionado ao carrinho com sucesso!");
+                                                    System.out
+                                                            .println("Motocicleta adicionado ao carrinho com sucesso!");
                                                 } else if (escolha == 2) {
                                                     System.out.println("Motocicleta não adicionado ao carrinho.");
                                                 } else {
@@ -880,7 +915,8 @@ public class VendedorView {
                                                 }
                                             } while (opcao != 1 && opcao != 2);
                                         } else {
-                                            System.out.println("Motocicleta encontrado, mas não está disponível para venda");
+                                            System.out.println(
+                                                    "Motocicleta encontrado, mas não está disponível para venda");
                                         }
                                     }
                                     Funcoes.pressEnterToContinue();
@@ -918,7 +954,8 @@ public class VendedorView {
                                                 if (escolha == 1) {
                                                     VendaDao vendaDao = new VendaDao();
                                                     vendaDao.adicionarNoCarrinho(banco, idVendaAberta, motocicleta);
-                                                    System.out.println("Motocicleta adicionado ao carrinho com sucesso!");
+                                                    System.out
+                                                            .println("Motocicleta adicionado ao carrinho com sucesso!");
                                                 } else if (escolha == 2) {
                                                     System.out.println("Motocicleta não adicionado ao carrinho.");
                                                 } else {
@@ -926,7 +963,8 @@ public class VendedorView {
                                                 }
                                             } while (opcao != 1 && opcao != 2);
                                         } else {
-                                            System.out.println("Motocicleta encontrado, mas não está disponível para venda");
+                                            System.out.println(
+                                                    "Motocicleta encontrado, mas não está disponível para venda");
                                         }
                                     }
                                     Funcoes.pressEnterToContinue();
@@ -940,7 +978,7 @@ public class VendedorView {
                                 Funcoes.pressEnterToContinue();
                         }
                     } while (subOpcao != 0);
-                        
+
                     break;
                 case 3:
                     CaminhaoDao caminhaoDao = new CaminhaoDao();
@@ -955,7 +993,7 @@ public class VendedorView {
                                 id = Funcoes.lerInt();
                                 if (id <= 0) {
                                     System.out.println("ID inválido. Tente novamente.");
-                                    Funcoes.pressEnterToContinue(); 
+                                    Funcoes.pressEnterToContinue();
                                     return;
                                 }
                                 caminhao = caminhaoDao.buscarCaminhaoPorId(banco, id);
@@ -1027,7 +1065,8 @@ public class VendedorView {
                                                 }
                                             } while (opcao != 1 && opcao != 2);
                                         } else {
-                                            System.out.println("Caminhão encontrado, mas não está disponível para venda");
+                                            System.out
+                                                    .println("Caminhão encontrado, mas não está disponível para venda");
                                         }
                                     }
                                     Funcoes.pressEnterToContinue();
@@ -1112,7 +1151,8 @@ public class VendedorView {
                                                 }
                                             } while (opcao != 1 && opcao != 2);
                                         } else {
-                                            System.out.println("Caminhão encontrado, mas não está disponível para venda");
+                                            System.out
+                                                    .println("Caminhão encontrado, mas não está disponível para venda");
                                         }
                                     }
                                     Funcoes.pressEnterToContinue();
@@ -1122,13 +1162,13 @@ public class VendedorView {
                                 quilometragemMaxima = Funcoes.lerDouble();
                                 if (quilometragemMaxima < 0) {
                                     System.out.println("Quilometragem inválida. Tente novamente.");
-                                    Funcoes.pressEnterToContinue(); 
+                                    Funcoes.pressEnterToContinue();
                                     return;
                                 }
                                 caminhoes = caminhaoDao.buscarCaminhoesPorQuilometragem(banco, quilometragemMaxima);
                                 if (caminhoes.isEmpty()) {
                                     System.out.println("Nenhum caminhão encontrado com a quilometragem especificada.");
-                                    Funcoes.pressEnterToContinue(); 
+                                    Funcoes.pressEnterToContinue();
                                     return;
                                 } else {
                                     if (caminhoes.size() > 1) {
@@ -1158,7 +1198,8 @@ public class VendedorView {
                                                 }
                                             } while (opcao != 1 && opcao != 2);
                                         } else {
-                                            System.out.println("Caminhão encontrado, mas não está disponível para venda");
+                                            System.out
+                                                    .println("Caminhão encontrado, mas não está disponível para venda");
                                         }
                                     }
                                     Funcoes.pressEnterToContinue();
@@ -1176,7 +1217,8 @@ public class VendedorView {
                                 }
                                 caminhoes = caminhaoDao.buscarCaminhoesPorFaixaAno(banco, anoMinimo, anoMaximo);
                                 if (caminhoes.isEmpty()) {
-                                    System.out.println("Nenhum caminhão encontrado na faixa de ano de fabricação especificada.");
+                                    System.out.println(
+                                            "Nenhum caminhão encontrado na faixa de ano de fabricação especificada.");
                                     Funcoes.pressEnterToContinue();
                                     return;
                                 } else {
@@ -1207,7 +1249,8 @@ public class VendedorView {
                                                 }
                                             } while (opcao != 1 && opcao != 2);
                                         } else {
-                                            System.out.println("Caminhão encontrado, mas não está disponível para venda");
+                                            System.out
+                                                    .println("Caminhão encontrado, mas não está disponível para venda");
                                         }
                                     }
                                     Funcoes.pressEnterToContinue();
@@ -1253,7 +1296,8 @@ public class VendedorView {
                                                 }
                                             } while (opcao != 1 && opcao != 2);
                                         } else {
-                                            System.out.println("Caminhão encontrado, mas não está disponível para venda");
+                                            System.out
+                                                    .println("Caminhão encontrado, mas não está disponível para venda");
                                         }
                                     }
                                     Funcoes.pressEnterToContinue();
@@ -1268,7 +1312,8 @@ public class VendedorView {
                                 }
                                 caminhoes = caminhaoDao.buscarCaminhoesPorEixo(banco, numeroEixos);
                                 if (caminhoes.isEmpty()) {
-                                    System.out.println("Nenhum caminhão encontrado com o número de eixos especificado.");
+                                    System.out
+                                            .println("Nenhum caminhão encontrado com o número de eixos especificado.");
                                     Funcoes.pressEnterToContinue();
                                     return;
                                 } else {
@@ -1299,7 +1344,8 @@ public class VendedorView {
                                                 }
                                             } while (opcao != 1 && opcao != 2);
                                         } else {
-                                            System.out.println("Caminhão encontrado, mas não está disponível para venda");
+                                            System.out
+                                                    .println("Caminhão encontrado, mas não está disponível para venda");
                                         }
                                     }
                                     Funcoes.pressEnterToContinue();
@@ -1314,7 +1360,8 @@ public class VendedorView {
                                 }
                                 caminhoes = caminhaoDao.buscarCaminhoesPorCapacidadeCarga(banco, capacidadeCargaMaxima);
                                 if (caminhoes.isEmpty()) {
-                                    System.out.println("Nenhum caminhão encontrado com a capacidade de carga especificada.");
+                                    System.out.println(
+                                            "Nenhum caminhão encontrado com a capacidade de carga especificada.");
                                     Funcoes.pressEnterToContinue();
                                     return;
                                 } else {
@@ -1345,7 +1392,8 @@ public class VendedorView {
                                                 }
                                             } while (opcao != 1 && opcao != 2);
                                         } else {
-                                            System.out.println("Caminhão encontrado, mas não está disponível para venda");
+                                            System.out
+                                                    .println("Caminhão encontrado, mas não está disponível para venda");
                                         }
                                     }
                                     Funcoes.pressEnterToContinue();
@@ -1391,13 +1439,15 @@ public class VendedorView {
                                                 }
                                             } while (opcao != 1 && opcao != 2);
                                         } else {
-                                            System.out.println("Caminhão encontrado, mas não está disponível para venda");
+                                            System.out
+                                                    .println("Caminhão encontrado, mas não está disponível para venda");
                                         }
                                     }
                                     Funcoes.pressEnterToContinue();
                                 }
                             case 11:
-                                System.out.println("Digite o tipo de carroceria (1 - Baú, 2 - Sider, 3 - Graneleiro, 4 - Frigorífico):");
+                                System.out.println(
+                                        "Digite o tipo de carroceria (1 - Baú, 2 - Sider, 3 - Graneleiro, 4 - Frigorífico):");
                                 String tipoCarroceria = Funcoes.lerString();
                                 if (tipoCarroceria == null || tipoCarroceria.isEmpty()) {
                                     System.out.println("Tipo de carroceria inválido. Tente novamente.");
@@ -1406,7 +1456,8 @@ public class VendedorView {
                                 }
                                 caminhoes = caminhaoDao.buscarCaminhoesPorTipoCarroceria(banco, tipoCarroceria);
                                 if (caminhoes.isEmpty()) {
-                                    System.out.println("Nenhum caminhão encontrado com o tipo de carroceria especificado.");
+                                    System.out.println(
+                                            "Nenhum caminhão encontrado com o tipo de carroceria especificado.");
                                     Funcoes.pressEnterToContinue();
                                     return;
                                 } else {
@@ -1437,7 +1488,8 @@ public class VendedorView {
                                                 }
                                             } while (opcao != 1 && opcao != 2);
                                         } else {
-                                            System.out.println("Caminhão encontrado, mas não está disponível para venda");
+                                            System.out
+                                                    .println("Caminhão encontrado, mas não está disponível para venda");
                                         }
                                     }
                                     Funcoes.pressEnterToContinue();
@@ -1469,7 +1521,7 @@ public class VendedorView {
         List<Caminhao> caminhoes;
         int opcao;
         do {
-            telaMenuRealizarVenda();
+            telaMenuListarVeiculosAVenda();
             opcao = Funcoes.lerInt();
             switch (opcao) {
                 case 1:
@@ -1581,40 +1633,50 @@ public class VendedorView {
         System.out.println("0. Voltar");
     }
 
-    public static void telaBuscarVeiculo() {
-        System.out.println("1. Buscar Modelo");
-        System.out.println("2. Buscar Numchassi");
-        System.out.println("3. Buscar Preço");
-        System.out.println("4. Buscar Ano de Frabricação");
-        System.out.println("5. Buscar Quilometragem");
-        System.out.println("6. Buscar Cor");
-    }
-
     public static void telaMenuBuscarCarro() {
         Funcoes.limpaTela();
         Funcoes.cabecalhoMenu("BUSCAR CARRO");
-        telaBuscarVeiculo();
-        System.out.println("7. Buscar Potencia");
-        System.out.println("8. Buscar Número de Portas");
-        System.out.println("9. Buscar Combustivel");
+        System.out.println("1. Buscar por ID");
+        System.out.println("2. Buscar por Modelo");
+        System.out.println("3. Buscar por Numero de Chassi");
+        System.out.println("4. Buscar por Preço");
+        System.out.println("5. Buscar por Quilometragem");
+        System.out.println("6. Buscar por Ano de Fabricação");
+        System.out.println("7. Buscar por Cor");
+        System.out.println("8. Buscar por Potência");
+        System.out.println("9. Buscar por Número de Portas");
+        System.out.println("10. Buscar por Tipo de Combustível");
         System.out.println("0. Voltar");
     }
 
     public static void telaMenuBuscarMoto() {
         Funcoes.limpaTela();
         Funcoes.cabecalhoMenu("BUSCAR MOTO");
-        telaBuscarVeiculo();
-        System.out.println("7. Buscar Cilindradas");
+        System.out.println("1. Buscar por ID");
+        System.out.println("2. Buscar por Modelo");
+        System.out.println("3. Buscar por Numero de Chassi");
+        System.out.println("4. Buscar por Preço");
+        System.out.println("5. Buscar por Quilometragem");
+        System.out.println("6. Buscar por Ano de Fabricação");
+        System.out.println("7. Buscar por Cor");
+        System.out.println("8. Buscar por Cilindrada");
         System.out.println("0. Voltar");
     }
 
     public static void telaMenuBuscarCaminhao() {
         Funcoes.limpaTela();
         Funcoes.cabecalhoMenu("BUSCAR CAMINHÃO");
-        telaBuscarVeiculo();
-        System.out.println("7. Buscar Quantidade de Eixos");
-        System.out.println("8. Buscar Capacidade de Carga");
-        System.out.println("9. Buscar Carroceria");
+        System.out.println("1. Buscar por ID");
+        System.out.println("2. Buscar por Modelo");
+        System.out.println("3. Buscar por Numero de Chassi");
+        System.out.println("4. Buscar por Preço");
+        System.out.println("5. Buscar por Quilometragem");
+        System.out.println("6. Buscar por Ano de Fabricação");
+        System.out.println("7. Buscar por Cor");
+        System.out.println("8. Buscar por Número de Eixos");
+        System.out.println("9. Buscar por Capacidade de Carga");
+        System.out.println("10. Buscar por Altura Máxima");
+        System.out.println("11. Buscar por Tipo de Carroceria");
         System.out.println("0. Voltar");
     }
 

@@ -18,12 +18,13 @@ public class FuncionarioDao {
     /**
      * Insere um novo funcionário no banco de dados.
      *
-     * @param banco O objeto Banco para realizar a operação.
+     * @param banco       O objeto Banco para realizar a operação.
      * @param funcionario O objeto Funcionario a ser persistido.
      * @return O objeto Funcionario com o ID gerado pelo banco.
      */
     public void cadastrarFuncionario(Banco banco, Funcionario funcionario) {
-        String sql = String.format("INSERT INTO Funcionario (nome, usuario, senha, id_cargo) VALUES ('%s', '%s', '%s', '%d')",
+        String sql = String.format(
+                "INSERT INTO Funcionario (nome, usuario, senha, id_cargo) VALUES ('%s', '%s', '%s', '%d')",
                 funcionario.getNome(),
                 funcionario.getLogin(),
                 funcionario.getSenha(),
@@ -61,12 +62,14 @@ public class FuncionarioDao {
     /**
      * Atualiza os dados de um funcionário existente com base no seu ID.
      *
-     * @param banco O objeto Banco para realizar a operação.
-     * @param funcionario O objeto Funcionario com os dados atualizados e o ID do registro
-     *                   a ser alterado.
+     * @param banco       O objeto Banco para realizar a operação.
+     * @param funcionario O objeto Funcionario com os dados atualizados e o ID do
+     *                    registro
+     *                    a ser alterado.
      */
     public void atualizarFuncionario(Banco banco, Funcionario funcionario) {
-        String sql = String.format("UPDATE Funcionario SET nome = '%s', usuario = '%s', senha = '%s', cargo = '%d' WHERE id = '%s'",
+        String sql = String.format(
+                "UPDATE Funcionario SET nome = '%s', usuario = '%s', senha = '%s', cargo = '%d' WHERE id = '%s'",
                 funcionario.getNome(),
                 funcionario.getLogin(),
                 funcionario.getSenha(),
@@ -79,7 +82,7 @@ public class FuncionarioDao {
      * Exclui um funcionário do banco de dados pelo seu ID.
      *
      * @param banco O objeto Banco para realizar a operação.
-     * @param id O ID do funcionário a ser excluído.
+     * @param id    O ID do funcionário a ser excluído.
      */
     public void excluirFuncionario(Banco banco, int id) {
         String sql = String.format("DELETE FROM Funcionario WHERE id = '%d'", id);
@@ -90,7 +93,7 @@ public class FuncionarioDao {
      * Busca um funcionário pelo seu ID.
      *
      * @param banco O objeto Banco para realizar a operação.
-     * @param id O ID do funcionário a ser buscado.
+     * @param id    O ID do funcionário a ser buscado.
      * @return Um objeto Funcionario ou null se não encontrado.
      */
     public Funcionario buscarFuncionarioPorId(Banco banco, int id) {
@@ -98,7 +101,7 @@ public class FuncionarioDao {
         String sql = String.format("SELECT id, nome, usuario, senha, id_cargo FROM Funcionario WHERE id = '%d'", id);
 
         try (ResultSet rs = banco.querySelect(sql)) {
-            if (rs.next()) {
+            if (rs != null && rs.next()) {
                 funcionario = new Funcionario(
                         rs.getString("nome"),
                         rs.getString("usuario"),
@@ -116,12 +119,13 @@ public class FuncionarioDao {
      * Busca funcionários por nome.
      *
      * @param banco O objeto Banco para realizar a operação.
-     * @param nome O nome do funcionário a ser buscado.
+     * @param nome  O nome do funcionário a ser buscado.
      * @return Uma lista de objetos Funcionario que correspondem ao nome fornecido.
      */
     public List<Funcionario> buscarFuncionariosPorNome(Banco banco, String nome) {
         List<Funcionario> funcionarios = new ArrayList<>();
-        String sql = String.format("SELECT id, nome, usuario, senha, cargo FROM Funcionario WHERE nome LIKE '%%s%'", nome);
+        String sql = String.format("SELECT id, nome, usuario, senha, cargo FROM Funcionario WHERE nome LIKE '%%s%'",
+                nome);
 
         try (ResultSet rs = banco.querySelect(sql)) {
             while (rs.next()) {
@@ -149,7 +153,8 @@ public class FuncionarioDao {
      */
     public List<Funcionario> buscarFuncionariosPorCargo(Banco banco, String cargo) {
         List<Funcionario> funcionarios = new ArrayList<>();
-        String sql = String.format("SELECT id, nome, usuario, senha, id_cargo FROM Funcionario WHERE id_cargo = '%s'", cargo);
+        String sql = String.format("SELECT id, nome, usuario, senha, id_cargo FROM Funcionario WHERE id_cargo = '%s'",
+                cargo);
 
         try (ResultSet rs = banco.querySelect(sql)) {
             while (rs.next()) {
@@ -187,14 +192,16 @@ public class FuncionarioDao {
      * @param banco O objeto Banco para realizar a operação.
      * @param login O login do funcionário.
      * @param senha A senha do funcionário.
-     * @return O objeto Funcionario autenticado ou null se as credenciais forem inválidas.
+     * @return O objeto Funcionario autenticado ou null se as credenciais forem
+     *         inválidas.
      */
     public static int autenticarFuncionario(Banco banco, String login, String senha) {
-        String sql = String.format("SELECT id_cargo FROM Funcionario WHERE usuario = '%s' AND senha = '%s'", login, senha);
+        String sql = String.format("SELECT id_cargo FROM Funcionario WHERE usuario = '%s' AND senha = '%s'", login,
+                senha);
 
         try (ResultSet rs = banco.querySelect(sql)) {
             if (rs.next()) {
-                int id_cargo = rs.getInt("id_cargo");   
+                int id_cargo = rs.getInt("id_cargo");
                 return id_cargo;
             }
         } catch (SQLException e) {

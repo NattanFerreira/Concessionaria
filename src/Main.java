@@ -8,8 +8,8 @@ public class Main {
         Banco banco = new Banco();
 
         FuncionarioDao funcionarioDao = new FuncionarioDao();
-        Funcionario funcionario = new Funcionario("pedro", "pedro123", "pedro123", 1);
-        //funcionarioDao.cadastrarFuncionario(banco, funcionario);
+        Funcionario funcionario = new Funcionario("pedro", "pedro123", "pedro123", 0);
+        funcionarioDao.cadastrarFuncionario(banco, funcionario);
         
         CarroDao carroDao = new CarroDao();
         // ...existing code...

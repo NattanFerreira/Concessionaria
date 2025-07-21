@@ -12,9 +12,9 @@ import utils.Funcoes;
 /**
  * Classe de Acesso a Dados (DAO) para a entidade Carro.
  * É responsável por todas as operações de banco de dados (CRUD)
- * relacionadas aos carros.
+ * relacionadas aos Carro.
  */
-public class    CarroDao {
+public class CarroDao {
 
     /**
      * Insere um novo carro no banco de dados.
@@ -24,7 +24,7 @@ public class    CarroDao {
      */
     public void cadastrarCarro(Banco banco, Carro carro) {
         String sql = String.format(
-                "INSERT INTO carros (modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel) VALUES ('%s', '%s', '%f', '%f', '%s', '%d', '%d', '%d', '%d', '%d')",
+                "INSERT INTO Carro (modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel) VALUES ('%s', '%s', '%f', '%f', '%s', '%d', '%d', '%d', '%d', '%d')",
                 carro.getModelo(),
                 carro.getNumChassi(),
                 carro.getQuilometragem(),
@@ -47,7 +47,6 @@ public class    CarroDao {
         Funcoes.limpaTela();
         Funcoes.cabecalhoMenu("Adicionar Carro");
 
-        // Leitura e validação do modelo
         String modelo;
         do {
             System.out.println("Digite o modelo do carro:");
@@ -57,7 +56,6 @@ public class    CarroDao {
             }
         } while (modelo == null);
 
-        // Leitura e validação do número do chassi
         String numChassi;
         do {
             System.out.println("Digite o número do chassi:");
@@ -67,7 +65,6 @@ public class    CarroDao {
             }
         } while (numChassi == null);
 
-        // Leitura e validação da quilometragem
         double quilometragem;
         do {
             System.out.println("Digite a quilometragem:");
@@ -77,7 +74,6 @@ public class    CarroDao {
             }
         } while (quilometragem < 0);
 
-        // Leitura e validação do preço
         double preco;
         do {
             System.out.println("Digite o preço:");
@@ -87,7 +83,6 @@ public class    CarroDao {
             }
         } while (preco <= 0);
 
-        // Leitura e validação da cor
         String cor;
         do {
             System.out.println("Digite a cor:");
@@ -97,7 +92,6 @@ public class    CarroDao {
             }
         } while (cor == null);
 
-        // Leitura e validação do ano de fabricação
         int anoFabricacao;
         do {
             System.out.println("Digite o ano de fabricação:");
@@ -107,7 +101,6 @@ public class    CarroDao {
             }
         } while (anoFabricacao < 1900 || anoFabricacao > 2025);
 
-        // Leitura e validação da potência
         int cavaloPotencia;
         do {
             System.out.println("Digite a potência em cavalos:");
@@ -117,7 +110,6 @@ public class    CarroDao {
             }
         } while (cavaloPotencia <= 0);
 
-        // Leitura e validação do número de portas
         int numeroPortas;
         do {
             System.out.println("Digite o número de portas:");
@@ -127,7 +119,6 @@ public class    CarroDao {
             }
         } while (numeroPortas != 2 && numeroPortas != 4 && numeroPortas != 5);
 
-        // Leitura e validação do tipo de combustível
         int idTipoCombustivel;
         do {
             System.out.println("Digite o tipo de combustível (0 - Gasolina, 1 - Etanol, 2 - Diesel, 3 - Elétrico):");
@@ -145,7 +136,8 @@ public class    CarroDao {
     }
 
     /**
-     * Atualiza os dados de um carro existente, solicitando os novos dados do usuário.
+     * Atualiza os dados de um carro existente, solicitando os novos dados do
+     * usuário.
      *
      * @param banco O objeto Banco para realizar a operação.
      */
@@ -153,16 +145,15 @@ public class    CarroDao {
         Funcoes.limpaTela();
         Funcoes.cabecalhoMenu("Atualizar Carro");
 
-        System.out.println("Carros disponíveis:");
-        List<Carro> carros = listarCarros(banco);
-        for (Carro carro : carros) {
+        System.out.println("Carro disponíveis:");
+        List<Carro> Carro = listarCarros(banco);
+        for (Carro carro : Carro) {
             System.out.println("ID: " + carro.getId() + " - Modelo: " + carro.getModelo());
         }
 
         System.out.println("Digite o ID do carro a ser atualizado:");
         int id = Funcoes.lerInt();
 
-        // Buscar carro existente
         Carro carroExistente = buscarCarroPorId(banco, id);
         if (carroExistente == null) {
             System.out.println("Carro não encontrado com o ID: " + id);
@@ -171,7 +162,6 @@ public class    CarroDao {
 
         System.out.println("Carro atual: " + carroExistente.getModelo());
 
-        // Leitura e validação do modelo
         String modelo;
         do {
             System.out.println("Digite o novo modelo do carro (atual: " + carroExistente.getModelo() + "):");
@@ -181,7 +171,6 @@ public class    CarroDao {
             }
         } while (modelo == null || modelo.trim().isEmpty());
 
-        // Leitura e validação do número do chassi
         String numChassi;
         do {
             System.out.println("Digite o novo número do chassi (atual: " + carroExistente.getNumChassi() + "):");
@@ -191,7 +180,6 @@ public class    CarroDao {
             }
         } while (numChassi == null);
 
-        // Leitura e validação da quilometragem
         double quilometragem;
         do {
             System.out.println("Digite a nova quilometragem (atual: " + carroExistente.getQuilometragem() + "):");
@@ -201,7 +189,6 @@ public class    CarroDao {
             }
         } while (quilometragem < 0);
 
-        // Leitura e validação do preço
         double preco;
         do {
             System.out.println("Digite o novo preço (atual: " + carroExistente.getPreco() + "):");
@@ -211,7 +198,6 @@ public class    CarroDao {
             }
         } while (preco <= 0);
 
-        // Leitura e validação da cor
         String cor;
         do {
             System.out.println("Digite a nova cor (atual: " + carroExistente.getCor() + "):");
@@ -221,7 +207,6 @@ public class    CarroDao {
             }
         } while (cor == null || cor.trim().isEmpty());
 
-        // Leitura e validação do ano de fabricação
         int anoFabricacao;
         do {
             System.out.println("Digite o novo ano de fabricação (atual: " + carroExistente.getAnoFabricacao() + "):");
@@ -231,7 +216,6 @@ public class    CarroDao {
             }
         } while (anoFabricacao < 1900 || anoFabricacao > 2025);
 
-        // Leitura e validação do status
         int idStatus;
         do {
             System.out.println("Digite o novo ID do status (1 - Disponível, 2 - Vendido, 3 - Reservado) (atual: "
@@ -242,7 +226,6 @@ public class    CarroDao {
             }
         } while (idStatus < 1 || idStatus > 3);
 
-        // Leitura e validação da potência
         int cavaloPotencia;
         do {
             System.out
@@ -253,7 +236,6 @@ public class    CarroDao {
             }
         } while (cavaloPotencia <= 0);
 
-        // Leitura e validação do número de portas
         int numeroPortas;
         do {
             System.out.println("Digite o novo número de portas (atual: " + carroExistente.getNumeroPortas() + "):");
@@ -263,7 +245,6 @@ public class    CarroDao {
             }
         } while (numeroPortas != 2 && numeroPortas != 4 && numeroPortas != 5);
 
-        // Leitura e validação do tipo de combustível
         int idTipoCombustivel;
         do {
             System.out.println(
@@ -293,9 +274,9 @@ public class    CarroDao {
         Funcoes.limpaTela();
         Funcoes.cabecalhoMenu("Remover Carro");
 
-        System.out.println("Carros disponíveis:");
-        List<Carro> carros = listarCarros(banco);
-        for (Carro carro : carros) {
+        System.out.println("Carro disponíveis:");
+        List<Carro> Carro = listarCarros(banco);
+        for (Carro carro : Carro) {
             System.out.println("ID: " + carro.getId() + " - Modelo: " + carro.getModelo());
         }
 
@@ -314,14 +295,14 @@ public class    CarroDao {
     }
 
     /**
-     * Busca e retorna todos os carros cadastrados no banco de dados.
+     * Busca e retorna todos os Carro cadastrados no banco de dados.
      *
      * @param banco O objeto Banco para realizar a operação.
      * @return Uma lista de objetos Carro.
      */
     public List<Carro> listarCarros(Banco banco) {
         List<Carro> carros = new ArrayList<>();
-        String sql = "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel FROM carros";
+        String sql = "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel FROM Carro";
 
         try (ResultSet rs = banco.querySelect(sql)) {
             if (rs == null) {
@@ -345,14 +326,14 @@ public class    CarroDao {
                 carros.add(carro);
             }
         } catch (SQLException e) {
-            System.err.println("Erro ao listar carros: " + e.getMessage());
+            System.err.println("Erro ao listar Carro: " + e.getMessage());
         }
         return carros;
     }
 
     public List<Carro> listarCarrosAVenda(Banco banco) {
         List<Carro> carros = new ArrayList<>();
-        String sql = "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel FROM carros";
+        String sql = "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel FROM Carro WHERE id_status = 1";
 
         try (ResultSet rs = banco.querySelect(sql)) {
             if (rs == null) {
@@ -372,13 +353,10 @@ public class    CarroDao {
                         rs.getInt("numero_portas"),
                         rs.getInt("id_tipo_combustivel"));
                 carro.setId(rs.getInt("id"));
-
-                if (carro.getIdStatus() == 1) { // Verifica se o carro está disponível para venda
-                    carros.add(carro);
-                }
+                carros.add(carro);
             }
         } catch (SQLException e) {
-            System.err.println("Erro ao listar carros: " + e.getMessage());
+            System.err.println("Erro ao listar carros à venda: " + e.getMessage());
         }
         return carros;
     }
@@ -392,7 +370,7 @@ public class    CarroDao {
      */
     public void atualizarCarro(Banco banco, Carro carro) {
         String sql = String.format(
-                "UPDATE carros SET modelo = '%s', num_chassi = '%s', quilometragem = '%.2f', preco = '%.2f', cor = '%s', ano_fabricacao = '%d', id_status = '%d', cavalo_potencia = '%d', numero_portas = '%d', id_tipo_combustivel = '%d' WHERE id = '%d'",
+                "UPDATE Carro SET modelo = '%s', num_chassi = '%s', quilometragem = '%.2f', preco = '%.2f', cor = '%s', ano_fabricacao = '%d', id_status = '%d', cavalo_potencia = '%d', numero_portas = '%d', id_tipo_combustivel = '%d' WHERE id = '%d'",
                 carro.getModelo(),
                 carro.getNumChassi(),
                 carro.getQuilometragem(),
@@ -414,7 +392,7 @@ public class    CarroDao {
      * @param id    O ID do carro a ser excluído.
      */
     public void excluirCarro(Banco banco, int id) {
-        String sql = String.format("DELETE FROM carros WHERE id = '%d'", id);
+        String sql = String.format("DELETE FROM Carro WHERE id = '%d'", id);
         banco.queryInsup(sql);
     }
 
@@ -428,11 +406,11 @@ public class    CarroDao {
     public Carro buscarCarroPorId(Banco banco, int id) {
         Carro carro = null;
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel FROM carros WHERE id = '%d'",
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel FROM Carro WHERE id = '%d'",
                 id);
 
         try (ResultSet rs = banco.querySelect(sql)) {
-            if (rs.next()) {
+            if (rs != null && rs.next()) {
                 carro = new Carro(
                         rs.getString("modelo"),
                         rs.getString("num_chassi"),
@@ -453,7 +431,7 @@ public class    CarroDao {
     }
 
     /**
-     * Busca carros por modelo.
+     * Busca Carro por modelo.
      *
      * @param banco  O objeto Banco para realizar a operação.
      * @param modelo O modelo do carro a ser buscado.
@@ -462,7 +440,7 @@ public class    CarroDao {
     public List<Carro> buscarCarrosPorModelo(Banco banco, String modelo) {
         List<Carro> carros = new ArrayList<>();
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel FROM carros WHERE modelo = '%s'",
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel FROM Carro WHERE modelo = '%s'",
                 modelo);
 
         try (ResultSet rs = banco.querySelect(sql)) {
@@ -483,7 +461,7 @@ public class    CarroDao {
                 carros.add(carro);
             }
         } catch (SQLException e) {
-            System.err.println("Erro ao buscar carros por modelo: " + e.getMessage());
+            System.err.println("Erro ao buscar Carro por modelo: " + e.getMessage());
         }
         return carros;
     }
@@ -497,7 +475,8 @@ public class    CarroDao {
      */
     public Carro buscarCarroPorChassi(Banco banco, String numChassi) {
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel FROM carros WHERE num_chassi = '%s'", numChassi);
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel FROM Carro WHERE num_chassi = '%s'",
+                numChassi);
 
         try (ResultSet rs = banco.querySelect(sql)) {
             if (rs.next()) {
@@ -522,7 +501,7 @@ public class    CarroDao {
     }
 
     /**
-     * Busca carros por faixa de preço.
+     * Busca Carro por faixa de preço.
      *
      * @param banco       O objeto Banco para realizar a operação.
      * @param precoMinimo O preço mínimo desejado.
@@ -532,7 +511,7 @@ public class    CarroDao {
     public List<Carro> buscarCarrosPorFaixaPreco(Banco banco, double precoMinimo, double precoMaximo) {
         List<Carro> carros = new ArrayList<>();
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel FROM carros WHERE preco >= '%.2f' AND preco <= '%.2f'",
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel FROM Carro WHERE preco >= '%.2f' AND preco <= '%.2f'",
                 precoMinimo, precoMaximo);
 
         try (ResultSet rs = banco.querySelect(sql)) {
@@ -553,13 +532,13 @@ public class    CarroDao {
                 carros.add(carro);
             }
         } catch (SQLException e) {
-            System.err.println("Erro ao buscar carros por faixa de preço: " + e.getMessage());
+            System.err.println("Erro ao buscar Carro por faixa de preço: " + e.getMessage());
         }
         return carros;
     }
 
     /**
-     * Busca carros por faixa de quilometragem.
+     * Busca Carro por faixa de quilometragem.
      *
      * @param banco               O objeto Banco para realizar a operação.
      * @param quilometragemMaxima A quilometragem máxima desejada.
@@ -568,7 +547,7 @@ public class    CarroDao {
     public List<Carro> buscarCarrosPorQuilometragem(Banco banco, double quilometragemMaxima) {
         List<Carro> carros = new ArrayList<>();
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel FROM carros WHERE quilometragem <= '%.2f'",
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel FROM Carro WHERE quilometragem <= '%.2f'",
                 quilometragemMaxima);
 
         try (ResultSet rs = banco.querySelect(sql)) {
@@ -589,13 +568,13 @@ public class    CarroDao {
                 carros.add(carro);
             }
         } catch (SQLException e) {
-            System.err.println("Erro ao buscar carros por quilometragem: " + e.getMessage());
+            System.err.println("Erro ao buscar Carro por quilometragem: " + e.getMessage());
         }
         return carros;
     }
 
     /**
-     * Busca carros por faixa de ano de fabricação.
+     * Busca Carro por faixa de ano de fabricação.
      *
      * @param banco     O objeto Banco para realizar a operação.
      * @param anoMinimo O ano mínimo desejado.
@@ -605,7 +584,7 @@ public class    CarroDao {
     public List<Carro> buscarCarrosPorFaixaAno(Banco banco, int anoMinimo, int anoMaximo) {
         List<Carro> carros = new ArrayList<>();
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel FROM carros WHERE ano_fabricacao >= %d AND ano_fabricacao <= '%d'",
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel FROM Carro WHERE ano_fabricacao >= %d AND ano_fabricacao <= '%d'",
                 anoMinimo, anoMaximo);
 
         try (ResultSet rs = banco.querySelect(sql)) {
@@ -626,13 +605,13 @@ public class    CarroDao {
                 carros.add(carro);
             }
         } catch (SQLException e) {
-            System.err.println("Erro ao buscar carros por faixa de ano: " + e.getMessage());
+            System.err.println("Erro ao buscar Carro por faixa de ano: " + e.getMessage());
         }
         return carros;
     }
 
     /**
-     * Busca carros por cor.
+     * Busca Carro por cor.
      *
      * @param banco O objeto Banco para realizar a operação.
      * @param cor   A cor do carro a ser buscada.
@@ -641,7 +620,7 @@ public class    CarroDao {
     public List<Carro> buscarCarrosPorCor(Banco banco, String cor) {
         List<Carro> carros = new ArrayList<>();
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel FROM carros WHERE cor = '%s'",
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel FROM Carro WHERE cor = '%s'",
                 cor);
 
         try (ResultSet rs = banco.querySelect(sql)) {
@@ -662,13 +641,13 @@ public class    CarroDao {
                 carros.add(carro);
             }
         } catch (SQLException e) {
-            System.err.println("Erro ao buscar carros por cor: " + e.getMessage());
+            System.err.println("Erro ao buscar Carro por cor: " + e.getMessage());
         }
         return carros;
     }
 
     /**
-     * Busca carros por potência mínima.
+     * Busca Carro por potência mínima.
      *
      * @param banco          O objeto Banco para realizar a operação.
      * @param potenciaMinima A potência mínima desejada.
@@ -677,7 +656,7 @@ public class    CarroDao {
     public List<Carro> buscarCarrosPorPotencia(Banco banco, double potenciaMinima) {
         List<Carro> carros = new ArrayList<>();
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel FROM carros WHERE cavalo_potencia >= '%d'",
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel FROM Carro WHERE cavalo_potencia >= '%d'",
                 potenciaMinima);
 
         try (ResultSet rs = banco.querySelect(sql)) {
@@ -698,13 +677,13 @@ public class    CarroDao {
                 carros.add(carro);
             }
         } catch (SQLException e) {
-            System.err.println("Erro ao buscar carros por potência: " + e.getMessage());
+            System.err.println("Erro ao buscar Carro por potência: " + e.getMessage());
         }
         return carros;
     }
 
     /**
-     * Busca carros por número de portas.
+     * Busca Carro por número de portas.
      *
      * @param banco        O objeto Banco para realizar a operação.
      * @param numeroPortas O número de portas desejado.
@@ -714,7 +693,7 @@ public class    CarroDao {
     public List<Carro> buscarCarrosPorNumeroPortas(Banco banco, int numeroPortas) {
         List<Carro> carros = new ArrayList<>();
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel FROM carros WHERE numero_portas = '%d'",
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel FROM Carro WHERE numero_portas = '%d'",
                 numeroPortas);
 
         try (ResultSet rs = banco.querySelect(sql)) {
@@ -735,13 +714,13 @@ public class    CarroDao {
                 carros.add(carro);
             }
         } catch (SQLException e) {
-            System.err.println("Erro ao buscar carros por número de portas: " + e.getMessage());
+            System.err.println("Erro ao buscar Carro por número de portas: " + e.getMessage());
         }
         return carros;
     }
 
     /**
-     * Busca carros por tipo de combustível.
+     * Busca Carro por tipo de combustível.
      *
      * @param banco           O objeto Banco para realizar a operação.
      * @param tipoCombustivel O tipo de combustível desejado.
@@ -750,7 +729,7 @@ public class    CarroDao {
     public List<Carro> buscarCarrosPorCombustivel(Banco banco, int idTipoCombustivel) {
         List<Carro> carros = new ArrayList<>();
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel FROM carros WHERE id_tipo_combustivel = '%d'",
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel FROM Carro WHERE id_tipo_combustivel = '%d'",
                 idTipoCombustivel);
 
         try (ResultSet rs = banco.querySelect(sql)) {
@@ -771,7 +750,7 @@ public class    CarroDao {
                 carros.add(carro);
             }
         } catch (SQLException e) {
-            System.err.println("Erro ao buscar carros por combustível: " + e.getMessage());
+            System.err.println("Erro ao buscar Carro por combustível: " + e.getMessage());
         }
         return carros;
     }

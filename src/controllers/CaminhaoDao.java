@@ -24,7 +24,7 @@ public class CaminhaoDao {
      */
     public void cadastrarCaminhao(Banco banco, Caminhao caminhao) {
         String sql = String.format(
-                "INSERT INTO caminhoes (modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, eixos, capacidade_carga,altura, tipo_carroceria) VALUES ('%s', '%s', %.2f, %.2f, '%s', %d, %d, %d, %.2f, %.2f, '%s')",
+                "INSERT INTO Caminhao (modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, eixos, capacidade_carga,altura, tipo_carroceria) VALUES ('%s', '%s', %.2f, %.2f, '%s', %d, %d, %d, %.2f, %.2f, '%s')",
                 caminhao.getModelo(),
                 caminhao.getNumChassi(),
                 caminhao.getQuilometragem(),
@@ -48,7 +48,6 @@ public class CaminhaoDao {
         Funcoes.limpaTela();
         Funcoes.cabecalhoMenu("Adicionar Caminhão");
 
-        // Leitura e validação do modelo
         String modelo;
         do {
             System.out.println("Digite o modelo do caminhão:");
@@ -58,7 +57,6 @@ public class CaminhaoDao {
             }
         } while (modelo == null || modelo.trim().isEmpty());
 
-        // Leitura e validação do número do chassi
         String numChassi;
         do {
             System.out.println("Digite o número do chassi:");
@@ -68,7 +66,6 @@ public class CaminhaoDao {
             }
         } while (numChassi == null);
 
-        // Leitura e validação da quilometragem
         double quilometragem;
         do {
             System.out.println("Digite a quilometragem:");
@@ -78,7 +75,6 @@ public class CaminhaoDao {
             }
         } while (quilometragem < 0);
 
-        // Leitura e validação do preço
         double preco;
         do {
             System.out.println("Digite o preço:");
@@ -88,7 +84,6 @@ public class CaminhaoDao {
             }
         } while (preco <= 0);
 
-        // Leitura e validação da cor
         String cor;
         do {
             System.out.println("Digite a cor:");
@@ -98,7 +93,6 @@ public class CaminhaoDao {
             }
         } while (cor == null || cor.trim().isEmpty());
 
-        // Leitura e validação do ano de fabricação
         int anoFabricacao;
         do {
             System.out.println("Digite o ano de fabricação:");
@@ -108,7 +102,6 @@ public class CaminhaoDao {
             }
         } while (anoFabricacao < 1900 || anoFabricacao > 2025);
 
-        // Leitura e validação do número de eixos
         int eixo;
         do {
             System.out.println("Digite o número de eixos:");
@@ -118,7 +111,6 @@ public class CaminhaoDao {
             }
         } while (eixo < 2 || eixo > 10);
 
-        // Leitura e validação da capacidade de carga
         double capacidadeCarga;
         do {
             System.out.println("Digite a capacidade de carga (em toneladas):");
@@ -128,7 +120,6 @@ public class CaminhaoDao {
             }
         } while (capacidadeCarga <= 0 || capacidadeCarga > 100);
 
-        // Leitura e validação da altura
         double altura;
         do {
             System.out.println("Digite a altura (em metros):");
@@ -138,7 +129,6 @@ public class CaminhaoDao {
             }
         } while (altura <= 0 || altura > 5);
 
-        // Leitura e validação do tipo de carroceria
         String tipoCarroceria;
         do {
             System.out.println("Digite o tipo de carroceria:");
@@ -156,7 +146,8 @@ public class CaminhaoDao {
     }
 
     /**
-     * Atualiza os dados de um caminhão existente, solicitando os novos dados do usuário.
+     * Atualiza os dados de um caminhão existente, solicitando os novos dados do
+     * usuário.
      *
      * @param banco O objeto Banco para realizar a operação.
      */
@@ -164,24 +155,22 @@ public class CaminhaoDao {
         Funcoes.limpaTela();
         Funcoes.cabecalhoMenu("Atualizar Caminhão");
         System.out.println("Caminhões disponíveis:");
-        List<Caminhao> caminhoes = listarCaminhoes(banco);
-        for (Caminhao caminhao : caminhoes) {
+        List<Caminhao> Caminhao = listarCaminhoes(banco);
+        for (Caminhao caminhao : Caminhao) {
             System.out.println("ID: " + caminhao.getId() + " - Modelo: " + caminhao.getModelo());
         }
 
         System.out.println("Digite o ID do caminhão a ser atualizado:");
         int id = Funcoes.lerInt();
 
-        // Buscar caminhão existente
         Caminhao caminhaoExistente = buscarCaminhaoPorId(banco, id);
         if (caminhaoExistente == null) {
             System.out.println("Caminhão não encontrado com o ID: " + id);
             return;
         }
 
-        System.out.println("Caminhão atual: " + caminhaoExistente.getModelo());
+        System.out.println("Caminhão atual: " + caminhaoExistente);
 
-        // Leitura e validação do modelo
         String modelo;
         do {
             System.out.println("Digite o novo modelo do caminhão (atual: " + caminhaoExistente.getModelo() + "):");
@@ -191,7 +180,6 @@ public class CaminhaoDao {
             }
         } while (modelo == null || modelo.trim().isEmpty());
 
-        // Leitura e validação do número do chassi
         String numChassi;
         do {
             System.out.println("Digite o novo número do chassi (atual: " + caminhaoExistente.getNumChassi() + "):");
@@ -201,7 +189,6 @@ public class CaminhaoDao {
             }
         } while (numChassi == null);
 
-        // Leitura e validação da quilometragem
         double quilometragem;
         do {
             System.out.println("Digite a nova quilometragem (atual: " + caminhaoExistente.getQuilometragem() + "):");
@@ -211,7 +198,6 @@ public class CaminhaoDao {
             }
         } while (quilometragem < 0);
 
-        // Leitura e validação do preço
         double preco;
         do {
             System.out.println("Digite o novo preço (atual: " + caminhaoExistente.getPreco() + "):");
@@ -221,7 +207,6 @@ public class CaminhaoDao {
             }
         } while (preco <= 0);
 
-        // Leitura e validação da cor
         String cor;
         do {
             System.out.println("Digite a nova cor (atual: " + caminhaoExistente.getCor() + "):");
@@ -231,7 +216,6 @@ public class CaminhaoDao {
             }
         } while (cor == null || cor.trim().isEmpty());
 
-        // Leitura e validação do ano de fabricação
         int anoFabricacao;
         do {
             System.out.println("Digite o novo ano de fabricação (atual: " + caminhaoExistente.getAnoFabricacao() + "):");
@@ -241,7 +225,6 @@ public class CaminhaoDao {
             }
         } while (anoFabricacao < 1900 || anoFabricacao > 2025);
 
-        // Leitura e validação do status
         int idStatus;
         do {
             System.out.println("Caminhão atual: " + caminhaoExistente.getIdStatus());
@@ -252,7 +235,6 @@ public class CaminhaoDao {
             }
         } while (idStatus < 1 || idStatus > 3);
 
-        // Leitura e validação do número de eixos
         int eixo;
         do {
             System.out.println("Digite o novo número de eixos (atual: " + caminhaoExistente.getEixo() + "):");
@@ -262,7 +244,6 @@ public class CaminhaoDao {
             }
         } while (eixo < 2 || eixo > 10);
 
-        // Leitura e validação da capacidade de carga
         double capacidadeCarga;
         do {
             System.out.println("Digite a nova capacidade de carga em toneladas (atual: "
@@ -273,7 +254,6 @@ public class CaminhaoDao {
             }
         } while (capacidadeCarga <= 0 || capacidadeCarga > 100);
 
-        // Leitura e validação da altura
         double altura;
         do {
             System.out.println("Digite a nova altura em metros (atual: " + caminhaoExistente.getAltura() + "):");
@@ -283,7 +263,6 @@ public class CaminhaoDao {
             }
         } while (altura <= 0 || altura > 5);
 
-        // Leitura e validação do tipo de carroceria
         String tipoCarroceria;
         do {
             System.out.println(
@@ -312,8 +291,8 @@ public class CaminhaoDao {
         Funcoes.cabecalhoMenu("Remover Caminhão");
 
         System.out.println("Caminhões disponíveis:");
-        List<Caminhao> caminhoes = listarCaminhoes(banco);
-        for (Caminhao caminhao : caminhoes) {
+        List<Caminhao> Caminhao = listarCaminhoes(banco);
+        for (Caminhao caminhao : Caminhao) {
             System.out.println("ID: " + caminhao.getId() + " - Modelo: " + caminhao.getModelo());
         }
 
@@ -338,25 +317,27 @@ public class CaminhaoDao {
      */
     public List<Caminhao> listarCaminhoes(Banco banco) {
         List<Caminhao> caminhoes = new ArrayList<>();
-        String sql = "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, eixos, capacidade_carga, altura, tipo_carroceria FROM caminhoes";
+        String sql = "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, eixos, capacidade_carga, altura, tipo_carroceria FROM Caminhao";
 
         try (ResultSet rs = banco.querySelect(sql)) {
-            while (rs.next()) {
-                Caminhao caminhao = new Caminhao(
-                        rs.getString("modelo"),
-                        rs.getString("num_chassi"),
-                        rs.getDouble("quilometragem"),
-                        rs.getDouble("preco"),
-                        rs.getString("cor"),
-                        rs.getInt("ano_fabricacao"),
-                        rs.getInt("id_status"),
-                        rs.getInt("eixos"),
-                        rs.getDouble("capacidade_carga"),
-                        rs.getDouble("altura"),
-                        rs.getString("tipo_carroceria"));
-                caminhao.setId(rs.getInt("id"));
+            if (rs != null) {
+                while (rs.next()) {
+                    Caminhao caminhao = new Caminhao(
+                            rs.getString("modelo"),
+                            rs.getString("num_chassi"),
+                            rs.getDouble("quilometragem"),
+                            rs.getDouble("preco"),
+                            rs.getString("cor"),
+                            rs.getInt("ano_fabricacao"),
+                            rs.getInt("id_status"),
+                            rs.getInt("eixos"),
+                            rs.getDouble("capacidade_carga"),
+                            rs.getDouble("altura"),
+                            rs.getString("tipo_carroceria"));
+                    caminhao.setId(rs.getInt("id"));
 
-                caminhoes.add(caminhao);
+                    caminhoes.add(caminhao);
+                }
             }
         } catch (SQLException e) {
             System.err.println("Erro ao listar caminhões: " + e.getMessage());
@@ -373,30 +354,29 @@ public class CaminhaoDao {
      */
     public List<Caminhao> listarCaminhoesAVenda(Banco banco) {
         List<Caminhao> caminhoes = new ArrayList<>();
-        String sql = "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, eixos, capacidade_carga, altura, tipo_carroceria FROM caminhoes";
+        String sql = "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, eixos, capacidade_carga, altura, tipo_carroceria FROM Caminhao WHERE id_status = 1";
 
         try (ResultSet rs = banco.querySelect(sql)) {
-            while (rs.next()) {
-                Caminhao caminhao = new Caminhao(
-                        rs.getString("modelo"),
-                        rs.getString("num_chassi"),
-                        rs.getDouble("quilometragem"),
-                        rs.getDouble("preco"),
-                        rs.getString("cor"),
-                        rs.getInt("ano_fabricacao"),
-                        rs.getInt("id_status"),
-                        rs.getInt("eixos"),
-                        rs.getDouble("capacidade_carga"),
-                        rs.getDouble("altura"),
-                        rs.getString("tipo_carroceria"));
-                caminhao.setId(rs.getInt("id"));
-
-                if (caminhao.getIdStatus() == 1) { // Verifica se o caminhão está disponível
+            if (rs != null) {
+                while (rs.next()) {
+                    Caminhao caminhao = new Caminhao(
+                            rs.getString("modelo"),
+                            rs.getString("num_chassi"),
+                            rs.getDouble("quilometragem"),
+                            rs.getDouble("preco"),
+                            rs.getString("cor"),
+                            rs.getInt("ano_fabricacao"),
+                            rs.getInt("id_status"),
+                            rs.getInt("eixos"),
+                            rs.getDouble("capacidade_carga"),
+                            rs.getDouble("altura"),
+                            rs.getString("tipo_carroceria"));
+                    caminhao.setId(rs.getInt("id"));
                     caminhoes.add(caminhao);
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Erro ao listar caminhões: " + e.getMessage());
+            System.err.println("Erro ao listar caminhões à venda: " + e.getMessage());
         }
         return caminhoes;
     }
@@ -410,7 +390,7 @@ public class CaminhaoDao {
      */
     public void atualizarCaminhao(Banco banco, Caminhao caminhao) {
         String sql = String.format(
-                "UPDATE caminhoes SET modelo = '%s', num_chassi = %s, quilometragem = %.2f, preco = %.2f, cor = '%s', ano_fabricacao = %d, id_status = %d, eixos = %d, capacidade_carga = %.2f, altura = %.2f, tipo_carroceria = '%s' WHERE id = %d",
+                "UPDATE Caminhao SET modelo = '%s', num_chassi = %s, quilometragem = %.2f, preco = %.2f, cor = '%s', ano_fabricacao = %d, id_status = %d, eixos = %d, capacidade_carga = %.2f, altura = %.2f, tipo_carroceria = '%s' WHERE id = %d",
                 caminhao.getModelo(),
                 caminhao.getNumChassi(),
                 caminhao.getQuilometragem(),
@@ -433,7 +413,7 @@ public class CaminhaoDao {
      * @param id    O ID do caminhão a ser excluído.
      */
     public void excluirCaminhao(Banco banco, int id) {
-        String sql = String.format("DELETE FROM caminhoes WHERE id = %d", id);
+        String sql = String.format("DELETE FROM Caminhao WHERE id = %d", id);
         banco.queryInsup(sql);
     }
 
@@ -447,11 +427,11 @@ public class CaminhaoDao {
     public Caminhao buscarCaminhaoPorId(Banco banco, int id) {
         Caminhao caminhao = null;
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, eixos, capacidade_carga, altura, tipo_carroceria FROM caminhoes WHERE id = %d",
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, eixos, capacidade_carga, altura, tipo_carroceria FROM Caminhao WHERE id = %d",
                 id);
 
         try (ResultSet rs = banco.querySelect(sql)) {
-            if (rs.next()) {
+            if (rs != null && rs.next()) {
                 caminhao = new Caminhao(
                         rs.getString("modelo"),
                         rs.getString("num_chassi"),
@@ -482,7 +462,7 @@ public class CaminhaoDao {
     public List<Caminhao> buscarCaminhoesPorModelo(Banco banco, String modelo) {
         List<Caminhao> caminhoes = new ArrayList<>();
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, eixos, capacidade_carga, altura, tipo_carroceria FROM caminhoes WHERE modelo = '%s'",
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, eixos, capacidade_carga, altura, tipo_carroceria FROM Caminhao WHERE modelo = '%s'",
                 modelo);
 
         try (ResultSet rs = banco.querySelect(sql)) {
@@ -518,7 +498,8 @@ public class CaminhaoDao {
      */
     public Caminhao buscarCaminhaoPorChassi(Banco banco, String numChassi) {
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, eixos, capacidade_carga, altura, tipo_carroceria FROM caminhoes WHERE num_chassi = %s", numChassi);
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, eixos, capacidade_carga, altura, tipo_carroceria FROM Caminhao WHERE num_chassi = %s",
+                numChassi);
 
         try (ResultSet rs = banco.querySelect(sql)) {
             if (rs.next()) {
@@ -554,7 +535,7 @@ public class CaminhaoDao {
     public List<Caminhao> buscarCaminhoesPorFaixaPreco(Banco banco, double precoMinimo, double precoMaximo) {
         List<Caminhao> caminhoes = new ArrayList<>();
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, eixos, capacidade_carga, altura, tipo_carroceria FROM caminhoes WHERE preco >= %.2f AND preco <= %.2f",
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, eixos, capacidade_carga, altura, tipo_carroceria FROM Caminhao WHERE preco >= %.2f AND preco <= %.2f",
                 precoMinimo, precoMaximo);
 
         try (ResultSet rs = banco.querySelect(sql)) {
@@ -591,7 +572,7 @@ public class CaminhaoDao {
     public List<Caminhao> buscarCaminhoesPorQuilometragem(Banco banco, double quilometragemMaxima) {
         List<Caminhao> caminhoes = new ArrayList<>();
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, eixos, capacidade_carga, altura, tipo_carroceria FROM caminhoes WHERE quilometragem <= %.2f",
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, eixos, capacidade_carga, altura, tipo_carroceria FROM Caminhao WHERE quilometragem <= %.2f",
                 quilometragemMaxima);
 
         try (ResultSet rs = banco.querySelect(sql)) {
@@ -629,7 +610,7 @@ public class CaminhaoDao {
     public List<Caminhao> buscarCaminhoesPorFaixaAno(Banco banco, int anoMinimo, int anoMaximo) {
         List<Caminhao> caminhoes = new ArrayList<>();
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, eixos, capacidade_carga, altura, tipo_carroceria FROM caminhoes WHERE ano_fabricacao >= %d AND ano_fabricacao <= %d",
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, eixos, capacidade_carga, altura, tipo_carroceria FROM Caminhao WHERE ano_fabricacao >= %d AND ano_fabricacao <= %d",
                 anoMinimo, anoMaximo);
 
         try (ResultSet rs = banco.querySelect(sql)) {
@@ -666,7 +647,7 @@ public class CaminhaoDao {
     public List<Caminhao> buscarCaminhoesPorCor(Banco banco, String cor) {
         List<Caminhao> caminhoes = new ArrayList<>();
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, eixos, capacidade_carga, altura, tipo_carroceria FROM caminhoes WHERE cor = '%s'",
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, eixos, capacidade_carga, altura, tipo_carroceria FROM Caminhao WHERE cor = '%s'",
                 cor);
 
         try (ResultSet rs = banco.querySelect(sql)) {
@@ -704,7 +685,7 @@ public class CaminhaoDao {
     public List<Caminhao> buscarCaminhoesPorEixo(Banco banco, int eixo) {
         List<Caminhao> caminhoes = new ArrayList<>();
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, eixos, capacidade_carga, altura, tipo_carroceria FROM caminhoes WHERE eixos = %d",
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, eixos, capacidade_carga, altura, tipo_carroceria FROM Caminhao WHERE eixos = %d",
                 eixo);
 
         try (ResultSet rs = banco.querySelect(sql)) {
@@ -741,7 +722,7 @@ public class CaminhaoDao {
     public List<Caminhao> buscarCaminhoesPorCapacidadeCarga(Banco banco, double capacidadeMaxima) {
         List<Caminhao> caminhoes = new ArrayList<>();
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, eixos, capacidade_carga, altura, tipo_carroceria FROM caminhoes WHERE capacidade_carga <= %.2f",
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, eixos, capacidade_carga, altura, tipo_carroceria FROM Caminhao WHERE capacidade_carga <= %.2f",
                 capacidadeMaxima);
 
         try (ResultSet rs = banco.querySelect(sql)) {
@@ -778,7 +759,7 @@ public class CaminhaoDao {
     public List<Caminhao> buscarCaminhoesPorAltura(Banco banco, double alturaMaxima) {
         List<Caminhao> caminhoes = new ArrayList<>();
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, eixos, capacidade_carga, altura, tipo_carroceria FROM caminhoes WHERE altura <= %.2f",
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, eixos, capacidade_carga, altura, tipo_carroceria FROM Caminhao WHERE altura <= %.2f",
                 alturaMaxima);
 
         try (ResultSet rs = banco.querySelect(sql)) {
@@ -816,7 +797,7 @@ public class CaminhaoDao {
     public List<Caminhao> buscarCaminhoesPorTipoCarroceria(Banco banco, String tipoCarroceria) {
         List<Caminhao> caminhoes = new ArrayList<>();
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, eixos, capacidade_carga, altura, tipo_carroceria FROM caminhoes WHERE tipo_carroceria = '%s'",
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, eixos, capacidade_carga, altura, tipo_carroceria FROM Caminhao WHERE tipo_carroceria = '%s'",
                 tipoCarroceria);
 
         try (ResultSet rs = banco.querySelect(sql)) {

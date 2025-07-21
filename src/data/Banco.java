@@ -16,16 +16,13 @@ public class Banco {
 
     private static final String DATABASE_URL = "jdbc:sqlite:src/data/data.db";
 
-    // Construtor público para permitir criação de instâncias
     public Banco() {
         try {
-            // Carrega o driver SQLite explicitamente
             Class.forName("org.sqlite.JDBC");
             this.db = DriverManager.getConnection(DATABASE_URL);
             this.statement = this.db.createStatement();
             this.statement.setQueryTimeout(5);
 
-            // Chama o método para inicializar o banco (criar tabelas se não existirem)
             if (this.db != null) {
                 inicializarBanco();
             } else {
@@ -54,7 +51,6 @@ public class Banco {
             String schemaPath = "src/resources/schema.sql";
             String schema = Files.readString(Paths.get(schemaPath));
 
-            // Executando cada comando SQL separadamente
             String[] comandos = schema.split(";");
 
             for (String comando : comandos) {
@@ -63,7 +59,6 @@ public class Banco {
                     try {
                         this.queryInsup(comando);
                     } catch (Exception e) {
-                        // Se a tabela já existe, apenas continua
                         if (!e.getMessage().contains("already exists")) {
                             System.err.println("Aviso: " + e.getMessage());
                         }
@@ -81,7 +76,7 @@ public class Banco {
         }
     }
 
-    public void disconnect() { // funcao para desconectar o banco
+    public void disconnect() {
         try {
             if (db != null) {
                 db.close();
@@ -108,24 +103,33 @@ public class Banco {
         return DriverManager.getConnection(DATABASE_URL);
     }
 
-    public void queryInsup(String query) { // funcao para querys de insert e update
+    public void queryInsup(String query) {
         try {
-            statement.executeUpdate(query);
+            if (db.getAutoCommit() == false) {
+                db.commit();
+            }
         } catch (SQLException e) {
-            System.out.println("Erro na query");
-            System.out.println(e);
+            System.out.println("Erro na query: " + query);
+            System.out.println("Detalhes do erro: " + e);
+
+            try {
+                if (db.getAutoCommit() == false) {
+                    db.rollback();
+                }
+            } catch (SQLException rollbackEx) {
+                System.out.println("Erro no rollback: " + rollbackEx);
+            }
         }
     }
 
-    public ResultSet querySelect(String query) { // funcoes para query select
-        ResultSet rs = null;
+    public ResultSet querySelect(String query) {
         try {
-            rs = statement.executeQuery(query);
+            ResultSet rs = statement.executeQuery(query);
             return rs;
         } catch (SQLException e) {
-            System.out.println("Erro na query");
+            System.out.println("Erro na query: " + query);
             System.out.println(e);
-            return rs;
+            return null;
         }
     }
 }
