@@ -1,65 +1,68 @@
-CREATE TABLE Funcionario (
+CREATE TABLE IF NOT EXISTS Funcionario (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nome TEXT NOT NULL,
     usuario TEXT NOT NULL UNIQUE,
     senha TEXT NOT NULL,
-    cargo TEXT NOT NULL
+    id_cargo int NOT NULL
 );
 
-CREATE TABLE Status (
+CREATE TABLE IF NOT EXISTS Venda (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    descricao TEXT NOT NULL UNIQUE -- 1: Disponível, 2: Reservado, 3: Vendido
+    valorTotal REAL NOT NULL,
+    idFuncionario INTEGER NOT NULL,
+    FOREIGN KEY (idFuncionario) REFERENCES Funcionario(id) ON DELETE CASCADE
 );
 
-CREATE TABLE carros (
+CREATE TABLE IF NOT EXISTS Carrinho (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    idVenda INTEGER NOT NULL,
+    idFuncionario INTEGER NOT NULL,
+    idVeiculo INTEGER NOT NULL,
+    idTipoVeiculo INTEGER NOT NULL,
+    FOREIGN KEY (idVenda) REFERENCES Venda(id) ON DELETE CASCADE,
+    FOREIGN KEY (idFuncionario) REFERENCES Funcionario(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS carros (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     modelo VARCHAR(255) NOT NULL,
-    num_chassi INT UNIQUE NOT NULL,
-    quilometragem DECIMAL(10, 2),
+    num_chassi VARCHAR(255) NOT NULL,
+    quilometragem DECIMAL(10, 2) NOT NULL,
     preco DECIMAL(10, 2) NOT NULL,
-    cor VARCHAR(50),
-    ano_fabricacao INT,
+    cor VARCHAR(50) NOT NULL,
+    ano_fabricacao INT NOT NULL,
     id_status INT NOT NULL,
     -- Dados específicos para Carro
-    cavalo_potencia DECIMAL(10, 2) NULL,
-    numero_portas INT NULL,
-    tipo_combustivel VARCHAR(50) NULL
+    cavalo_potencia int NOT NULL,
+    numero_portas INT NOT NULL,
+    id_tipo_combustivel INT NOT NULL
 );
 
-CREATE TABLE motocicletas (
+CREATE TABLE IF NOT EXISTS motocicletas (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     modelo VARCHAR(255) NOT NULL,
-    num_chassi INT UNIQUE NOT NULL,
-    quilometragem DECIMAL(10, 2),
+    num_chassi VARCHAR(20) NOT NULL,
+    quilometragem DECIMAL(10, 2) NOT NULL,
     preco DECIMAL(10, 2) NOT NULL,
-    cor VARCHAR(50),
-    ano_fabricacao INT,
+    cor VARCHAR(50) NOT NULL,
+    ano_fabricacao INT NOT NULL,
     id_status INT NOT NULL,
     -- Dados específicos para Motocicleta
-    cilindrada INT NULL
+    cilindrada INT NOT NULL
 );
 
-CREATE TABLE caminhoes (
+CREATE TABLE IF NOT EXISTS caminhoes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     modelo VARCHAR(255) NOT NULL,
-    num_chassi INT UNIQUE NOT NULL,
-    quilometragem DECIMAL(10, 2),
+    num_chassi VARCHAR(20) NOT NULL,
+    quilometragem DECIMAL(10, 2) NOT NULL,
     preco DECIMAL(10, 2) NOT NULL,
-    cor VARCHAR(50),
-    ano_fabricacao INT,
-    id_status INT NOT NULL,
+    cor VARCHAR(50) NOT NULL,
+    ano_fabricacao INT NOT NULL,
+    id_status INT NOT NULL, 
     -- Dados específicos para Caminhão
-    eixos INT NULL,
-    capacidade_carga DECIMAL(10, 2) NULL,
-    altura DECIMAL(10, 2) NULL,
-    tipo_carroceria VARCHAR(100) NULL
-);
-
-CREATE TABLE carrinho (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    tipo_veiculo VARCHAR(50) NOT NULL,
-    id_veiculo INT NOT NULL,
-    id_vendedor INT NOT NULL,
-    data_adicao DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_vendedor) REFERENCES Funcionario(id)
+    eixos INT NOT NULL,
+    capacidade_carga DECIMAL(10, 2) NOT NULL,
+    altura DECIMAL(10, 2) NOT NULL,
+    tipo_carroceria VARCHAR(100) NOT NULL
 );

@@ -3,7 +3,7 @@ package models;
 public class Motocicleta extends Veiculo {
     private int cilindrada;
 
-    public Motocicleta(String modelo, int numChassi, double quilometragem, double preco, String cor, int anoFabricacao, int idStatus, 
+    public Motocicleta(String modelo, String numChassi, double quilometragem, double preco, String cor, int anoFabricacao, int idStatus, 
                        int cilindrada) {
         super(modelo, numChassi, quilometragem, preco, cor, anoFabricacao, idStatus);
         this.cilindrada = cilindrada;
@@ -17,8 +17,11 @@ public class Motocicleta extends Veiculo {
         this.cilindrada = cilindrada;
     }
 
-    public String exibirMotocicleta() {
-        return super.exibirVeiculos() + "\nCilindrada: " + this.cilindrada + "cc";
+    @Override
+    public String toString() {
+        return "Tipo do veículo: Motocicleta" +
+                "\n" + super.toString() +
+                "\nCilindrada: " + this.cilindrada + "cc";
     }
 
     public void cadastrarMotocicleta() {

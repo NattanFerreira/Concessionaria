@@ -6,7 +6,7 @@ public class Caminhao extends Veiculo {
     private double altura;
     private String tipoCarroceria;
 
-    public Caminhao(String modelo, int numChassi, double quilometragem, double preco, String cor, int anoFabricacao,
+    public Caminhao(String modelo, String numChassi, double quilometragem, double preco, String cor, int anoFabricacao,
                     int idStatus, int eixo, double capacidadeCarga, double altura, String tipoCarroceria) {
         super(modelo, numChassi, quilometragem, preco, cor, anoFabricacao, idStatus);
         this.eixo = eixo;
@@ -47,8 +47,9 @@ public class Caminhao extends Veiculo {
         this.tipoCarroceria = tipoCarroceria;
     }
 
-    public String exibirCaminhao() {
-        return super.exibirVeiculos() +
+    @Override
+    public String toString() {
+        return super.toString() +
                 "\nEixos: " + eixo +
                 "\nCapacidade de Carga: " + capacidadeCarga + "t" +
                 "\nAltura: " + altura + "m" +

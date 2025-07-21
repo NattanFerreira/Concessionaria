@@ -1,23 +1,24 @@
 package models;
 
 public class Carro extends Veiculo {
-    private double cavaloPotencia;
+    private int cavaloPotencia;
     private int numeroPortas;
-    private String tipoCombustivel;
+    private int idTipoCombustivel;
+    private String[] tipoCombustivel = {"Gasolina", "Etanol", "Diesel", "Elétrico"};
 
-    public Carro(String modelo, int numChassi, double quilometragem, double preco, String cor, 
-                int anoFabricacao, int idStatus, double cavaloPotencia, int numeroPortas, String tipoCombustivel) {
+    public Carro(String modelo, String numChassi, double quilometragem, double preco, String cor, 
+                int anoFabricacao, int idStatus, int cavaloPotencia, int numeroPortas, int idTipoCombustivel) {
         super(modelo, numChassi, quilometragem, preco, cor, anoFabricacao, idStatus);
         this.cavaloPotencia = cavaloPotencia;
         this.numeroPortas = numeroPortas;
-        this.tipoCombustivel = tipoCombustivel;
+        this.idTipoCombustivel = idTipoCombustivel;
     }
 
-    public double getCavaloPotencia() {
+    public int getCavaloPotencia() {
         return cavaloPotencia;
     }
 
-    public void setCavaloPotencia(double cavaloPotencia) {
+    public void setCavaloPotencia(int cavaloPotencia) {
         this.cavaloPotencia = cavaloPotencia;
     }
 
@@ -29,20 +30,21 @@ public class Carro extends Veiculo {
         this.numeroPortas = numeroPortas;
     }
 
-    public String getTipoCombustível() {
-        return tipoCombustivel;
+    public int getIdTipoCombustivel() {
+        return idTipoCombustivel;
     }
 
-    public void setTipoCombustível(String tipoCombustível) {
-        this.tipoCombustivel = tipoCombustível;
+    public void setIdTipoCombustivel(int idTipoCombustivel) {
+        this.idTipoCombustivel = idTipoCombustivel;
     }
 
-    public String exibirCarro() {
+    @Override
+    public String toString() {
         return  "Tipo do veículo: Carro" +
-                "\n" + super.exibirVeiculos() +
+                "\n" + super.toString() +
                 "\nPotência: " + this.cavaloPotencia + "cv" +
                 "\nNúmero de Portas: " + this.numeroPortas +
-                "\nCombustíveç: " + this.tipoCombustivel;
+                "\nCombustíveç: " + this.tipoCombustivel[idTipoCombustivel];
     }
 
     public void cadastrarCarro() {

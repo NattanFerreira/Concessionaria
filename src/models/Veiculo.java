@@ -3,15 +3,15 @@ package models;
 public abstract class Veiculo {
     protected int id;
     protected String modelo;
-    protected int numChassi;
+    protected String numChassi;
     protected double quilometragem;
     protected double preco;
     protected String cor;
     protected int anoFabricacao;
-    protected String[] status = {"Disponível", "Vendido"};
-    protected int idStatus; // 1 "Disponível", 2 "Vendido"
+    protected String[] status = {"Disponível", "Vendido", "Reservado"};
+    protected int idStatus; // 1 "Disponível", 2 "Vendido" , 3 "Reservado"
 
-    public Veiculo(String modelo, int numChassi, double quilometragem, double preco, String cor, int anoFabricacao, int idStatus) {
+    public Veiculo(String modelo, String numChassi, double quilometragem, double preco, String cor, int anoFabricacao, int idStatus) {
         this.modelo = modelo;
         this.numChassi = numChassi;
         this.quilometragem = quilometragem;
@@ -37,11 +37,11 @@ public abstract class Veiculo {
         this.modelo = modelo;
     }
 
-    public int getNumChassi() {
+    public String getNumChassi() {
         return numChassi;
     }
 
-    public void setNumChassi(int numChassi) {
+    public void setNumChassi(String numChassi) {
         this.numChassi = numChassi;
     }
 
@@ -85,13 +85,15 @@ public abstract class Veiculo {
         this.idStatus = idStatus;
     }
 
-    public String exibirVeiculos() {
-        return  "Modelo: " + this.modelo +
+    @Override
+    public String toString() {
+        return  "ID: " + this.id +
+                "\nModelo: " + this.modelo +
                 "\nChassi: " + this.numChassi +
                 "\nPreço: R$" + String.format("%.2f", this.preco) +
                 "\nCor: " + this.cor +
                 "\nAno: " + this.anoFabricacao +
-                "\nStatus: " + this.status;
+                "\nStatus: " + this.status[this.idStatus - 1];
     }
 
     public void cadastrarVeiculo() {
