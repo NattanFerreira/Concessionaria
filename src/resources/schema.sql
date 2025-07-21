@@ -6,6 +6,21 @@ CREATE TABLE Funcionario (
     id_cargo int NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS Venda (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    valorTotal REAL NOT NULL,
+    dataVenda INTEGER NOT NULL,
+    idVeiculo INTEGER NOT NULL,
+    idFuncionario INTEGER NOT NULL,
+    FOREIGN KEY (idVeiculo) REFERENCES Veiculo(id),
+    FOREIGN KEY (idFuncionario) REFERENCES Funcionario(id)
+);
+
+CREATE TABLE Status (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    descricao TEXT NOT NULL UNIQUE -- 1: Disponível, 2: Reservado, 3: Vendido
+);
+
 CREATE TABLE carros (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     modelo VARCHAR(255) NOT NULL,

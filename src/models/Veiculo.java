@@ -3,7 +3,7 @@ package models;
 public abstract class Veiculo {
     protected int id;
     protected String modelo;
-    protected String numChassi;
+    protected int numChassi;
     protected double quilometragem;
     protected double preco;
     protected String cor;
@@ -11,7 +11,7 @@ public abstract class Veiculo {
     protected String[] status = {"Disponível", "Vendido"};
     protected int idStatus; // 1 "Disponível", 2 "Vendido"
 
-    public Veiculo(String modelo, String numChassi, double quilometragem, double preco, String cor, int anoFabricacao, int idStatus) {
+    public Veiculo(String modelo, int numChassi, double quilometragem, double preco, String cor, int anoFabricacao, int idStatus) {
         this.modelo = modelo;
         this.numChassi = numChassi;
         this.quilometragem = quilometragem;
@@ -37,11 +37,11 @@ public abstract class Veiculo {
         this.modelo = modelo;
     }
 
-    public String getNumChassi() {
+    public int getNumChassi() {
         return numChassi;
     }
 
-    public void setNumChassi(String numChassi) {
+    public void setNumChassi(int numChassi) {
         this.numChassi = numChassi;
     }
 
