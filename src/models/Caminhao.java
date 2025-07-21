@@ -47,8 +47,9 @@ public class Caminhao extends Veiculo {
         this.tipoCarroceria = tipoCarroceria;
     }
 
-    public String exibirCaminhao() {
-        return super.exibirVeiculos() +
+    @Override
+    public String toString() {
+        return super.toString() +
                 "\nEixos: " + eixo +
                 "\nCapacidade de Carga: " + capacidadeCarga + "t" +
                 "\nAltura: " + altura + "m" +

@@ -83,4 +83,9 @@ public class Funcoes {
     public static void cabecalhoMenu(String texto) {
         System.out.println("\n--- " + texto + " ---");
     }
+
+    public static void pressEnterToContinue() {
+        System.out.println("Pressione Enter para continuar...");
+        input.nextLine();
+    }
 }

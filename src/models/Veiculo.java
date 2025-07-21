@@ -8,7 +8,7 @@ public abstract class Veiculo {
     protected double preco;
     protected String cor;
     protected int anoFabricacao;
-    protected String[] status = {"Disponível", "Vendido"};
+    protected String[] status = {"Disponível", "Vendido", "Reservado"};
     protected int idStatus; // 1 "Disponível", 2 "Vendido"
 
     public Veiculo(String modelo, String numChassi, double quilometragem, double preco, String cor, int anoFabricacao, int idStatus) {
@@ -85,7 +85,8 @@ public abstract class Veiculo {
         this.idStatus = idStatus;
     }
 
-    public String exibirVeiculos() {
+    @Override
+    public String toString() {
         return  "Modelo: " + this.modelo +
                 "\nChassi: " + this.numChassi +
                 "\nPreço: R$" + String.format("%.2f", this.preco) +

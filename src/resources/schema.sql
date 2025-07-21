@@ -15,31 +15,26 @@ CREATE TABLE IF NOT EXISTS Venda (
     FOREIGN KEY (idFuncionario) REFERENCES Funcionario(id)
 );
 
-CREATE TABLE Status (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    descricao TEXT NOT NULL UNIQUE -- 1: Disponível, 2: Reservado, 3: Vendido
-);
-
 CREATE TABLE carros (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     modelo VARCHAR(255) NOT NULL,
     num_chassi VARCHAR(255) NOT NULL,
-    quilometragem DECIMAL(10, 2),
+    quilometragem DECIMAL(10, 2) NOT NULL,
     preco DECIMAL(10, 2) NOT NULL,
     cor VARCHAR(50) NOT NULL,
     ano_fabricacao INT NOT NULL,
     id_status INT NOT NULL,
     -- Dados específicos para Carro
-    cavalo_potencia DECIMAL(10, 2) NOT NULL,
+    cavalo_potencia int NOT NULL,
     numero_portas INT NOT NULL,
-    id_tipo_combustivel VARCHAR(50) NOT NULL
+    id_tipo_combustivel INT NOT NULL
 );
 
 CREATE TABLE motocicletas (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     modelo VARCHAR(255) NOT NULL,
     num_chassi VARCHAR(20) NOT NULL,
-    quilometragem DECIMAL(10, 2),
+    quilometragem DECIMAL(10, 2) NOT NULL,
     preco DECIMAL(10, 2) NOT NULL,
     cor VARCHAR(50) NOT NULL,
     ano_fabricacao INT NOT NULL,
@@ -52,11 +47,11 @@ CREATE TABLE caminhoes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     modelo VARCHAR(255) NOT NULL,
     num_chassi VARCHAR(20) NOT NULL,
-    quilometragem DECIMAL(10, 2),
+    quilometragem DECIMAL(10, 2) NOT NULL,
     preco DECIMAL(10, 2) NOT NULL,
     cor VARCHAR(50) NOT NULL,
     ano_fabricacao INT NOT NULL,
-    id_status INT NOT NULL,
+    id_status INT NOT NULL, 
     -- Dados específicos para Caminhão
     eixos INT NOT NULL,
     capacidade_carga DECIMAL(10, 2) NOT NULL,
