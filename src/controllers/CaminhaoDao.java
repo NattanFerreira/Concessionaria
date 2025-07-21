@@ -365,6 +365,43 @@ public class CaminhaoDao {
     }
 
     /**
+     * Busca um caminhão pelo seu ID.
+     *
+     * @param banco O objeto Banco para realizar a operação.
+     * @param id    O ID do caminhão a ser buscado.
+     * @return Um objeto Caminhao ou null se não encontrado.
+     */
+    public List<Caminhao> listarCaminhoesAVenda(Banco banco) {
+        List<Caminhao> caminhoes = new ArrayList<>();
+        String sql = "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, eixos, capacidade_carga, altura, tipo_carroceria FROM caminhoes";
+
+        try (ResultSet rs = banco.querySelect(sql)) {
+            while (rs.next()) {
+                Caminhao caminhao = new Caminhao(
+                        rs.getString("modelo"),
+                        rs.getString("num_chassi"),
+                        rs.getDouble("quilometragem"),
+                        rs.getDouble("preco"),
+                        rs.getString("cor"),
+                        rs.getInt("ano_fabricacao"),
+                        rs.getInt("id_status"),
+                        rs.getInt("eixos"),
+                        rs.getDouble("capacidade_carga"),
+                        rs.getDouble("altura"),
+                        rs.getString("tipo_carroceria"));
+                caminhao.setId(rs.getInt("id"));
+
+                if (caminhao.getIdStatus() == 1) { // Verifica se o caminhão está disponível
+                    caminhoes.add(caminhao);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao listar caminhões: " + e.getMessage());
+        }
+        return caminhoes;
+    }
+
+    /**
      * Atualiza os dados de um caminhão existente com base no seu ID.
      *
      * @param banco    O objeto Banco para realizar a operação.

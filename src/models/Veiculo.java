@@ -9,7 +9,7 @@ public abstract class Veiculo {
     protected String cor;
     protected int anoFabricacao;
     protected String[] status = {"Disponível", "Vendido", "Reservado"};
-    protected int idStatus; // 1 "Disponível", 2 "Vendido"
+    protected int idStatus; // 1 "Disponível", 2 "Vendido" , 3 "Reservado"
 
     public Veiculo(String modelo, String numChassi, double quilometragem, double preco, String cor, int anoFabricacao, int idStatus) {
         this.modelo = modelo;

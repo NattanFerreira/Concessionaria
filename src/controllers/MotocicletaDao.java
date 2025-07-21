@@ -300,6 +300,33 @@ public void removerMotocicleta(Banco banco) {
         return motocicletas;
     }
 
+    public List<Motocicleta> listarMotocicletasAVenda(Banco banco) {
+        List<Motocicleta> motocicletas = new ArrayList<>();
+        String sql = "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cilindrada FROM motocicletas";
+
+        try (ResultSet rs = banco.querySelect(sql)) {
+            while (rs.next()) {
+                Motocicleta motocicleta = new Motocicleta(
+                        rs.getString("modelo"),
+                        rs.getString("num_chassi"),
+                        rs.getDouble("quilometragem"),
+                        rs.getDouble("preco"),
+                        rs.getString("cor"),
+                        rs.getInt("ano_fabricacao"),
+                        rs.getInt("id_status"),
+                        rs.getInt("cilindrada"));
+                motocicleta.setId(rs.getInt("id"));
+
+                if (motocicleta.getIdStatus() == 1) { // Verifica se está disponível
+                    motocicletas.add(motocicleta);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao listar motocicletas: " + e.getMessage());
+        }
+        return motocicletas;
+    }
+
     /**
      * Atualiza os dados de uma motocicleta existente com base no seu ID.
      *

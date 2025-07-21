@@ -168,6 +168,19 @@ public class FuncionarioDao {
         return funcionarios;
     }
 
+    public static int getIdFuncionario(Banco banco, String login, String senha) {
+        String sql = String.format("SELECT id FROM Funcionario WHERE usuario = '%s' AND senha = '%s'", login, senha);
+
+        try (ResultSet rs = banco.querySelect(sql)) {
+            if (rs.next()) {
+                return rs.getInt("id");
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao obter ID do funcionário: " + e.getMessage());
+        }
+        return -1; // Retorna -1 se não encontrar o funcionário ou se houver erro
+    }
+
     /**
      * Autentica um funcionário verificando login e senha.
      *

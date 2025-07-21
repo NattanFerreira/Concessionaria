@@ -350,6 +350,39 @@ public class    CarroDao {
         return carros;
     }
 
+    public List<Carro> listarCarrosAVenda(Banco banco) {
+        List<Carro> carros = new ArrayList<>();
+        String sql = "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel FROM carros";
+
+        try (ResultSet rs = banco.querySelect(sql)) {
+            if (rs == null) {
+                System.out.println("Nenhum carro encontrado.");
+                return carros;
+            }
+            while (rs.next()) {
+                Carro carro = new Carro(
+                        rs.getString("modelo"),
+                        rs.getString("num_chassi"),
+                        rs.getDouble("quilometragem"),
+                        rs.getDouble("preco"),
+                        rs.getString("cor"),
+                        rs.getInt("ano_fabricacao"),
+                        rs.getInt("id_status"),
+                        rs.getInt("cavalo_potencia"),
+                        rs.getInt("numero_portas"),
+                        rs.getInt("id_tipo_combustivel"));
+                carro.setId(rs.getInt("id"));
+
+                if (carro.getIdStatus() == 1) { // Verifica se o carro está disponível para venda
+                    carros.add(carro);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao listar carros: " + e.getMessage());
+        }
+        return carros;
+    }
+
     /**
      * Atualiza os dados de um carro existente com base no seu ID.
      *

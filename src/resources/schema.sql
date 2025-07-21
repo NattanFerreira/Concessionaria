@@ -9,7 +9,6 @@ CREATE TABLE IF NOT EXISTS Funcionario (
 CREATE TABLE IF NOT EXISTS Venda (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     valorTotal REAL NOT NULL,
-    dataVenda STRING NOT NULL,
     idFuncionario INTEGER NOT NULL,
     FOREIGN KEY (idFuncionario) REFERENCES Funcionario(id) ON DELETE CASCADE
 );

@@ -54,7 +54,8 @@ public class LoginView {
             Funcoes.pressEnterToContinue();
             return;
         } else if (id_cargo == 0) {
-            // Aqui você pode redirecionar para a tela de vendedor 
+            int id_funcionario = FuncionarioDao.getIdFuncionario(banco, login, senha);
+            VendedorView.menuVendedor(banco, id_funcionario);
         } else if (id_cargo == 1) {
             EstoqueView.menuEstoque(banco);
         } else if (id_cargo == 2) {

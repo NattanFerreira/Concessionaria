@@ -2,22 +2,17 @@ package models;
 
 import java.util.ArrayList;
 import java.util.List;
-import models.Veiculo;
-import java.util.Date;
 
 public class Venda {
     private int id;
     private double valorTotal;
-    private String dataVenda;
     private int idFuncionario;
-    private int id_status; // 1 - Pendente, 2 - Concluída
-    private String[] status = {"Pendente", "Concluída"};
+    private int id_status; // 1 - Aberta, 2 - Concluída
+    private String[] status = {"Aberta", "Concluída"};
     private List<Veiculo> veiculos = new ArrayList<>();
 
-    public Venda(int id, double valorTotal, String dataVenda, int idFuncionario, int id_status, List<Veiculo> veiculo) {
-        this.id = id;
+    public Venda(double valorTotal, int idFuncionario, int id_status, List<Veiculo> veiculo) {
         this.valorTotal = valorTotal;
-        this.dataVenda = dataVenda;
         this.idFuncionario = idFuncionario;
         this.id_status = id_status;
         this.veiculos = veiculo;
@@ -40,14 +35,6 @@ public class Venda {
 
     public void setValorTotal(double valorTotal) {
         this.valorTotal = valorTotal;
-    }
-
-    public String getDataVenda() {
-        return dataVenda;
-    }
-
-    public void setDataVenda(String dataVenda) {
-        this.dataVenda = dataVenda;
     }
 
     public int getIdFuncionario() {
@@ -79,7 +66,6 @@ public class Venda {
         StringBuilder sb = new StringBuilder();
         sb.append("Venda ID: ").append(id).append("\n");
         sb.append("Valor Total: R$ ").append(valorTotal).append("\n");
-        sb.append("Data da Venda: ").append(dataVenda).append("\n");
         sb.append("Funcionário ID: ").append(idFuncionario).append("\n");
         sb.append("Status: ").append(status[id_status - 1]).append("\n");
         sb.append("Veículos Vendidos:\n");
