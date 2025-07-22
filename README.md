@@ -2,15 +2,15 @@
 
 PROJETO FINAL DA DISCIPLINA DE PROGRAMAÇÃO ORIENTADA A OBJETOS
 
-## 📋 Descrição do Projeto
+## Descrição do Projeto
 
 Sistema completo para gerenciamento de uma concessionária de veículos, desenvolvido em Java utilizando conceitos de Programação Orientada a Objetos. O sistema permite o controle de estoque, vendas, funcionários e relatórios administrativos.
 
-## 🚗 Funcionalidades
+## Funcionalidades
 
 ### Sistema de Autenticação
 
-- Login com diferentes níveis de acesso (Admin, Gerente, Vendedor)
+- Login com dois níveis de acesso (Vendedor e Estoquista)
 - Validação de credenciais e controle de sessão
 
 ### Gestão de Veículos
@@ -29,12 +29,11 @@ Sistema completo para gerenciamento de uma concessionária de veículos, desenvo
 
 ### Gestão Administrativa
 
-- Cadastro e gerenciamento de funcionários
-- Relatórios de vendas
-- Controle de comissões
-- Relatórios personalizados
+- Cadastro e gerenciamento de funcionários (não totalmente implementado)
+- Sistema de estoque para gestão de veículos
+- Controle de comissões (estrutura preparada)
 
-## 🏗️ Arquitetura do Sistema
+## Arquitetura do Sistema
 
 ### Estrutura MVC (Model-View-Controller)
 
@@ -66,7 +65,7 @@ src/
     └── schema.sql
 ```
 
-## 💾 Banco de Dados
+## Banco de Dados
 
 O sistema utiliza **SQLite** para persistência de dados com as seguintes tabelas:
 
@@ -75,16 +74,16 @@ O sistema utiliza **SQLite** para persistência de dados com as seguintes tabela
 - **Motocicleta**: Dados de motocicletas
 - **Caminhao**: Informações de caminhões
 - **Venda**: Controle de vendas
-- **VendaVeiculo**: Relacionamento entre vendas e veículos
+- **Carrinho**: Relacionamento entre vendas e veículos (implementado como carrinho de compras)
 
-## 🛠️ Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 - **Java SE**: Linguagem principal
 - **SQLite**: Banco de dados
 - **JDBC**: Conectividade com banco de dados
 - **POO**: Paradigma de programação
 
-## ⚙️ Configuração e Execução
+## Configuração e Execução
 
 ### Pré-requisitos
 
@@ -109,32 +108,35 @@ javac -cp "lib/sqlite-jdbc.jar" -d bin src/**/*.java
 3. **Execute o sistema**:
 
 ```bash
-java -cp "bin:lib/sqlite-jdbc.jar" Main
+java -cp bin Main
 ```
 
-## 👥 Perfis de Usuário
+**Nota**: O driver SQLite está configurado no código, mas pode ser necessário incluir a biblioteca JDBC do SQLite no classpath dependendo da instalação do Java.
 
-### Administrador
+## Perfis de Usuário
 
-- Gerenciamento completo do sistema
-- Controle de funcionários
-- Relatórios administrativos
-- Configurações do sistema
-
-### Gerente
-
-- Gestão de funcionários
-- Supervisão de vendas
-- Relatórios gerenciais
-
-### Vendedor
+### Vendedor (ID de cargo: 0)
 
 - Realização de vendas
 - Consulta de estoque
 - Gerenciamento do carrinho
 - Finalização de vendas
 
-## 🔍 Funcionalidades Detalhadas
+### Estoquista (ID de cargo: 1)
+
+- Gestão completa do estoque de veículos
+- Adicionar, remover e atualizar veículos
+- Busca avançada de veículos
+
+### Gerente de funcionário (ID de cargo: 2)
+
+- Funcionalidade planejada mas não implementada
+
+### Administrador (ID de cargo: 3)
+
+- Funcionalidade planejada mas não implementada
+
+## Funcionalidades Detalhadas
 
 ### Gestão de Estoque
 
@@ -164,29 +166,25 @@ java -cp "bin:lib/sqlite-jdbc.jar" Main
 5. Finalização da venda
 6. Atualização do status dos veículos
 
-## 📊 Relatórios Disponíveis
+## Relatórios Disponíveis
 
-- Vendas por período
-- Performance por vendedor
-- Veículos mais vendidos
-- Receita total
-- Cálculo de comissões
-- Relatórios personalizados
+- Sistema de vendas por vendedor implementado
+- Controle básico de vendas finalizadas
 
-## 🔒 Segurança
+## Segurança
 
 - Sistema de autenticação por login/senha
 - Controle de acesso baseado em perfis
 - Validação de dados de entrada
 - Tratamento de exceções
 
-## 📝 Observações Técnicas
+## Observações Técnicas
 
 ### Padrões Utilizados
 
 - **DAO (Data Access Object)**: Para acesso aos dados
 - **MVC (Model-View-Controller)**: Separação de responsabilidades
-- **Singleton**: Para conexão com banco de dados
+- **Singleton**: Para conexão com banco de dados (implementado na classe Banco)
 
 ### Validações
 
@@ -195,14 +193,12 @@ java -cp "bin:lib/sqlite-jdbc.jar" Main
 - Regras de negócio
 - Integridade referencial
 
-## 🤝 Contribuições
+### Status de Implementação
+
+- **Funcionalidades Completas**: Sistema de vendas, gestão de estoque, autenticação básica
+- **Funcionalidades Parciais**: Gestão de funcionários (estrutura criada, mas interfaces não conectadas)
+- **Funcionalidades Planejadas**: Relatórios administrativos, gestão completa de usuários
+
+## Contribuições
 
 Este é um projeto acadêmico desenvolvido como trabalho final da disciplina de Programação Orientada a Objetos.
-
-## 📄 Licença
-
-Projeto acadêmico - todos os direitos reservados.
-
----
-
-**Desenvolvido com 💻 e ☕ para a disciplina de POO**

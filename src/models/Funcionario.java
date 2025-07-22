@@ -6,7 +6,7 @@ public class Funcionario {
     private String nome;
     private String senha;
     private String usuario;
-    private String[] cargos = {"Vendedor", "Estoquista", "Gerente de funcionário", "Administrador"};
+    private String[] cargos = {"Vendedor", "Estoque", "Gerente", "Administrador"};
     private int idCargo;
 
     public Funcionario() {
