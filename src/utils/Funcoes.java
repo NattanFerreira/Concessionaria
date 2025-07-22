@@ -3,6 +3,10 @@ package utils;
 import java.io.IOException;
 import java.util.Scanner;
 
+/**
+ * Classe utilitária com funções auxiliares para o sistema.
+ * Fornece métodos para entrada de dados, validação e formatação de interface.
+ */
 public class Funcoes {
     public static Scanner input = new Scanner(System.in);
 
@@ -10,6 +14,12 @@ public class Funcoes {
         input.close();
     }
 
+    /**
+     * Lê um login do usuário com validação.
+     * Remove espaços em branco e valida se não contém espaços.
+     * 
+     * @return Login válido ou null se inválido
+     */
     public static String lerLogin() {
         String login;
         login = input.nextLine().trim(); // Remove espaços em branco no início e no final
@@ -20,6 +30,12 @@ public class Funcoes {
         return login;
     }
 
+    /**
+     * Lê uma senha do usuário com validação.
+     * Valida se tem pelo menos 6 caracteres e não contém espaços.
+     * 
+     * @return Senha válida ou null se inválida
+     */
     public static String lerSenha() {
         String pass;
         pass = input.nextLine().trim(); // Remover espaços em branco no início e no final
@@ -33,6 +49,11 @@ public class Funcoes {
         return pass;
     }
 
+    /**
+     * Limpa a tela do console.
+     * Funciona em sistemas Windows e Unix-like.
+     * Em caso de erro, simula limpeza com quebras de linha.
+     */
     public static void limpaTela() {
         try {
             String os = System.getProperty("os.name");
@@ -51,6 +72,11 @@ public class Funcoes {
         }
     }
 
+    /**
+     * Lê um número inteiro do usuário com tratamento de erro.
+     * 
+     * @return Número inteiro válido ou -1 em caso de erro
+     */
     public static int lerInt() {
         try {
             String inputStr = input.nextLine().trim();
@@ -61,6 +87,12 @@ public class Funcoes {
         }
     }
 
+    /**
+     * Lê uma string do usuário com validação básica.
+     * Remove espaços em branco e verifica se não está vazia.
+     * 
+     * @return String válida ou null se vazia
+     */
     public static String lerString() {
         String inputStr = input.nextLine().trim();
         if (inputStr.isEmpty()) {
@@ -70,6 +102,11 @@ public class Funcoes {
         return inputStr;
     }
 
+    /**
+     * Lê um número decimal do usuário com tratamento de erro.
+     * 
+     * @return Número decimal válido ou -1 em caso de erro
+     */
     public static double lerDouble() {
         try {
             String inputStr = input.nextLine().trim();
@@ -80,10 +117,18 @@ public class Funcoes {
         }
     }
 
+    /**
+     * Exibe um cabeçalho formatado para menus.
+     * 
+     * @param texto Texto a ser exibido no cabeçalho
+     */
     public static void cabecalhoMenu(String texto) {
         System.out.println("\n--- " + texto + " ---");
     }
 
+    /**
+     * Pausa a execução aguardando o usuário pressionar Enter.
+     */
     public static void pressEnterToContinue() {
         System.out.println("Pressione Enter para continuar...");
         input.nextLine();

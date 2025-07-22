@@ -4,7 +4,19 @@ import data.Banco;
 import utils.Funcoes;
 import controllers.FuncionarioDao;
 
+/**
+ * Classe responsável pela interface de login do sistema.
+ * Gerencia a autenticação de usuários e redirecionamento para os menus específicos
+ * baseado no cargo do funcionário.
+ */
 public class LoginView {
+    
+    /**
+     * Exibe o menu inicial do sistema com opções de login.
+     * Controla o loop principal do menu de entrada.
+     * 
+     * @param banco Objeto Banco para operações de autenticação
+     */
     public static void menuInicial(Banco banco) {
         int opcao;
         do {
@@ -29,7 +41,19 @@ public class LoginView {
         } while (opcao != 0);
     }
 
-
+    /**
+     * Processa o login do usuário.
+     * Solicita credenciais, autentica no banco e redireciona para o menu
+     * apropriado baseado no cargo do funcionário.
+     * 
+     * Cargos disponíveis:
+     * - 0: Vendedor -> VendedorView
+     * - 1: Estoquista -> EstoqueView  
+     * - 2: Gerente -> Não implementado
+     * - 3: Administrador -> Não implementado
+     * 
+     * @param banco Objeto Banco para autenticação
+     */
     public static void telaLogin(Banco banco) {
         int id_cargo;
         Funcoes.limpaTela();

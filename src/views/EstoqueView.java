@@ -13,9 +13,59 @@ import java.util.List;
 
 import controllers.CaminhaoDao;
 
-
+/**
+ * Classe responsável pela interface de gerenciamento de estoque de veículos.
+ * Fornece funcionalidades completas de CRUD (Create, Read, Update, Delete) 
+ * para todos os tipos de veículos da concessionária.
+ * 
+ * Esta classe implementa um sistema robusto de gerenciamento de estoque com:
+ * - Operações básicas: adicionar, remover, atualizar e listar veículos
+ * - Sistema avançado de busca com múltiplos critérios
+ * - Suporte para três categorias de veículos: Carros, Motocicletas e Caminhões
+ * - Interface intuitiva baseada em menus hierárquicos
+ * 
+ * Funcionalidades por tipo de veículo:
+ * 
+ * CARROS:
+ * - Busca por ID, modelo, chassi
+ * - Filtros por preço, quilometragem, ano
+ * - Busca por cor, potência, número de portas
+ * - Filtro por tipo de combustível
+ * 
+ * MOTOCICLETAS:
+ * - Busca por ID, modelo, chassi
+ * - Filtros por preço, quilometragem, ano
+ * - Busca por cor e cilindrada
+ * 
+ * CAMINHÕES:
+ * - Busca por ID, modelo, chassi
+ * - Filtros por preço, quilometragem, ano
+ * - Busca por cor, número de eixos
+ * - Filtros por capacidade de carga, altura
+ * - Busca por tipo de carroceria
+ * 
+ * Arquitetura:
+ * - Utiliza padrão MVC (Model-View-Controller)
+ * - Integração com DAOs específicos para cada tipo de veículo
+ * - Validação de entrada de dados em todas as operações
+ * - Tratamento de erros e casos especiais
+ */
 public class EstoqueView {
 
+    /**
+     * Menu principal do sistema de estoque.
+     * Controla o fluxo principal de navegação entre as funcionalidades de estoque.
+     * 
+     * Funcionalidades disponíveis:
+     * 1. Adicionar Veículo - Cadastro de novos veículos no estoque
+     * 2. Remover Veículo - Exclusão de veículos do estoque
+     * 3. Atualizar Veículo - Modificação de dados de veículos existentes
+     * 4. Listar Veículos - Visualização de todos os veículos por categoria
+     * 5. Buscar Veículo - Sistema avançado de busca com múltiplos filtros
+     * 0. Sair - Retorna ao menu anterior
+     * 
+     * @param banco Instância do banco de dados para operações de persistência
+     */
     public static void menuEstoque(Banco banco) {
         int opcao;
         do {
@@ -48,6 +98,20 @@ public class EstoqueView {
         } while (opcao != 0);
     }
 
+    /**
+     * Menu para adição de novos veículos ao estoque.
+     * Permite o cadastro de veículos por categoria específica.
+     * 
+     * Categorias disponíveis:
+     * 1. Carros - Veículos de passeio com características específicas
+     * 2. Motocicletas - Veículos de duas rodas com atributos únicos
+     * 3. Caminhões - Veículos pesados para transporte de carga
+     * 
+     * Cada categoria utiliza seu respectivo DAO para persistência no banco.
+     * Valida a entrada de dados e fornece feedback ao usuário.
+     * 
+     * @param banco Instância do banco de dados para operações de inserção
+     */
     public static void menuAdicionarVeiculo(Banco banco) {
         int opcao;
         do {
@@ -78,6 +142,23 @@ public class EstoqueView {
         } while (opcao != 0);
     }
 
+    /**
+     * Menu para remoção de veículos do estoque.
+     * Permite a exclusão segura de veículos por categoria.
+     * 
+     * Funcionalidades:
+     * - Seleção do tipo de veículo a ser removido
+     * - Verificação de existência antes da remoção
+     * - Confirmação de exclusão para evitar perdas acidentais
+     * - Feedback ao usuário sobre o resultado da operação
+     * 
+     * Categorias disponíveis:
+     * 1. Carros - Remove veículos da categoria carro
+     * 2. Motocicletas - Remove veículos da categoria motocicleta
+     * 3. Caminhões - Remove veículos da categoria caminhão
+     * 
+     * @param banco Instância do banco de dados para operações de exclusão
+     */
     public static void menuRemoverVeiculo(Banco banco) {
         int opcao;
         do {
@@ -108,6 +189,25 @@ public class EstoqueView {
     }
 
 
+    /**
+     * Menu para atualização de dados de veículos existentes.
+     * Permite a modificação de informações de veículos já cadastrados.
+     * 
+     * Funcionalidades:
+     * - Seleção do tipo de veículo a ser atualizado
+     * - Busca do veículo específico por ID
+     * - Edição de campos modificáveis
+     * - Validação de novos dados inseridos
+     * - Persistência das alterações no banco de dados
+     * 
+     * Campos típicos editáveis:
+     * - Preço de venda
+     * - Quilometragem
+     * - Status do veículo
+     * - Descrição e observações
+     * 
+     * @param banco Instância do banco de dados para operações de atualização
+     */
     public static void menuAtualizarVeiculo(Banco banco) {
         int opcao;
         do {
@@ -140,6 +240,29 @@ public class EstoqueView {
         } while (opcao != 0);
     }
 
+    /**
+     * Menu para listagem de veículos por categoria.
+     * Exibe todos os veículos cadastrados organizados por tipo.
+     * 
+     * Funcionalidades:
+     * - Listagem completa por categoria de veículo
+     * - Formatação organizada das informações
+     * - Verificação de existência de veículos
+     * - Separação visual entre registros
+     * 
+     * Informações exibidas:
+     * - Dados básicos do veículo (ID, modelo, marca)
+     * - Características técnicas específicas
+     * - Informações comerciais (preço, status)
+     * - Detalhes únicos por categoria
+     * 
+     * Categorias disponíveis:
+     * 1. Carros - Lista todos os carros do estoque
+     * 2. Motocicletas - Lista todas as motocicletas
+     * 3. Caminhões - Lista todos os caminhões
+     * 
+     * @param banco Instância do banco de dados para consulta de veículos
+     */
     public static void menuListarVeiculos(Banco banco) {
         List<Carro> carros;
         List<Motocicleta> motocicletas;
@@ -202,6 +325,62 @@ public class EstoqueView {
         } while (opcao != 0);
     }
 
+    /**
+     * Sistema avançado de busca de veículos com múltiplos critérios.
+     * Oferece opções especializadas de pesquisa para cada categoria de veículo.
+     * 
+     * SISTEMA DE BUSCA POR CATEGORIA:
+     * 
+     * === CARROS (10 critérios de busca) ===
+     * 1. ID - Busca direta por identificador único
+     * 2. Modelo - Busca por nome/modelo do veículo
+     * 3. Chassi - Busca por número de chassi
+     * 4. Faixa de Preço - Filtro por valor mínimo e máximo
+     * 5. Quilometragem - Filtro por quilometragem máxima
+     * 6. Faixa de Ano - Filtro por período de fabricação
+     * 7. Cor - Busca por cor específica
+     * 8. Potência - Filtro por potência máxima (cavalos)
+     * 9. Número de Portas - Filtro por configuração de portas
+     * 10. Tipo de Combustível - Filtro por combustível (Gasolina/Etanol/Diesel/Elétrico)
+     * 
+     * === MOTOCICLETAS (8 critérios de busca) ===
+     * 1. ID - Busca direta por identificador único
+     * 2. Modelo - Busca por nome/modelo do veículo
+     * 3. Chassi - Busca por número de chassi
+     * 4. Faixa de Preço - Filtro por valor mínimo e máximo
+     * 5. Quilometragem - Filtro por quilometragem máxima
+     * 6. Faixa de Ano - Filtro por período de fabricação
+     * 7. Cor - Busca por cor específica
+     * 8. Cilindrada - Filtro por cilindrada máxima (cm³)
+     * 
+     * === CAMINHÕES (11 critérios de busca) ===
+     * 1. ID - Busca direta por identificador único
+     * 2. Modelo - Busca por nome/modelo do veículo
+     * 3. Chassi - Busca por número de chassi
+     * 4. Faixa de Preço - Filtro por valor mínimo e máximo
+     * 5. Quilometragem - Filtro por quilometragem máxima
+     * 6. Faixa de Ano - Filtro por período de fabricação
+     * 7. Cor - Busca por cor específica
+     * 8. Número de Eixos - Filtro por configuração de eixos
+     * 9. Capacidade de Carga - Filtro por capacidade máxima (toneladas)
+     * 10. Altura - Filtro por altura máxima (metros)
+     * 11. Tipo de Carroceria - Filtro por tipo (Baú/Sider/Graneleiro/Frigorífico)
+     * 
+     * VALIDAÇÕES IMPLEMENTADAS:
+     * - Verificação de IDs válidos (> 0)
+     * - Validação de strings não vazias
+     * - Verificação de faixas de valores lógicas
+     * - Validação de anos (mínimo 1886 - primeiro automóvel)
+     * - Verificação de valores numéricos positivos
+     * 
+     * TRATAMENTO DE ERROS:
+     * - Mensagens informativas para buscas sem resultados
+     * - Validação de entrada de dados
+     * - Retorno seguro em caso de erro
+     * - Feedback ao usuário em todas as operações
+     * 
+     * @param banco Instância do banco de dados para operações de consulta
+     */
     public static void menuBuscarVeiculo(Banco banco) {
         int opcao;
         int subOpcao;
@@ -897,6 +1076,10 @@ public class EstoqueView {
         } while (opcao != 0);
     }
     
+    /**
+     * Exibe a tela principal do menu de estoque.
+     * Interface padronizada com cabeçalho e opções numeradas.
+     */
     public static void TelaMenuEstoque() {
         Funcoes.limpaTela();
         Funcoes.cabecalhoMenu("MENU PRINCIPAL");
@@ -908,6 +1091,10 @@ public class EstoqueView {
         System.out.println("0. Sair");
     }
 
+    /**
+     * Exibe a tela do menu de adição de veículos.
+     * Interface para seleção do tipo de veículo a ser cadastrado.
+     */
     public static void TelaMenuAdicionarVeiculo() {
         Funcoes.limpaTela();
         Funcoes.cabecalhoMenu("ADICIONAR VEÍCULO");
@@ -917,6 +1104,10 @@ public class EstoqueView {
         System.out.println("0. Voltar");
     }
 
+    /**
+     * Exibe a tela do menu de atualização de veículos.
+     * Interface para seleção do tipo de veículo a ser atualizado.
+     */
     public static void TelaMenuAtualizarVeiculo() {
         Funcoes.limpaTela();
         Funcoes.cabecalhoMenu("ATUALIZAR VEÍCULO");
@@ -926,6 +1117,10 @@ public class EstoqueView {
         System.out.println("0. Voltar");
     }
 
+    /**
+     * Exibe a tela do menu de remoção de veículos.
+     * Interface para seleção do tipo de veículo a ser removido.
+     */
     public static void TelaMenuRemoverVeiculo() {
         Funcoes.limpaTela();
         Funcoes.cabecalhoMenu("REMOVER VEÍCULOS");
@@ -935,6 +1130,10 @@ public class EstoqueView {
         System.out.println("0. Voltar");
     }
 
+    /**
+     * Exibe a tela do menu de listagem de veículos.
+     * Interface para seleção do tipo de veículo a ser listado.
+     */
     public static void TelaMenuListarVeiculos() {
         Funcoes.limpaTela();
         Funcoes.cabecalhoMenu("LISTAR VEÍCULOS");
@@ -944,6 +1143,10 @@ public class EstoqueView {
         System.out.println("0. Voltar");
     }
 
+    /**
+     * Exibe a tela do menu principal de busca de veículos.
+     * Interface para seleção da categoria de veículo a ser pesquisada.
+     */
     public static void TelaMenuBuscarVeiculo() {
         Funcoes.limpaTela();
         Funcoes.cabecalhoMenu("BUSCAR VEÍCULOS");
@@ -953,6 +1156,15 @@ public class EstoqueView {
         System.out.println("0. Voltar");
     }
 
+    /**
+     * Exibe a tela especializada para busca de carros.
+     * Interface com 10 critérios diferentes de busca para veículos de passeio.
+     * 
+     * Critérios disponíveis:
+     * 1-3: Identificação (ID, modelo, chassi)
+     * 4-6: Características físicas (preço, quilometragem, ano)
+     * 7-10: Especificações técnicas (cor, potência, portas, combustível)
+     */
     public static void TelaMenuBuscasCarros() {
         Funcoes.limpaTela();
         Funcoes.cabecalhoMenu("BUSCAR CARROS");
@@ -969,6 +1181,15 @@ public class EstoqueView {
         System.out.println("0. Voltar");
     }
 
+    /**
+     * Exibe a tela especializada para busca de motocicletas.
+     * Interface com 8 critérios específicos para veículos de duas rodas.
+     * 
+     * Critérios disponíveis:
+     * 1-3: Identificação (ID, modelo, chassi)
+     * 4-6: Características físicas (preço, quilometragem, ano)
+     * 7-8: Especificações únicas (cor, cilindrada)
+     */
     public static void TelaMenuBuscarMotocicleta() {
         Funcoes.limpaTela();
         Funcoes.cabecalhoMenu("BUSCAR MOTOCICLETA");
@@ -983,6 +1204,15 @@ public class EstoqueView {
         System.out.println("0. Voltar");
     }
 
+    /**
+     * Exibe a tela especializada para busca de caminhões.
+     * Interface com 11 critérios especializados para veículos pesados.
+     * 
+     * Critérios disponíveis:
+     * 1-3: Identificação (ID, modelo, chassi)
+     * 4-6: Características físicas (preço, quilometragem, ano)
+     * 7-11: Especificações técnicas (cor, eixos, carga, altura, carroceria)
+     */
     public static void TelaMenuBuscarCaminhao() {
         Funcoes.limpaTela();
         Funcoes.cabecalhoMenu("BUSCAR CAMINHÃO");

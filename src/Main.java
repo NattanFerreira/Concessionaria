@@ -3,7 +3,17 @@ import utils.Funcoes;
 import controllers.*;
 import models.*;
 
+/**
+ * Classe principal do sistema de gerenciamento de concessionária.
+ * Responsável por inicializar o banco de dados, inserir dados de teste
+ * e iniciar a aplicação.
+ */
 public class Main {
+    
+    /**
+     * Método principal que inicializa o sistema.
+     * Cria a conexão com o banco, insere dados de teste e inicia o menu de login.
+     */
     public static void main(String[] args) {
         Banco banco = new Banco();
 
@@ -12,7 +22,6 @@ public class Main {
         funcionarioDao.cadastrarFuncionario(banco, funcionario);
         
         CarroDao carroDao = new CarroDao();
-        // ...existing code...
         Carro carro = new Carro("Fusca", "ABC1234", 15000.0, 25.4, "Azul",
      2000, 1, 80, 4, 0);
         Carro carro2 = new Carro("Civic", "XYZ5678", 30000.0, 35.0, "Branco",
@@ -27,6 +36,7 @@ public class Main {
         carroDao.cadastrarCarro(banco, carro4);
 
         views.LoginView.menuInicial(banco);
+        
         Funcoes.fechaScanner();
         banco.disconnect();
     }

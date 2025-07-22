@@ -1,5 +1,12 @@
 package models;
 
+/**
+ * Classe abstrata que representa um veículo genérico no sistema da concessionária.
+ * Serve como classe base para todos os tipos específicos de veículos (Carro, Motocicleta, Caminhão).
+ * 
+ * Esta classe define os atributos e métodos comuns a todos os veículos,
+ * implementando o conceito de herança da POO.
+ */
 public abstract class Veiculo {
     protected int id;
     protected String modelo;
@@ -96,14 +103,23 @@ public abstract class Veiculo {
                 "\nStatus: " + this.status[this.idStatus - 1];
     }
 
+    /**
+     * Método abstrato para exibir uma mensagem de cadastrar veículo.
+     */
     public void cadastrarVeiculo() {
         System.out.println("Veículo cadastrado");
     }
 
+    /**
+     * Método abstrato para exibir uma mensagem de remover veículo.
+     */
     public void removerVeiculo() {
         System.out.println("Veículo removido");
     }
 
+    /**
+     * Método abstrato para exibir uma mensagem de atualizar veículo.
+     */
     public void atualizarVeiculo() {
         System.out.println("Veículo atualizado");
     }

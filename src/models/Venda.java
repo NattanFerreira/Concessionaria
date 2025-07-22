@@ -3,20 +3,36 @@ package models;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe que representa uma venda no sistema da concessionária.
+ * Controla o processo de vendas, desde a criação do carrinho até a finalização.
+ */
 public class Venda {
     private int id;
     private double valorTotal;
     private int idFuncionario;
-    private int id_status; // 1 - Aberta, 2 - Concluída
+    
+    /** Status da venda: 1-Aberta, 2-Concluída */
+    private int id_status;
+
     private String[] status = {"Aberta", "Concluída"};
     private List<Veiculo> veiculos = new ArrayList<>();
 
+    /**
+     * Construtor da classe Venda.
+     * 
+     * @param valorTotal Valor total da venda
+     * @param idFuncionario ID do funcionário responsável
+     * @param id_status Status da venda (1-Aberta, 2-Concluída)
+     * @param veiculo Lista de veículos da venda
+     */
     public Venda(double valorTotal, int idFuncionario, int id_status, List<Veiculo> veiculo) {
         this.valorTotal = valorTotal;
         this.idFuncionario = idFuncionario;
         this.id_status = id_status;
         this.veiculos = veiculo;
     }
+    
     
     public Venda() {
     }

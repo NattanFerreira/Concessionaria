@@ -1,5 +1,9 @@
 package models;
 
+/**
+ * Classe que representa um funcionário do sistema da concessionária.
+ * Controla informações de acesso e perfil de usuários do sistema.
+ */
 public class Funcionario {
 
     private int id;
@@ -7,12 +11,25 @@ public class Funcionario {
     private String senha;
     private String usuario;
     private String[] cargos = {"Vendedor", "Estoquista", "Gerente de funcionário", "Administrador"};
+    
+    /** ID do cargo do funcionário (0-Vendedor, 1-Estoquista, 2-Gerente, 3-Administrador) */
     private int idCargo;
 
+    /**
+     * Construtor padrão da classe Funcionario.
+     */
     public Funcionario() {
 
     }
 
+    /**
+     * Construtor da classe Funcionario com parâmetros.
+     * 
+     * @param nome Nome do funcionário
+     * @param usuario Nome de usuário para login
+     * @param senha Senha de acesso
+     * @param idCargo ID do cargo (0-Vendedor, 1-Estoquista, 2-Gerente, 3-Administrador)
+     */
     public Funcionario(String nome, String usuario, String senha, int idCargo) {
         this.nome = nome;
         this.usuario = usuario;

@@ -15,7 +15,30 @@ import models.Carro;
 import models.Motocicleta;
 import models.Venda;
 
+/**
+ * Classe responsável pela interface do vendedor no sistema da concessionária.
+ * Gerencia todas as funcionalidades disponíveis para vendedores, incluindo:
+ * - Busca e seleção de veículos para venda
+ * - Gerenciamento do carrinho de compras
+ * - Finalização de vendas
+ * - Consulta de estoque disponível
+ * 
+ * Esta classe implementa um sistema completo de vendas com carrinho de compras,
+ * permitindo ao vendedor buscar veículos por diversos critérios e adicionar
+ * múltiplos itens antes de finalizar a venda.
+ */
 public class VendedorView {
+    
+    /**
+     * Menu principal do vendedor.
+     * Gerencia o fluxo principal das operações de venda, incluindo:
+     * - Controle de vendas abertas/criação de novas vendas
+     * - Acesso aos submenus de funcionalidades
+     * - Finalização de vendas
+     * 
+     * @param banco Objeto Banco para operações de banco de dados
+     * @param idFuncionario ID do funcionário vendedor logado
+     */
     public static void menuVendedor(Banco banco, int idFuncionario) {
         int idVendaAberta;
         VendaDao vendaDao = new VendaDao();
@@ -33,6 +56,7 @@ public class VendedorView {
             System.out.println("Venda aberta encontrada com ID: " + idVendaAberta);
             Funcoes.pressEnterToContinue();
         }
+        
         int opcao;
         do {
             telaMenuVendedor();
@@ -79,6 +103,20 @@ public class VendedorView {
         } while (opcao != 0);
     }
 
+    /**
+     * Menu para realizar vendas com busca de veículos.
+     * Permite ao vendedor buscar veículos por categoria (Carro, Motocicleta, Caminhão)
+     * e adicionar os veículos encontrados ao carrinho de compras.
+     * 
+     * Funcionalidades disponíveis:
+     * - Busca de carros com múltiplos critérios
+     * - Busca de motocicletas com múltiplos critérios
+     * - Busca de caminhões com múltiplos critérios
+     * - Adição de veículos ao carrinho
+     * 
+     * @param banco Objeto Banco para operações de banco de dados
+     * @param idVendaAberta ID da venda aberta atual
+     */
     public static void menuRealizarVenda(Banco banco, int idVendaAberta) {
         int opcao;
         int subOpcao;
@@ -95,6 +133,28 @@ public class VendedorView {
             opcao = Funcoes.lerInt();
             switch (opcao) {
                 case 1:
+                    /*
+                     * SEÇÃO DE BUSCA DE CARROS
+                     * 
+                     * Esta seção implementa um sistema completo de busca de carros
+                     * com 10 critérios diferentes:
+                     * 1. Busca por ID (busca específica)
+                     * 2. Busca por Modelo 
+                     * 3. Busca por Número do Chassi
+                     * 4. Busca por Faixa de Preço
+                     * 5. Busca por Quilometragem Máxima
+                     * 6. Busca por Faixa de Ano de Fabricação
+                     * 7. Busca por Cor
+                     * 8. Busca por Potência Máxima
+                     * 9. Busca por Número de Portas
+                     * 10. Busca por Tipo de Combustível
+                     * 
+                     * Para cada busca:
+                     * - Valida entrada do usuário
+                     * - Verifica se o veículo está disponível (status = 1)
+                     * - Permite adicionar ao carrinho se disponível
+                     * - Trata casos de múltiplos resultados
+                     */
                     CarroDao carroDao = new CarroDao();
                     List<Carro> carros = new ArrayList<>();
                     Carro carro = null;
@@ -1515,6 +1575,19 @@ public class VendedorView {
         } while (opcao != 0);
     }
 
+    /**
+     * Menu para listar veículos disponíveis para venda.
+     * Permite ao vendedor visualizar todos os veículos disponíveis no estoque,
+     * organizados por categoria (Carros, Motocicletas, Caminhões).
+     * 
+     * Funcionalidades:
+     * - Listagem de todos os carros disponíveis
+     * - Listagem de todas as motocicletas disponíveis
+     * - Listagem de todos os caminhões disponíveis
+     * - Filtro automático por status (apenas veículos disponíveis)
+     * 
+     * @param banco Objeto Banco para operações de banco de dados
+     */
     public static void menuListarVeiculosAVenda(Banco banco) {
         List<Carro> carros;
         List<Motocicleta> motocicletas;
@@ -1606,6 +1679,10 @@ public class VendedorView {
         } while (opcao != 0);
     }
 
+    /**
+     * Exibe o menu principal do vendedor.
+     * Interface de console com opções disponíveis para o vendedor.
+     */
     public static void telaMenuVendedor() {
         Funcoes.limpaTela();
         Funcoes.cabecalhoMenu("MENU PRINCIPAL");
@@ -1616,6 +1693,10 @@ public class VendedorView {
         System.out.println("0. Sair");
     }
 
+    /**
+     * Exibe o menu de realização de vendas.
+     * Permite escolher o tipo de veículo para busca.
+     */
     public static void telaMenuRealizarVenda() {
         Funcoes.limpaTela();
         System.out.println("1. Buscar Carro");
@@ -1624,6 +1705,10 @@ public class VendedorView {
         System.out.println("0. Voltar");
     }
 
+    /**
+     * Exibe o menu de listagem de veículos à venda.
+     * Permite visualizar estoque por categoria de veículo.
+     */
     public static void telaMenuListarVeiculosAVenda() {
         Funcoes.limpaTela();
         Funcoes.cabecalhoMenu("LISTAR VEÍCULOS A VENDA");
@@ -1633,6 +1718,10 @@ public class VendedorView {
         System.out.println("0. Voltar");
     }
 
+    /**
+     * Exibe o menu de busca de carros.
+     * Apresenta múltiplos critérios de busca disponíveis para carros.
+     */
     public static void telaMenuBuscarCarro() {
         Funcoes.limpaTela();
         Funcoes.cabecalhoMenu("BUSCAR CARRO");
@@ -1649,6 +1738,10 @@ public class VendedorView {
         System.out.println("0. Voltar");
     }
 
+    /**
+     * Exibe o menu de busca de motocicletas.
+     * Apresenta múltiplos critérios de busca disponíveis para motocicletas.
+     */
     public static void telaMenuBuscarMoto() {
         Funcoes.limpaTela();
         Funcoes.cabecalhoMenu("BUSCAR MOTO");
@@ -1663,6 +1756,10 @@ public class VendedorView {
         System.out.println("0. Voltar");
     }
 
+    /**
+     * Exibe o menu de busca de caminhões.
+     * Apresenta múltiplos critérios de busca disponíveis para caminhões.
+     */
     public static void telaMenuBuscarCaminhao() {
         Funcoes.limpaTela();
         Funcoes.cabecalhoMenu("BUSCAR CAMINHÃO");
@@ -1680,6 +1777,10 @@ public class VendedorView {
         System.out.println("0. Voltar");
     }
 
+    /**
+     * Exibe opções para listagem de veículos encontrados em buscas.
+     * Interface para navegação em resultados de busca.
+     */
     public static void telaMenuListarVeiculos() {
         Funcoes.limpaTela();
         Funcoes.cabecalhoMenu("VEÍCULOS CADASTRADOS");
@@ -1688,11 +1789,19 @@ public class VendedorView {
         System.out.println("0. Voltar");
     }
 
+    /**
+     * Exibe opções para adicionar veículo ao carrinho.
+     * Interface de confirmação para adição de itens.
+     */
     public static void telaMenuAdicionarCarrinho() {
         System.out.println("1. Adicionar ao Carrinho");
         System.out.println("2. Não Adicionar ao Carrinho");
     }
 
+    /**
+     * Exibe opções para finalização de venda.
+     * Interface para conclusão ou continuação do processo de venda.
+     */
     public static void telaMenuFinalizarVenda() {
         Funcoes.limpaTela();
         System.out.println("1. Continuar Comprando");
