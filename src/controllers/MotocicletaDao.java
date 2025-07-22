@@ -24,7 +24,7 @@ public class MotocicletaDao {
      */
     public void cadastrarMotocicleta(Banco banco, Motocicleta motocicleta) {
         String sql = String.format(
-                "INSERT INTO Motocicleta (modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cilindrada) VALUES ('%s', '%s', '%.2f', '%.2f', '%s', '%d', '%d', '%d')",
+                "INSERT INTO Motocicleta (modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cilindrada) VALUES ('%s', '%s', %.2f, %.2f, '%s', %d, %d, %d)",
                 motocicleta.getModelo(),
                 motocicleta.getNumChassi(),
                 motocicleta.getQuilometragem(),
@@ -322,7 +322,7 @@ public class MotocicletaDao {
      */
     public void atualizarMotocicleta(Banco banco, Motocicleta motocicleta) {
         String sql = String.format(
-                "UPDATE Motocicleta SET modelo = '%s', num_chassi = '%s', quilometragem = '%.2f', preco = '%.2f', cor = '%s', ano_fabricacao = '%d', id_status = '%d', cilindrada = '%d' WHERE id = '%d'",
+                "UPDATE Motocicleta SET modelo = '%s', num_chassi = '%s', quilometragem = %.2f, preco = %.2f, cor = '%s', ano_fabricacao = %d, id_status = %d, cilindrada = %d WHERE id = %d",
                 motocicleta.getModelo(),
                 motocicleta.getNumChassi(),
                 motocicleta.getQuilometragem(),
@@ -342,7 +342,7 @@ public class MotocicletaDao {
      * @param id    O ID da motocicleta a ser excluída.
      */
     public void excluirMotocicleta(Banco banco, int id) {
-        String sql = String.format("DELETE FROM Motocicleta WHERE id = '%d'", id);
+        String sql = String.format("DELETE FROM Motocicleta WHERE id = %d", id);
         banco.queryInsup(sql);
     }
 
@@ -356,7 +356,7 @@ public class MotocicletaDao {
     public Motocicleta buscarMotocicletaPorId(Banco banco, int id) {
         Motocicleta motocicleta = null;
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cilindrada FROM Motocicleta WHERE id = '%d'",
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cilindrada FROM Motocicleta WHERE id = %d",
                 id);
 
         try (ResultSet rs = banco.querySelect(sql)) {
@@ -456,7 +456,7 @@ public class MotocicletaDao {
     public List<Motocicleta> buscarMotocicletasPorFaixaPreco(Banco banco, double precoMinimo, double precoMaximo) {
         List<Motocicleta> motocicletas = new ArrayList<>();
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cilindrada FROM Motocicleta WHERE preco >= '%.2f' AND preco <= '%.2f'",
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cilindrada FROM Motocicleta WHERE preco >= %.2f AND preco <= %.2f",
                 precoMinimo, precoMaximo);
 
         try (ResultSet rs = banco.querySelect(sql)) {
@@ -490,7 +490,7 @@ public class MotocicletaDao {
     public List<Motocicleta> buscarMotocicletasPorQuilometragem(Banco banco, double quilometragemMaxima) {
         List<Motocicleta> motocicletas = new ArrayList<>();
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cilindrada FROM Motocicleta WHERE quilometragem <= '%.2f'",
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cilindrada FROM Motocicleta WHERE quilometragem <= %.2f",
                 quilometragemMaxima);
 
         try (ResultSet rs = banco.querySelect(sql)) {
@@ -525,7 +525,7 @@ public class MotocicletaDao {
     public List<Motocicleta> buscarMotocicletasPorFaixaAno(Banco banco, int anoMinimo, int anoMaximo) {
         List<Motocicleta> motocicletas = new ArrayList<>();
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cilindrada FROM Motocicleta WHERE ano_fabricacao >= '%d' AND ano_fabricacao <= '%d'",
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cilindrada FROM Motocicleta WHERE ano_fabricacao >= %d AND ano_fabricacao <= %d",
                 anoMinimo, anoMaximo);
 
         try (ResultSet rs = banco.querySelect(sql)) {
@@ -594,7 +594,7 @@ public class MotocicletaDao {
     public List<Motocicleta> buscarMotocicletasPorCilindrada(Banco banco, int cilindrada) {
         List<Motocicleta> motocicletas = new ArrayList<>();
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cilindrada FROM Motocicleta WHERE cilindrada = '%d'",
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cilindrada FROM Motocicleta WHERE cilindrada = %d",
                 cilindrada);
 
         try (ResultSet rs = banco.querySelect(sql)) {

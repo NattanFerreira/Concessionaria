@@ -218,7 +218,8 @@ public class CaminhaoDao {
 
         int anoFabricacao;
         do {
-            System.out.println("Digite o novo ano de fabricação (atual: " + caminhaoExistente.getAnoFabricacao() + "):");
+            System.out
+                    .println("Digite o novo ano de fabricação (atual: " + caminhaoExistente.getAnoFabricacao() + "):");
             anoFabricacao = Funcoes.lerInt();
             if (anoFabricacao < 1900 || anoFabricacao > 2025) {
                 System.out.println("Ano de fabricação deve estar entre 1900 e 2025. Tente novamente.");
@@ -390,7 +391,7 @@ public class CaminhaoDao {
      */
     public void atualizarCaminhao(Banco banco, Caminhao caminhao) {
         String sql = String.format(
-                "UPDATE Caminhao SET modelo = '%s', num_chassi = %s, quilometragem = %.2f, preco = %.2f, cor = '%s', ano_fabricacao = %d, id_status = %d, eixos = %d, capacidade_carga = %.2f, altura = %.2f, tipo_carroceria = '%s' WHERE id = %d",
+                "UPDATE Caminhao SET modelo = '%s', num_chassi = '%s', quilometragem = %.2f, preco = %.2f, cor = '%s', ano_fabricacao = %d, id_status = %d, eixos = %d, capacidade_carga = %.2f, altura = %.2f, tipo_carroceria = '%s' WHERE id = %d",
                 caminhao.getModelo(),
                 caminhao.getNumChassi(),
                 caminhao.getQuilometragem(),
@@ -498,7 +499,7 @@ public class CaminhaoDao {
      */
     public Caminhao buscarCaminhaoPorChassi(Banco banco, String numChassi) {
         String sql = String.format(
-                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, eixos, capacidade_carga, altura, tipo_carroceria FROM Caminhao WHERE num_chassi = %s",
+                "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, eixos, capacidade_carga, altura, tipo_carroceria FROM Caminhao WHERE num_chassi = '%s'",
                 numChassi);
 
         try (ResultSet rs = banco.querySelect(sql)) {
