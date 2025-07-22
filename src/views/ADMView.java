@@ -3,7 +3,7 @@ package views;
 import utils.Funcoes;
 
 public class ADMView {
-    public static void TelaMenuADM() {
+    public static void telaMenuADM() {
         Funcoes.limpaTela();
         Funcoes.cabecalhoMenu("MENU PRINCIPAL");
         System.out.println("1. Gerenciar Funcionarios");
@@ -13,7 +13,7 @@ public class ADMView {
         System.out.println("0. Sair");
     }
 
-    public static void TelaMenuGerenciarFuncionarios() {
+    public static void telaMenuGerenciarFuncionarios() {
         Funcoes.limpaTela();
         Funcoes.cabecalhoMenu("GERENCIAR FUNCIONÁRIOS");
         System.out.println("1. Cadastrar Funcionário");
@@ -25,7 +25,7 @@ public class ADMView {
         System.out.println("0. Voltar");
     }
 
-    public static void TelaMenuFiltrarFuncPorCargo() {
+    public static void telaMenuFiltrarFuncPorCargo() {
         Funcoes.limpaTela();
         System.out.println("1. Vendedores");
         System.out.println("2. Equipe de Estoque");
@@ -33,7 +33,7 @@ public class ADMView {
         System.out.println("0. Voltar");
     }
 
-    public static void TelaMenuBuscarFuncionario() {
+    public static void telaMenuBuscarFuncionario() {
         Funcoes.limpaTela();
         Funcoes.cabecalhoMenu("BUSCAR FUNCIONÁRIO");
         System.out.println("1. Buscar por Nome");
@@ -42,7 +42,7 @@ public class ADMView {
         System.out.println("0. Voltar");
     }
 
-    public static void TelaMenuRelatorioVendas() {
+    public static void telaMenuRelatorioVendas() {
         Funcoes.limpaTela();
         Funcoes.cabecalhoMenu("Relatórios de Venda");
         System.out.println("1. Vendas por Período");

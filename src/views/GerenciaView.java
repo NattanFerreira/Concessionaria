@@ -4,7 +4,7 @@ import utils.Funcoes;
 
 public class GerenciaView {
 
-    public static void menuGerente() {
+    public static void telaMenuGerente() {
         Funcoes.limpaTela();
         Funcoes.cabecalhoMenu("MENU PRINCIPAL");
         System.out.println("1. Cadastrar Funcionário");
@@ -15,27 +15,27 @@ public class GerenciaView {
         System.out.println("0. Sair");
     }
 
-    public static void menuCadastrarFuncionario() {
+    public static void telaMenuCadastrarFuncionario() {
         Funcoes.limpaTela();
         Funcoes.cabecalhoMenu("CADASTRAR FUNCIONÁRIO");
     }
 
-    public static void menuRemoverFuncionario() {
+    public static void telaMenuRemoverFuncionario() {
         Funcoes.limpaTela();
         Funcoes.cabecalhoMenu("REMOVER FUNCIONÁRIO");
     }
 
-    public static void menuAtualizarFuncionario() {
+    public static void telaMenuAtualizarFuncionario() {
         Funcoes.limpaTela();
         Funcoes.cabecalhoMenu("ATUALIZAR FUNCIONÁRIO");
     }
 
-    public static void menuListarFuncionarios() {
+    public static void telaMenuListarFuncionarios() {
         Funcoes.limpaTela();
         Funcoes.cabecalhoMenu("FUNCIONÁRIOS CADASTRADOS");
     }
 
-    public static void menuBuscarFuncionario() {
+    public static void telaMenuBuscarFuncionario() {
         Funcoes.limpaTela();
         Funcoes.cabecalhoMenu("BUSCAR FUNCIONÁRIO");
         System.out.println("1. Buscar por Nome");
