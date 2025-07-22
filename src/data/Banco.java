@@ -103,8 +103,11 @@ public class Banco {
         return DriverManager.getConnection(DATABASE_URL);
     }
 
-    public void queryInsup(String query) {
+    public void queryInsup(String query) { // funcao para querys de insert e update
         try {
+            int resultado = statement.executeUpdate(query);
+
+            // Garantir que as mudanças sejam commitadas
             if (db.getAutoCommit() == false) {
                 db.commit();
             }

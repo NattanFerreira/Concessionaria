@@ -8,7 +8,7 @@ public class Main {
         Banco banco = new Banco();
 
         FuncionarioDao funcionarioDao = new FuncionarioDao();
-        Funcionario funcionario = new Funcionario("pedro", "pedro123", "pedro123", 0);
+        Funcionario funcionario = new Funcionario("pedro", "pedro12", "pedro12", 1);
         funcionarioDao.cadastrarFuncionario(banco, funcionario);
         
         CarroDao carroDao = new CarroDao();

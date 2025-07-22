@@ -653,7 +653,7 @@ public class CarroDao {
      * @param potenciaMinima A potência mínima desejada.
      * @return Uma lista de objetos Carro que possuem potência igual ou maior.
      */
-    public List<Carro> buscarCarrosPorPotencia(Banco banco, double potenciaMinima) {
+    public List<Carro> buscarCarrosPorPotencia(Banco banco, int potenciaMinima) {
         List<Carro> carros = new ArrayList<>();
         String sql = String.format(
                 "SELECT id, modelo, num_chassi, quilometragem, preco, cor, ano_fabricacao, id_status, cavalo_potencia, numero_portas, id_tipo_combustivel FROM Carro WHERE cavalo_potencia >= '%d'",
