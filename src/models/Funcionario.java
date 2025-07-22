@@ -10,9 +10,7 @@ public class Funcionario {
     private String nome;
     private String senha;
     private String usuario;
-    private String[] cargos = {"Vendedor", "Estoquista", "Gerente de funcionário", "Administrador"};
-    
-    /** ID do cargo do funcionário (0-Vendedor, 1-Estoquista, 2-Gerente, 3-Administrador) */
+    private String[] cargos = {"Vendedor", "Estoque", "Gerente", "Administrador"};
     private int idCargo;
 
     /**

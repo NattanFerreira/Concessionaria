@@ -556,13 +556,13 @@ public class EstoqueView {
                                 break;
                             case 8:
                                 System.out.println("Digite a potência máxima (em cavalos):");
-                                double potenciaMaxima = Funcoes.lerDouble();
-                                if (potenciaMaxima < 0) {
+                                int potenciaMinima = Funcoes.lerInt();
+                                if (potenciaMinima < 0) {
                                     System.out.println("Potência inválida. Tente novamente.");
                                     Funcoes.pressEnterToContinue();
                                     return;
                                 }
-                                carros = carroDao.buscarCarrosPorPotencia(banco, potenciaMaxima);
+                                carros = carroDao.buscarCarrosPorPotencia(banco, potenciaMinima);
                                 if (carros.isEmpty()) {
                                     System.out.println("Nenhum carro encontrado com a potência especificada.");
                                     Funcoes.pressEnterToContinue();

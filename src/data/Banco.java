@@ -129,7 +129,7 @@ public class Banco {
      */
     public void queryInsup(String query) {
         try {
-            statement.execute(query);
+            int resultado = statement.executeUpdate(query);
             if (db.getAutoCommit() == false) {
                 db.commit();
             }

@@ -41,7 +41,6 @@ public class ADMView {
     /**
      * Exibe o menu de gerenciamento de funcionários.
      * Interface especializada para operações de recursos humanos.
-     * 
      * Funcionalidades disponíveis:
      * 1. Cadastrar Funcionário - Registro de novos colaboradores
      * 2. Remover Funcionário - Exclusão de registros funcionais
@@ -56,9 +55,6 @@ public class ADMView {
      */
     public static void TelaMenuGerenciarFuncionarios() {
         Funcoes.limpaTela();
-        Funcoes.cabecalhoMenu("GERENCIAR FUNCIONÁRIOS");
-        System.out.println("1. Cadastrar Funcionário");
-        System.out.println("2. Remover Funcionário");
         System.out.println("3. Atualizar Funcionário");
         System.out.println("4. Listar Funcionário");
         System.out.println("5. Buscar Funcionário");

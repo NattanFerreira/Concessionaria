@@ -24,7 +24,7 @@ public class FuncionarioDao {
      */
     public void cadastrarFuncionario(Banco banco, Funcionario funcionario) {
         String sql = String.format(
-                "INSERT INTO Funcionario (nome, usuario, senha, id_cargo) VALUES ('%s', '%s', '%s', '%d')",
+                "INSERT INTO Funcionario (nome, usuario, senha, id_cargo) VALUES ('%s', '%s', '%s', %d)",
                 funcionario.getNome(),
                 funcionario.getLogin(),
                 funcionario.getSenha(),
@@ -69,7 +69,7 @@ public class FuncionarioDao {
      */
     public void atualizarFuncionario(Banco banco, Funcionario funcionario) {
         String sql = String.format(
-                "UPDATE Funcionario SET nome = '%s', usuario = '%s', senha = '%s', cargo = '%d' WHERE id = '%s'",
+                "UPDATE Funcionario SET nome = '%s', usuario = '%s', senha = '%s', cargo = %d WHERE id = %d",
                 funcionario.getNome(),
                 funcionario.getLogin(),
                 funcionario.getSenha(),
@@ -85,7 +85,7 @@ public class FuncionarioDao {
      * @param id    O ID do funcionário a ser excluído.
      */
     public void excluirFuncionario(Banco banco, int id) {
-        String sql = String.format("DELETE FROM Funcionario WHERE id = '%d'", id);
+        String sql = String.format("DELETE FROM Funcionario WHERE id = %d", id);
         banco.queryInsup(sql);
     }
 
@@ -98,7 +98,7 @@ public class FuncionarioDao {
      */
     public Funcionario buscarFuncionarioPorId(Banco banco, int id) {
         Funcionario funcionario = null;
-        String sql = String.format("SELECT id, nome, usuario, senha, id_cargo FROM Funcionario WHERE id = '%d'", id);
+        String sql = String.format("SELECT id, nome, usuario, senha, id_cargo FROM Funcionario WHERE id = %d", id);
 
         try (ResultSet rs = banco.querySelect(sql)) {
             if (rs != null && rs.next()) {
@@ -124,7 +124,7 @@ public class FuncionarioDao {
      */
     public List<Funcionario> buscarFuncionariosPorNome(Banco banco, String nome) {
         List<Funcionario> funcionarios = new ArrayList<>();
-        String sql = String.format("SELECT id, nome, usuario, senha, cargo FROM Funcionario WHERE nome LIKE '%%s%'",
+        String sql = String.format("SELECT id, nome, usuario, senha, id_cargo FROM Funcionario WHERE nome LIKE '%%s%'",
                 nome);
 
         try (ResultSet rs = banco.querySelect(sql)) {

@@ -76,14 +76,11 @@ public class VendedorView {
                     Venda venda = vendaDaoFinalizar.buscarVendaPorId(banco, idVendaAberta);
                     if (venda != null) {
                         vendaDaoFinalizar.finalizarVenda(banco, idVendaAberta);
-                        System.out.println("Venda finalizada com sucesso!");
-                        // Após finalizar a venda, buscar ou criar uma nova venda aberta
                         idVendaAberta = vendaDao.buscarVendaAbertaInt(banco, idFuncionario);
                         if (idVendaAberta == -1) {
                             System.out.println("Criando uma nova venda...");
                             Venda novaVenda = new Venda(0.0, idFuncionario, 1, null); // 1 - Aberta
                             vendaDao.criarVenda(banco, novaVenda);
-                            // Buscar novamente o ID da venda recém-criada
                             idVendaAberta = vendaDao.buscarVendaAbertaInt(banco, idFuncionario);
                             System.out.println("Nova venda criada com ID: " + idVendaAberta);
                         }
@@ -476,13 +473,13 @@ public class VendedorView {
                                 break;
                             case 8:
                                 System.out.println("Digite a potência máxima (em cavalos):");
-                                double potenciaMaxima = Funcoes.lerDouble();
-                                if (potenciaMaxima < 0) {
+                                int potenciaMinima = Funcoes.lerInt();
+                                if (potenciaMinima < 0) {
                                     System.out.println("Potência inválida. Tente novamente.");
                                     Funcoes.pressEnterToContinue();
                                     return;
                                 }
-                                carros = carroDao.buscarCarrosPorPotencia(banco, potenciaMaxima);
+                                carros = carroDao.buscarCarrosPorPotencia(banco, potenciaMinima);
                                 if (carros.isEmpty()) {
                                     System.out.println("Nenhum carro encontrado com a potência especificada.");
                                     Funcoes.pressEnterToContinue();

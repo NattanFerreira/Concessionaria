@@ -26,7 +26,7 @@ public class VendaDao {
      */
     public void criarVenda(Banco banco, Venda venda) {
         String sql = String.format(Locale.US,
-                "INSERT INTO Venda (valorTotal, idFuncionario, id_status) VALUES ('%.2f', '%d', 1)",
+                "INSERT INTO Venda (valorTotal, idFuncionario, id_status) VALUES (%.2f, %d, 1)",
                 venda.getValorTotal(),
                 venda.getIdFuncionario());
 
@@ -59,7 +59,7 @@ public class VendaDao {
             return;
         }
 
-        String sql = String.format("INSERT INTO Carrinho (idVenda, idVeiculo, idTipoVeiculo) VALUES ('%d', '%d', '%d')",
+        String sql = String.format("INSERT INTO Carrinho (idVenda, idVeiculo, idTipoVeiculo) VALUES (%d, %d, %d)",
                 idVenda,
                 veiculo.getId(),
                 idTipoVeiculo);
@@ -68,11 +68,11 @@ public class VendaDao {
             banco.queryInsup(sql);
 
             if (idTipoVeiculo == 1) {
-                sql = String.format("UPDATE Carro SET id_status = 3 WHERE id = '%d'", veiculo.getId());
+                sql = String.format("UPDATE Carro SET id_status = 3 WHERE id = %d", veiculo.getId());
             } else if (idTipoVeiculo == 2) {
-                sql = String.format("UPDATE Motocicleta SET id_status = 3 WHERE id = '%d'", veiculo.getId());
+                sql = String.format("UPDATE Motocicleta SET id_status = 3 WHERE id = %d", veiculo.getId());
             } else if (idTipoVeiculo == 3) {
-                sql = String.format("UPDATE Caminhao SET id_status = 3 WHERE id = '%d'", veiculo.getId());
+                sql = String.format("UPDATE Caminhao SET id_status = 3 WHERE id = %d", veiculo.getId());
             }
 
             try {
@@ -88,7 +88,7 @@ public class VendaDao {
     }
 
     public static void listarCarrinho(Banco banco, int idVenda) {
-        String sql = String.format("SELECT idVeiculo, idTipoVeiculo FROM Carrinho WHERE idVenda = '%d'", idVenda);
+        String sql = String.format("SELECT idVeiculo, idTipoVeiculo FROM Carrinho WHERE idVenda = %d", idVenda);
 
         try (ResultSet rs = banco.querySelect(sql)) {
             if (rs != null) {
@@ -133,7 +133,7 @@ public class VendaDao {
     public Venda buscarVendaAbertaVenda(Banco banco, int idFuncionario) {
         Venda venda = null;
         String sql = String.format(
-                "SELECT id, valorTotal, idFuncionario FROM Venda WHERE idFuncionario = '%d' AND id_status = 1",
+                "SELECT id, valorTotal, idFuncionario FROM Venda WHERE idFuncionario = %d AND id_status = 1",
                 idFuncionario);
         try (ResultSet rs = banco.querySelect(sql)) {
             if (rs != null && rs.next()) {
@@ -146,7 +146,7 @@ public class VendaDao {
             System.err.println("Erro ao buscar venda aberta: " + e.getMessage());
         }
         if (venda != null) {
-            String sqlVeiculos = String.format("SELECT idVeiculo, idTipoVeiculo FROM Carrinho WHERE idVenda = '%d'",
+            String sqlVeiculos = String.format("SELECT idVeiculo, idTipoVeiculo FROM Carrinho WHERE idVenda = %d",
                     venda.getId());
             try (ResultSet rsVeiculos = banco.querySelect(sqlVeiculos)) {
                 List<Veiculo> veiculos = new ArrayList<>();
@@ -191,7 +191,7 @@ public class VendaDao {
      */
     public int buscarVendaAbertaInt(Banco banco, int idFuncionario) {
         int idVenda = -1;
-        String sql = String.format("SELECT id FROM Venda WHERE idFuncionario = '%d' AND id_status = 1", idFuncionario);
+        String sql = String.format("SELECT id FROM Venda WHERE idFuncionario = %d AND id_status = 1", idFuncionario);
 
         try (ResultSet rs = banco.querySelect(sql)) {
             if (rs != null && rs.next()) {
@@ -224,7 +224,7 @@ public class VendaDao {
                     venda.setId(rs.getInt("id"));
                     venda.setValorTotal(rs.getDouble("valorTotal"));
                     venda.setIdFuncionario(rs.getInt("idFuncionario"));
-                    sql = String.format("SELECT idVeiculo, idTipoVeiculo FROM Carrinho WHERE idVenda = '%d'",
+                    sql = String.format("SELECT idVeiculo, idTipoVeiculo FROM Carrinho WHERE idVenda = %d",
                             rs.getInt("id"));
                     try (ResultSet rsVeiculos = banco.querySelect(sql)) {
                         List<Veiculo> veiculos = new ArrayList<>();
@@ -275,7 +275,7 @@ public class VendaDao {
         CaminhaoDao caminhaoDao = new CaminhaoDao();
         MotocicletaDao motoDao = new MotocicletaDao();
         Venda venda = null;
-        String sql = String.format("SELECT id, valorTotal, idFuncionario FROM Venda WHERE id = '%d'", id);
+        String sql = String.format("SELECT id, valorTotal, idFuncionario FROM Venda WHERE id = %d", id);
         try (ResultSet rs = banco.querySelect(sql)) {
             if (rs != null && rs.next()) {
                 venda = new Venda();
@@ -283,7 +283,7 @@ public class VendaDao {
                 venda.setValorTotal(rs.getDouble("valorTotal"));
                 venda.setIdFuncionario(rs.getInt("idFuncionario"));
 
-                sql = String.format("SELECT idVeiculo, idTipoVeiculo FROM Carrinho WHERE idVenda = '%d'", id);
+                sql = String.format("SELECT idVeiculo, idTipoVeiculo FROM Carrinho WHERE idVenda = %d", id);
                 try (ResultSet rsVeiculos = banco.querySelect(sql)) {
                     List<Veiculo> veiculos = new ArrayList<>();
                     if (rsVeiculos != null) {
@@ -321,10 +321,10 @@ public class VendaDao {
     }
 
     public void finalizarVenda(Banco banco, int idVenda) {
-        String sql = String.format("UPDATE Venda SET id_status = 2 WHERE id = '%d'", idVenda);
+        String sql = String.format("UPDATE Venda SET id_status = 2 WHERE id = %d", idVenda);
         try {
             banco.queryInsup(sql);
-            sql = String.format("SELECT idVeiculo, idTipoVeiculo FROM Carrinho WHERE idVenda = '%d'", idVenda);
+            sql = String.format("SELECT idVeiculo, idTipoVeiculo FROM Carrinho WHERE idVenda = %d", idVenda);
             try (ResultSet rs = banco.querySelect(sql)) {
                 if (rs != null) {
                     while (rs.next()) {
@@ -332,12 +332,12 @@ public class VendaDao {
                         int idTipoVeiculo = rs.getInt("idTipoVeiculo");
                         String updateStatus = "";
                         if (idTipoVeiculo == 1) {
-                            updateStatus = String.format("UPDATE Carro SET id_status = 2 WHERE id = '%d'", idVeiculo);
+                            updateStatus = String.format("UPDATE Carro SET id_status = 2 WHERE id = %d", idVeiculo);
                         } else if (idTipoVeiculo == 2) {
-                            updateStatus = String.format("UPDATE Motocicleta SET id_status = 2 WHERE id = '%d'",
+                            updateStatus = String.format("UPDATE Motocicleta SET id_status = 2 WHERE id = %d",
                                     idVeiculo);
                         } else if (idTipoVeiculo == 3) {
-                            updateStatus = String.format("UPDATE Caminhao SET id_status = 2 WHERE id = '%d'",
+                            updateStatus = String.format("UPDATE Caminhao SET id_status = 2 WHERE id = %d",
                                     idVeiculo);
                         }
                         banco.queryInsup(updateStatus);
@@ -364,7 +364,7 @@ public class VendaDao {
     public void excluirVenda(Banco banco, int id) {
         Venda venda = buscarVendaPorId(banco, id);
         if (venda != null) {
-            String sql = String.format("DELETE FROM Venda WHERE id = '%d'", id);
+            String sql = String.format("DELETE FROM Venda WHERE id = %d", id);
             try {
                 banco.queryInsup(sql);
                 System.out.println("Venda excluída com sucesso.");
@@ -376,12 +376,12 @@ public class VendaDao {
             for (Veiculo veiculo : veiculos) {
                 String updateStatus = "";
                 if (veiculo instanceof models.Carro) {
-                    updateStatus = String.format("UPDATE Carro SET id_status = 1 WHERE id = '%d'", veiculo.getId());
+                    updateStatus = String.format("UPDATE Carro SET id_status = 1 WHERE id = %d", veiculo.getId());
                 } else if (veiculo instanceof models.Motocicleta) {
-                    updateStatus = String.format("UPDATE Motocicleta SET id_status = 1 WHERE id = '%d'",
+                    updateStatus = String.format("UPDATE Motocicleta SET id_status = 1 WHERE id = %d",
                             veiculo.getId());
                 } else if (veiculo instanceof models.Caminhao) {
-                    updateStatus = String.format("UPDATE Caminhao SET id_status = 1 WHERE id = '%d'", veiculo.getId());
+                    updateStatus = String.format("UPDATE Caminhao SET id_status = 1 WHERE id = %d", veiculo.getId());
                 }
                 try {
                     banco.queryInsup(updateStatus);
