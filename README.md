@@ -102,13 +102,13 @@ cd Concessionaria
 2. **Compile o projeto**:
 
 ```bash
-javac -cp "lib/sqlite-jdbc.jar" -d bin src/**/*.java
+javac -cp "lib\sqlite-jdbc.jar" -d bin src\*.java src\controllers\*.java src\data\*.java src\models\*.java src\utils\*.java src\views\*.java
 ```
 
 3. **Execute o sistema**:
 
 ```bash
-java -cp bin Main
+java -cp "bin;lib\sqlite-jdbc.jar" Main
 ```
 
 **Nota**: O driver SQLite está configurado no código, mas pode ser necessário incluir a biblioteca JDBC do SQLite no classpath dependendo da instalação do Java.
