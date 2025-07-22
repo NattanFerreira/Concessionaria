@@ -1,7 +1,5 @@
 import data.Banco;
 import utils.Funcoes;
-import controllers.*;
-import models.*;
 
 /**
  * Classe principal do sistema de gerenciamento de concessionária.
